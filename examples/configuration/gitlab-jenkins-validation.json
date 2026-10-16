@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "id": "model-validation",
+  "state_directory": "../../.local/native-watcher",
+  "source": {
+    "type": "flexo",
+    "endpoint": "https://flexo.example",
+    "organization": "YOUR-ORGANIZATION",
+    "repository": "YOUR-REPOSITORY",
+    "branch": "main"
+  },
+  "observation": { "mode": "poll", "interval_seconds": 45 },
+  "actions": [
+    {
+      "id": "opensysml-jenkins",
+      "on": ["branch-change"],
+      "task": {
+        "type": "engine-validation",
+        "engine": "opensysml",
+        "profile": "syntax-semantic-v1"
+      },
+      "target": {
+        "type": "jenkins",
+        "endpoint": "https://localhost:18443",
+        "job": "adapter-validate",
+        "evidence_directory": "../../.local/native-validation/evidence"
+      },
+      "allow_lock_creation": false
+    },
+    {
+      "id": "toolkit-gitlab",
+      "on": ["branch-change"],
+      "task": {
+        "type": "engine-validation",
+        "engine": "sysml-toolkit",
+        "profile": "syntax-semantic-v1"
+      },
+      "target": {
+        "type": "gitlab",
+        "endpoint": "https://gitlab.com",
+        "project": "YOUR-GROUP/YOUR-PROJECT",
+        "ref": "main",
+        "evidence_directory": "../../.local/native-validation/evidence"
+      },
+      "allow_lock_creation": false
+    }
+  ]
+}

@@ -22,8 +22,7 @@ import {
 import { retainedModelBundle, captureModelBundle } from "./model-input.ts";
 import { connectFlexo } from "./flexo.ts";
 import { State } from "./state.ts";
-import { GitHub } from "./github-api.ts";
-import { GitHubRunner } from "./github-runner.ts";
+import { validationRunner } from "./validation-runner.ts";
 import { advance } from "./service.ts";
 export function freezeEngineAction(a: EngineAction): PreparedAction {
   return {
@@ -66,14 +65,7 @@ export async function advanceEngineIntent(
         canonicalJson(r.source) === canonicalJson(b.toDict())
       );
     });
-    const runner = () =>
-      new GitHubRunner(
-        new GitHub(
-          action.target.owner,
-          action.target.repository,
-          process.env[action.target.token_env] ?? "",
-        ),
-      );
+    const runner = () => validationRunner(action.target);
     let request: EngineRequest;
     if (prior) {
       request = EngineRequest.fromDict(JSON.parse(prior.request_json));
@@ -130,7 +122,7 @@ export async function advanceEngineIntent(
     }
     let row = state.get(request.work_id);
     if (row.state !== "completed") {
-      const remote = runner();
+      const remote = await runner();
       if (!state.hasDelivery(request.work_id)) {
         const bundle = await retainedModelBundle(
           path.join(c.state_directory, "inputs"),

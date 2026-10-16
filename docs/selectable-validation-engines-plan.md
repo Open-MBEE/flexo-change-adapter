@@ -1,5 +1,7 @@
 # Selectable SysML validation engines
 
+Subsequent implementation: [selectable engines](validation-engines.md) and [tested GitLab/Jenkins runners](native-runner-acceptance.md). The original scope below is retained as a historical plan.
+
 Status: original plan, 16 October 2026. Registered text-engine actions, producer-manifest acquisition and the shared GitHub lifecycle are now implemented and locally tested; project gates remain planned. See [current implementation](validation-engines.md) and [acceptance](engine-implementation-acceptance.md). The sections below preserve the original proposal. Planning does not publish code, deploy a watcher or authorize transferring private model data. The first development model will be a new local synthetic multi-file model because no original textual source is currently available for an existing Flexo model.
 
 ## Outcome

@@ -1,0 +1,28 @@
+# Copy to .gitlab-ci.yml in the designated GitLab test project.
+# Triggered by the adapter; ordinary pushes do not run this pipeline.
+workflow:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "trigger" && $CI_COMMIT_BRANCH == "main"'
+    - when: never
+
+adapter-metadata-check:
+  rules:
+    - if: "$ADAPTER_WORK_ID == null"
+  image: alpine:3.22
+  script:
+    - ': "${ADAPTER_DELIVERY_ID:?}" "${ADAPTER_EVENT_ID:?}" "${ADAPTER_SOURCE_REVISION:?}" "${ADAPTER_SOURCE_BRANCH:?}"'
+    - printf 'delivery=%s\nevent=%s\nrevision=%s\nbranch=%s\n' "$ADAPTER_DELIVERY_ID" "$ADAPTER_EVENT_ID" "$ADAPTER_SOURCE_REVISION" "$ADAPTER_SOURCE_BRANCH"
+    - sleep 10
+    - 'case "$ADAPTER_SOURCE_REVISION" in */commits/adapter-fail) exit 1 ;; esac'
+
+# Dedicated, project-locked self-hosted worker; no checkout or dynamic model code.
+adapter-validate:
+  tags: [flexo-validation-local]
+  rules:
+    - if: "$ADAPTER_WORK_ID != null"
+  variables:
+    GIT_STRATEGY: none
+  script:
+    - cd /opt/flexo-worker
+    - node src-ts/ci-validation-job.ts
+  timeout: 5 minutes

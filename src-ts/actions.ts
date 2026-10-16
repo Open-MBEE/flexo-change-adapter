@@ -21,30 +21,36 @@ type ActionAdapter = {
 };
 // Explicit registration keeps module loading tied to the selected task/target.
 const actions: Record<string, () => Promise<ActionAdapter>> = {
-  "shacl-validation:github": async () => {
-    const { freezeAction, advanceIntent, deliveryStatus } =
-      await import("./github-action.ts");
-    return {
-      freeze: (a) => freezeAction(a as ValidationAction),
-      advance: advanceIntent,
-      status: deliveryStatus,
-      recovery: { reconcile_before_retry: true, durable_worker_claim: true },
-    };
-  },
-  "engine-validation:github": async () => {
-    const { freezeEngineAction, advanceEngineIntent, engineDeliveryStatus } =
-      await import("./engine-action.ts");
-    return {
-      freeze: (a) =>
-        freezeEngineAction(a as import("./configuration.ts").EngineAction),
-      advance: advanceEngineIntent,
-      status: engineDeliveryStatus,
-      recovery: { reconcile_before_retry: true, durable_worker_claim: true },
-    };
-  },
+  "shacl-validation:github": shacl,
+  "shacl-validation:gitlab": shacl,
+  "shacl-validation:jenkins": shacl,
+  "engine-validation:github": engines,
+  "engine-validation:gitlab": engines,
+  "engine-validation:jenkins": engines,
   "ci-trigger:gitlab": trigger,
   "ci-trigger:jenkins": trigger,
 };
+async function shacl(): Promise<ActionAdapter> {
+  const { freezeAction, advanceIntent, deliveryStatus } =
+    await import("./github-action.ts");
+  return {
+    freeze: (a) => freezeAction(a as ValidationAction),
+    advance: advanceIntent,
+    status: deliveryStatus,
+    recovery: { reconcile_before_retry: true, durable_worker_claim: true },
+  };
+}
+async function engines(): Promise<ActionAdapter> {
+  const { freezeEngineAction, advanceEngineIntent, engineDeliveryStatus } =
+    await import("./engine-action.ts");
+  return {
+    freeze: (a) =>
+      freezeEngineAction(a as import("./configuration.ts").EngineAction),
+    advance: advanceEngineIntent,
+    status: engineDeliveryStatus,
+    recovery: { reconcile_before_retry: true, durable_worker_claim: true },
+  };
+}
 async function trigger(): Promise<ActionAdapter> {
   const { freezeTrigger, advanceTrigger, triggerStatus } =
     await import("./ci-trigger.ts");

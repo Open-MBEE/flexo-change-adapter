@@ -6,3 +6,6 @@
 !package-lock.json
 !src-ts/
 !src-ts/**
+!dev/
+!dev/native-ci/
+!dev/native-ci/AgentLauncher.java

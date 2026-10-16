@@ -16,8 +16,7 @@ import {
 } from "./journal.ts";
 import { validatorDigest } from "./validation.ts";
 import { State } from "./state.ts";
-import { GitHub } from "./github-api.ts";
-import { GitHubRunner } from "./github-runner.ts";
+import { validationRunner } from "./validation-runner.ts";
 import { connectFlexo, transport } from "./flexo.ts";
 import { deliver } from "./service.ts";
 
@@ -70,13 +69,7 @@ export async function advanceIntent(
     state.observe(request);
     const row = state.get(request.work_id);
     if (row.state !== "completed") {
-      const runner = new GitHubRunner(
-        new GitHub(
-          action.target.owner,
-          action.target.repository,
-          process.env[action.target.token_env] ?? "",
-        ),
-      );
+      const runner = await validationRunner(action.target);
       const progress = await deliver(
         state,
         runner,

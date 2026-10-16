@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- Select OpenSysML, SysML Toolkit, both, or optional SHACL independently of the CI runner.
+- Run verified validation on GitLab and Jenkins using dedicated self-hosted workers, immutable shared input records, create-only claims and retained native reports.
+- Share checker execution and evidence verification across GitHub, GitLab and Jenkins; preserve generic metadata triggers.
+- Document configuration, local worker setup and ten live Jenkins/GitLab validation cases, including malformed models and a deliberate SHACL violation.
+
 ## 0.1.0-alpha.1 — 2026-10-16
 
 Initial alpha release.

@@ -6,16 +6,19 @@ validate configuration, not network access or permission. See
 [installation](../docs/installation.md) for runtime setup and
 [project status](../docs/status.md) for verification limits.
 
-| Recipe        | Starting configuration                                         | Result                                                                                  |
-| ------------- | -------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
-| Activity feed | [feed.json](configuration/feed.json)                           | Baseline and later observed head changes in SQLite and JSON; no CI action               |
-| GitHub SHACL  | [github-validation.json](configuration/github-validation.json) | Revision-bound validation with the synthetic named-part rule                            |
-| Generic CI    | [gitlab-jenkins.json](configuration/gitlab-jenkins.json)       | Independent GitLab pipeline and Jenkins job triggers with exact event/revision metadata |
+| Recipe            | Starting configuration                                                         | Result                                                                                  |
+| ----------------- | ------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------- |
+| Activity feed     | [feed.json](configuration/feed.json)                                           | Baseline and later observed head changes in SQLite and JSON; no CI action               |
+| GitHub SHACL      | [github-validation.json](configuration/github-validation.json)                 | Revision-bound validation with the synthetic named-part rule                            |
+| Native validation | [gitlab-jenkins-validation.json](configuration/gitlab-jenkins-validation.json) | Independent text engines on self-hosted GitLab/Jenkins with shared evidence             |
+| Generic CI        | [gitlab-jenkins.json](configuration/gitlab-jenkins.json)                       | Independent GitLab pipeline and Jenkins job triggers with exact event/revision metadata |
 
 All commands below run from the repository root with installed dependencies.
 Before editing anything, check the committed examples offline:
 
 ```bash
+npm run adapter -- check --config examples/configuration/github-engines.json
+npm run adapter -- check --config examples/configuration/gitlab-jenkins-validation.json
 npm run adapter -- check --config examples/configuration/feed.json
 npm run adapter -- check --config examples/configuration/github-validation.json
 npm run adapter -- check --config examples/configuration/gitlab-jenkins.json
@@ -95,3 +98,5 @@ For path and credential conventions, see the
 results, see [troubleshooting](../docs/troubleshooting.md).
 
 [github-engines.json](configuration/github-engines.json) selects independent OpenSysML and Toolkit syntax/semantic actions. Remove either action to select one. These require a producer-owned text manifest; see [engine configuration](../docs/validation-engines.md).
+
+For verified model validation on GitLab/Jenkins, use [gitlab-jenkins-validation.json](configuration/gitlab-jenkins-validation.json) instead of the generic trigger recipe. Follow the [native worker guide](../docs/gitlab-jenkins-validation.md); the reviewed [GitLab pipeline](gitlab/verified-validation.yml) expects preinstalled matching source and shared evidence storage.

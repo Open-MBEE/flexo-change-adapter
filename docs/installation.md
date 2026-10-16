@@ -123,9 +123,7 @@ required matching lock must already exist. Rebuild/publish matching reviewed
 worker code when validator source or locked dependencies change, preserving the
 original runtime for pending work. See [GitHub execution](github-execution.md).
 
-GitLab and Jenkins send revision metadata rather than SHACL snapshots. Their
-permissions, credential variables and required pipeline/job parameters are in
-[configuration](configuration.md#gitlab-and-jenkins-triggers).
+GitLab and Jenkins support verified SHACL/text validation with dedicated self-hosted workers and shared durable POSIX storage. Follow the [native runner guide](gitlab-jenkins-validation.md) and its configuration example. Metadata-only jobs remain available through [generic triggers](configuration.md#gitlab-and-jenkins-triggers).
 
 ## Docker setup
 

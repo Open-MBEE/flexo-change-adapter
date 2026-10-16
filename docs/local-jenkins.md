@@ -1,5 +1,7 @@
 # Local Jenkins adapter test
 
+For full SHACL, OpenSysML and Toolkit validation, use the separate [dedicated worker setup](gitlab-jenkins-validation.md) and [live acceptance record](native-runner-acceptance.md). The smoke job below verifies generic metadata transport.
+
 This is a dedicated local integration-test service, using Jenkins 2.580.1 with the official image pinned by digest. It runs one core Freestyle job, `adapter-smoke`, without additional plugins. The job checks the four adapter metadata parameters, waits briefly so queued/running states can be inspected, and completes. A synthetic revision ending `/commits/adapter-fail` deliberately fails. It does not deploy services or fetch model content.
 
 ## Start and inspect

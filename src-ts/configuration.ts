@@ -18,18 +18,23 @@ export type FlexoSource = {
   branch: string;
   credentials: Credentials;
 };
+export type GitHubTarget = {
+  type: "github";
+  owner: string;
+  repository: string;
+  workflow: "flexo-validate.yml";
+  ref: "main";
+  token_env: string;
+};
+export type SharedValidationTarget = TriggerAction["target"] & {
+  evidence_directory: string;
+};
+export type ValidationTarget = GitHubTarget | SharedValidationTarget;
 export type ValidationAction = {
   id: string;
   on: ("baseline" | "branch-change")[];
   task: { type: "shacl-validation"; rule: string; rule_version: string };
-  target: {
-    type: "github";
-    owner: string;
-    repository: string;
-    workflow: "flexo-validate.yml";
-    ref: "main";
-    token_env: string;
-  };
+  target: ValidationTarget;
   allow_lock_creation: boolean;
 };
 export type EngineAction = Omit<ValidationAction, "task"> & {
@@ -119,6 +124,57 @@ export function canonicalPath(file: string): string {
   return parent === full
     ? full
     : path.join(canonicalPath(parent), path.basename(full));
+}
+export function parseCITarget(
+  target: Record<string, unknown>,
+): TriggerAction["target"] {
+  const endpoint = new URL(string(target.endpoint));
+  if (
+    endpoint.protocol !== "https:" ||
+    endpoint.username ||
+    endpoint.password ||
+    endpoint.search ||
+    endpoint.hash ||
+    /\s/.test(String(target.endpoint))
+  )
+    throw new ConfigurationError(
+      "Expected credential-free HTTPS target endpoint",
+    );
+  const base = endpoint.toString().replace(/\/$/, "");
+  if (target.type === "gitlab") {
+    keys(target, [
+      "type",
+      "endpoint",
+      "project",
+      "ref",
+      "trigger_token_env",
+      "read_token_env",
+    ]);
+    const project = string(target.project);
+    if (project.split("/").some((p) => !p || p === "." || p === ".."))
+      throw new ConfigurationError("Invalid GitLab project");
+    return {
+      type: "gitlab",
+      endpoint: base,
+      project,
+      ref: string(target.ref),
+      trigger_token_env: env(target.trigger_token_env, "GITLAB_TRIGGER_TOKEN"),
+      read_token_env: env(target.read_token_env, "GITLAB_READ_TOKEN"),
+    };
+  }
+  if (target.type === "jenkins") {
+    keys(target, ["type", "endpoint", "job", "username_env", "token_env"]);
+    const job = string(target.job);
+    for (const part of job.split("/")) checkedId(part);
+    return {
+      type: "jenkins",
+      endpoint: base,
+      job,
+      username_env: env(target.username_env, "JENKINS_USERNAME"),
+      token_env: env(target.token_env, "JENKINS_TOKEN"),
+    };
+  }
+  throw new ConfigurationError("Unavailable CI trigger target");
 }
 export function parseConfiguration(
   value: unknown,
@@ -210,67 +266,12 @@ export function parseConfiguration(
       keys(t, ["type"]);
       if (a.allow_lock_creation !== undefined)
         throw new ConfigurationError("CI triggers do not create Flexo locks");
-      const endpoint = new URL(string(target.endpoint));
-      if (
-        endpoint.protocol !== "https:" ||
-        endpoint.username ||
-        endpoint.password ||
-        endpoint.search ||
-        endpoint.hash ||
-        /[\s]/.test(String(target.endpoint))
-      )
-        throw new ConfigurationError(
-          "Expected credential-free HTTPS target endpoint",
-        );
-      const base = endpoint.toString().replace(/\/$/, "");
-      const common = {
+      return {
         id: checkedId(string(a.id)),
         on: a.on as TriggerAction["on"],
-        task: { type: "ci-trigger" as const },
+        task: { type: "ci-trigger" },
+        target: parseCITarget(target),
       };
-      if (target.type === "gitlab") {
-        keys(target, [
-          "type",
-          "endpoint",
-          "project",
-          "ref",
-          "trigger_token_env",
-          "read_token_env",
-        ]);
-        const project = string(target.project);
-        if (project.split("/").some((p) => !p || p === "." || p === ".."))
-          throw new ConfigurationError("Invalid GitLab project");
-        return {
-          ...common,
-          target: {
-            type: "gitlab",
-            endpoint: base,
-            project,
-            ref: string(target.ref),
-            trigger_token_env: env(
-              target.trigger_token_env,
-              "GITLAB_TRIGGER_TOKEN",
-            ),
-            read_token_env: env(target.read_token_env, "GITLAB_READ_TOKEN"),
-          },
-        };
-      }
-      if (target.type === "jenkins") {
-        keys(target, ["type", "endpoint", "job", "username_env", "token_env"]);
-        const job = string(target.job);
-        for (const part of job.split("/")) checkedId(part);
-        return {
-          ...common,
-          target: {
-            type: "jenkins",
-            endpoint: base,
-            job,
-            username_env: env(target.username_env, "JENKINS_USERNAME"),
-            token_env: env(target.token_env, "JENKINS_TOKEN"),
-          },
-        };
-      }
-      throw new ConfigurationError("Unavailable CI trigger target");
     }
     keys(
       t,
@@ -278,39 +279,45 @@ export function parseConfiguration(
         ? ["type", "engine", "profile", "input"]
         : ["type", "rule", "rule_version"],
     );
-    keys(target, [
-      "type",
-      "owner",
-      "repository",
-      "workflow",
-      "ref",
-      "token_env",
-    ]);
-    if (
-      !["shacl-validation", "engine-validation"].includes(String(t.type)) ||
-      target.type !== "github"
-    )
+    if (!["shacl-validation", "engine-validation"].includes(String(t.type)))
       throw new ConfigurationError("Unavailable task/target pairing");
-    if (
-      (target.workflow ?? "flexo-validate.yml") !== "flexo-validate.yml" ||
-      (target.ref ?? "main") !== "main"
-    )
-      throw new ConfigurationError(
-        "Validation requires reviewed flexo-validate.yml on main",
-      );
     if (
       a.allow_lock_creation !== undefined &&
       typeof a.allow_lock_creation !== "boolean"
     )
       throw new ConfigurationError("Expected lock creation boolean");
-    const selectedTarget: ValidationAction["target"] = {
-      type: "github",
-      owner: checkedId(string(target.owner)),
-      repository: checkedId(string(target.repository)),
-      workflow: "flexo-validate.yml",
-      ref: "main",
-      token_env: env(target.token_env, "GITHUB_TOKEN"),
-    };
+    let selectedTarget: ValidationTarget;
+    if (target.type === "github") {
+      keys(target, [
+        "type",
+        "owner",
+        "repository",
+        "workflow",
+        "ref",
+        "token_env",
+      ]);
+      if (
+        (target.workflow ?? "flexo-validate.yml") !== "flexo-validate.yml" ||
+        (target.ref ?? "main") !== "main"
+      )
+        throw new ConfigurationError(
+          "Validation requires reviewed flexo-validate.yml on main",
+        );
+      selectedTarget = {
+        type: "github",
+        owner: checkedId(string(target.owner)),
+        repository: checkedId(string(target.repository)),
+        workflow: "flexo-validate.yml",
+        ref: "main",
+        token_env: env(target.token_env, "GITHUB_TOKEN"),
+      };
+    } else {
+      const { evidence_directory, ...native } = target;
+      selectedTarget = {
+        ...parseCITarget(native),
+        evidence_directory: resolve(evidence_directory),
+      };
+    }
     if (t.type === "engine-validation") {
       const profile = engineProfile(string(t.engine));
       if (
@@ -346,14 +353,7 @@ export function parseConfiguration(
         rule,
         rule_version: string(t.rule_version),
       },
-      target: {
-        type: "github",
-        owner: checkedId(string(target.owner)),
-        repository: checkedId(string(target.repository)),
-        workflow: "flexo-validate.yml",
-        ref: "main",
-        token_env: env(target.token_env, "GITHUB_TOKEN"),
-      },
+      target: selectedTarget,
       allow_lock_creation: a.allow_lock_creation === true,
     };
   });
@@ -400,6 +400,19 @@ export function parseConfiguration(
         state.startsWith(configurationFile + path.sep)))
   )
     throw new ConfigurationError("State, feed and rule paths conflict");
+  for (const action of actions) {
+    if ("evidence_directory" in action.target) {
+      const root = action.target.evidence_directory;
+      if (
+        overlaps(root, state) ||
+        files.some((f) => overlaps(root, f)) ||
+        (configurationFile && overlaps(root, configurationFile))
+      )
+        throw new ConfigurationError(
+          "Evidence directory overlaps adapter inputs/state",
+        );
+    }
+  }
   return {
     schema_version: 1,
     id: checkedId(string(v.id)),

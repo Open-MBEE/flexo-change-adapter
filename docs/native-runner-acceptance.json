@@ -1,0 +1,320 @@
+{
+  "verified_on": "2026-10-16",
+  "completed_at": "2026-10-16T10:53:11.290Z",
+  "scope": "Live local/self-hosted workers with shared POSIX evidence storage; synthetic models only",
+  "pipeline_commit": "d2e62cf7de54963a93391bdfe5eae09688a207be",
+  "valid_revision": "https://localhost:18444/orgs/engine-demo/repos/text-fixture/commits/739685fc-034c-4474-8ed4-d4a12d477e86",
+  "malformed_revision": "https://localhost:18444/orgs/engine-demo/repos/text-fixture/commits/a19f4b38-e25e-4897-8ce6-497b635752c1",
+  "temporary_trigger_revoked": true,
+  "checks": [
+    {
+      "runner": "jenkins",
+      "checker": "opensysml",
+      "source_revision": "https://localhost:18444/orgs/engine-demo/repos/text-fixture/commits/739685fc-034c-4474-8ed4-d4a12d477e86",
+      "work_id": "2e793a3c5dd3fd3cf5303aea6392b53de0be16296c8be617b60b16018228d2e5",
+      "input_digest": "afc2ff60da5e77ab614523e1194fa5401fade8ef007b81341fb4389c5f4a8a83",
+      "outcome": "pass",
+      "input_sha256": "90c9254b2f4092ce1d946d367a33e78c9a05f6a1cde6292e093feeef805609b0",
+      "validator_sha256": "042436f3349041f897491a6a6bb1d374e4db85083c2f17b6abc0f3492898301e",
+      "report_sha256": "f8b74b367d953f6c6f1aa482be54e10fd39be2e6af23c232c9a0c44be3e776c6",
+      "external_id": "jenkins:https://localhost:18443:adapter-validate:1",
+      "job_url": "https://localhost:18443/job/adapter-validate/1/",
+      "worker": {
+        "build_number": 1,
+        "endpoint": "https://localhost:18443",
+        "job": "adapter-validate",
+        "type": "jenkins"
+      },
+      "profile": {
+        "binary_sha256": "c3cc160b16f3e035033617017209f3c740c6881dac2bc0af78240d4306d83a50",
+        "checks": ["syntax", "semantic"],
+        "engine": "opensysml",
+        "library": "embedded",
+        "library_sha256": "c3cc160b16f3e035033617017209f3c740c6881dac2bc0af78240d4306d83a50",
+        "max_output_bytes": 262144,
+        "timeout_seconds": 60,
+        "version": "0.10.1",
+        "warning_policy": "native"
+      }
+    },
+    {
+      "runner": "jenkins",
+      "checker": "sysml-toolkit",
+      "source_revision": "https://localhost:18444/orgs/engine-demo/repos/text-fixture/commits/739685fc-034c-4474-8ed4-d4a12d477e86",
+      "work_id": "65cd14524a9cd9fe56aa2c5bbc123287de2390fb3022b88894f37e538fd4c4a7",
+      "input_digest": "b0f16b0855246824cbe63c1c8c981b5ed963e3ec53186973cbfad35f147257b1",
+      "outcome": "pass",
+      "input_sha256": "90c9254b2f4092ce1d946d367a33e78c9a05f6a1cde6292e093feeef805609b0",
+      "validator_sha256": "042436f3349041f897491a6a6bb1d374e4db85083c2f17b6abc0f3492898301e",
+      "report_sha256": "fcb4e711a5c095c9f1a61ef6dd4a6f8c078885fdb429dc93face2b7ba76a6d9c",
+      "external_id": "jenkins:https://localhost:18443:adapter-validate:2",
+      "job_url": "https://localhost:18443/job/adapter-validate/2/",
+      "worker": {
+        "build_number": 2,
+        "endpoint": "https://localhost:18443",
+        "job": "adapter-validate",
+        "type": "jenkins"
+      },
+      "profile": {
+        "binary_sha256": "4257d166199af934069802b6348f7393463a711478464600b4f9e48e2f7b08f1",
+        "checks": ["syntax", "semantic"],
+        "engine": "sysml-toolkit",
+        "library": "SysML-v2-Release@de1070ae8e79c21532b8004fc663d47b35d0e9fa",
+        "library_sha256": "cc48b7e0dfc9ab69a880797e89ae5e5ae469f4b3a10370d20660b8870ca71740",
+        "max_output_bytes": 262144,
+        "timeout_seconds": 60,
+        "version": "0.10.2",
+        "warning_policy": "fail"
+      }
+    },
+    {
+      "runner": "jenkins",
+      "checker": "opensysml",
+      "source_revision": "https://localhost:18444/orgs/engine-demo/repos/text-fixture/commits/a19f4b38-e25e-4897-8ce6-497b635752c1",
+      "work_id": "2837fb794f31b30e240d7ee120bb3114f59d63f95550302e680844516690da62",
+      "input_digest": "60160da3112da50e3076305827508efd40667bccf17b800ad8ec54a655435432",
+      "outcome": "fail",
+      "input_sha256": "910d785e59d2e97e4ab971c91fc3864ab3130a8d5ff63e17c30b3913145bca33",
+      "validator_sha256": "042436f3349041f897491a6a6bb1d374e4db85083c2f17b6abc0f3492898301e",
+      "report_sha256": "92eafbf8bbe92b531910f5a8ef214682988331c3f0b8b1ea27e61abd3219561c",
+      "external_id": "jenkins:https://localhost:18443:adapter-validate:3",
+      "job_url": "https://localhost:18443/job/adapter-validate/3/",
+      "worker": {
+        "build_number": 3,
+        "endpoint": "https://localhost:18443",
+        "job": "adapter-validate",
+        "type": "jenkins"
+      },
+      "profile": {
+        "binary_sha256": "c3cc160b16f3e035033617017209f3c740c6881dac2bc0af78240d4306d83a50",
+        "checks": ["syntax", "semantic"],
+        "engine": "opensysml",
+        "library": "embedded",
+        "library_sha256": "c3cc160b16f3e035033617017209f3c740c6881dac2bc0af78240d4306d83a50",
+        "max_output_bytes": 262144,
+        "timeout_seconds": 60,
+        "version": "0.10.1",
+        "warning_policy": "native"
+      }
+    },
+    {
+      "runner": "jenkins",
+      "checker": "sysml-toolkit",
+      "source_revision": "https://localhost:18444/orgs/engine-demo/repos/text-fixture/commits/a19f4b38-e25e-4897-8ce6-497b635752c1",
+      "work_id": "a65eab84ac30284ecfd432da64af110539f2d0c0aae251191cca93d736e03837",
+      "input_digest": "77fb7817dbcf0bce0b66d000f3b3bb47bcb41f5ca0508fb4a2eca87324ad5f44",
+      "outcome": "fail",
+      "input_sha256": "910d785e59d2e97e4ab971c91fc3864ab3130a8d5ff63e17c30b3913145bca33",
+      "validator_sha256": "042436f3349041f897491a6a6bb1d374e4db85083c2f17b6abc0f3492898301e",
+      "report_sha256": "c6f7df7391f55b8fca085187acba3a2d265ba4f81eb87f1bd9cc2b07bb47c65c",
+      "external_id": "jenkins:https://localhost:18443:adapter-validate:4",
+      "job_url": "https://localhost:18443/job/adapter-validate/4/",
+      "worker": {
+        "build_number": 4,
+        "endpoint": "https://localhost:18443",
+        "job": "adapter-validate",
+        "type": "jenkins"
+      },
+      "profile": {
+        "binary_sha256": "4257d166199af934069802b6348f7393463a711478464600b4f9e48e2f7b08f1",
+        "checks": ["syntax", "semantic"],
+        "engine": "sysml-toolkit",
+        "library": "SysML-v2-Release@de1070ae8e79c21532b8004fc663d47b35d0e9fa",
+        "library_sha256": "cc48b7e0dfc9ab69a880797e89ae5e5ae469f4b3a10370d20660b8870ca71740",
+        "max_output_bytes": 262144,
+        "timeout_seconds": 60,
+        "version": "0.10.2",
+        "warning_policy": "fail"
+      }
+    },
+    {
+      "runner": "jenkins",
+      "checker": "shacl",
+      "source_revision": "https://localhost:18444/orgs/engine-demo/repos/text-fixture/commits/739685fc-034c-4474-8ed4-d4a12d477e86",
+      "work_id": "e1449b7f036933d8fe9d3b59cd84af7fa7e82634c8cf85c3b798c30cd729b72e",
+      "input_digest": "06b86e44a6ab419a7757fd4e5ff5507687c9fe782993f8fa8dc8eb2a76b916d4",
+      "outcome": "nonconforming",
+      "input_sha256": "37ea8b9871c2da4d12efc3dd6e04f073a456df76418bc575de6ae73924cad012",
+      "validator_sha256": "aa1cbba03aa8c9d498f89e37d3be0423215b897b1372f8b7dc5f3bcda57ba940",
+      "report_sha256": "08a77e916f89e3e69528eab1fae5b56ff94fc07a0d16ac775d2edcb26b43ea3d",
+      "external_id": "jenkins:https://localhost:18443:adapter-validate:5",
+      "job_url": "https://localhost:18443/job/adapter-validate/5/",
+      "worker": {
+        "build_number": 5,
+        "endpoint": "https://localhost:18443",
+        "job": "adapter-validate",
+        "type": "jenkins"
+      }
+    },
+    {
+      "runner": "gitlab",
+      "checker": "opensysml",
+      "source_revision": "https://localhost:18444/orgs/engine-demo/repos/text-fixture/commits/739685fc-034c-4474-8ed4-d4a12d477e86",
+      "work_id": "2e793a3c5dd3fd3cf5303aea6392b53de0be16296c8be617b60b16018228d2e5",
+      "input_digest": "afc2ff60da5e77ab614523e1194fa5401fade8ef007b81341fb4389c5f4a8a83",
+      "outcome": "pass",
+      "input_sha256": "90c9254b2f4092ce1d946d367a33e78c9a05f6a1cde6292e093feeef805609b0",
+      "validator_sha256": "042436f3349041f897491a6a6bb1d374e4db85083c2f17b6abc0f3492898301e",
+      "report_sha256": "0b1b839130c24d6402c3b5acf8dba8c184e9ba79c0404d45e56bab8c59280668",
+      "external_id": "gitlab:https://gitlab.com:87709578:2954768159:17229589308",
+      "job_url": "https://gitlab.com/e4rohan/test-project/-/jobs/17229589308",
+      "worker": {
+        "code_sha": "d2e62cf7de54963a93391bdfe5eae09688a207be",
+        "endpoint": "https://gitlab.com",
+        "job_id": 17229589308,
+        "job_name": "adapter-validate",
+        "pipeline_id": 2954768159,
+        "project_id": 87709578,
+        "project_path": "e4rohan/test-project",
+        "ref": "main",
+        "type": "gitlab"
+      },
+      "profile": {
+        "binary_sha256": "c3cc160b16f3e035033617017209f3c740c6881dac2bc0af78240d4306d83a50",
+        "checks": ["syntax", "semantic"],
+        "engine": "opensysml",
+        "library": "embedded",
+        "library_sha256": "c3cc160b16f3e035033617017209f3c740c6881dac2bc0af78240d4306d83a50",
+        "max_output_bytes": 262144,
+        "timeout_seconds": 60,
+        "version": "0.10.1",
+        "warning_policy": "native"
+      }
+    },
+    {
+      "runner": "gitlab",
+      "checker": "sysml-toolkit",
+      "source_revision": "https://localhost:18444/orgs/engine-demo/repos/text-fixture/commits/739685fc-034c-4474-8ed4-d4a12d477e86",
+      "work_id": "65cd14524a9cd9fe56aa2c5bbc123287de2390fb3022b88894f37e538fd4c4a7",
+      "input_digest": "b0f16b0855246824cbe63c1c8c981b5ed963e3ec53186973cbfad35f147257b1",
+      "outcome": "pass",
+      "input_sha256": "90c9254b2f4092ce1d946d367a33e78c9a05f6a1cde6292e093feeef805609b0",
+      "validator_sha256": "042436f3349041f897491a6a6bb1d374e4db85083c2f17b6abc0f3492898301e",
+      "report_sha256": "3194bcb276e35ace0510a9186f5ee681856e3995fc439f6f852490522ffe9c62",
+      "external_id": "gitlab:https://gitlab.com:87709578:2954779596:17229600108",
+      "job_url": "https://gitlab.com/e4rohan/test-project/-/jobs/17229600108",
+      "worker": {
+        "code_sha": "d2e62cf7de54963a93391bdfe5eae09688a207be",
+        "endpoint": "https://gitlab.com",
+        "job_id": 17229600108,
+        "job_name": "adapter-validate",
+        "pipeline_id": 2954779596,
+        "project_id": 87709578,
+        "project_path": "e4rohan/test-project",
+        "ref": "main",
+        "type": "gitlab"
+      },
+      "profile": {
+        "binary_sha256": "4257d166199af934069802b6348f7393463a711478464600b4f9e48e2f7b08f1",
+        "checks": ["syntax", "semantic"],
+        "engine": "sysml-toolkit",
+        "library": "SysML-v2-Release@de1070ae8e79c21532b8004fc663d47b35d0e9fa",
+        "library_sha256": "cc48b7e0dfc9ab69a880797e89ae5e5ae469f4b3a10370d20660b8870ca71740",
+        "max_output_bytes": 262144,
+        "timeout_seconds": 60,
+        "version": "0.10.2",
+        "warning_policy": "fail"
+      }
+    },
+    {
+      "runner": "gitlab",
+      "checker": "opensysml",
+      "source_revision": "https://localhost:18444/orgs/engine-demo/repos/text-fixture/commits/a19f4b38-e25e-4897-8ce6-497b635752c1",
+      "work_id": "2837fb794f31b30e240d7ee120bb3114f59d63f95550302e680844516690da62",
+      "input_digest": "60160da3112da50e3076305827508efd40667bccf17b800ad8ec54a655435432",
+      "outcome": "fail",
+      "input_sha256": "910d785e59d2e97e4ab971c91fc3864ab3130a8d5ff63e17c30b3913145bca33",
+      "validator_sha256": "042436f3349041f897491a6a6bb1d374e4db85083c2f17b6abc0f3492898301e",
+      "report_sha256": "307a0e5f3472c85bc2d675102280d0ed168cdae346c5e56453b0ae18c8d71c20",
+      "external_id": "gitlab:https://gitlab.com:87709578:2954780125:17229604598",
+      "job_url": "https://gitlab.com/e4rohan/test-project/-/jobs/17229604598",
+      "worker": {
+        "code_sha": "d2e62cf7de54963a93391bdfe5eae09688a207be",
+        "endpoint": "https://gitlab.com",
+        "job_id": 17229604598,
+        "job_name": "adapter-validate",
+        "pipeline_id": 2954780125,
+        "project_id": 87709578,
+        "project_path": "e4rohan/test-project",
+        "ref": "main",
+        "type": "gitlab"
+      },
+      "profile": {
+        "binary_sha256": "c3cc160b16f3e035033617017209f3c740c6881dac2bc0af78240d4306d83a50",
+        "checks": ["syntax", "semantic"],
+        "engine": "opensysml",
+        "library": "embedded",
+        "library_sha256": "c3cc160b16f3e035033617017209f3c740c6881dac2bc0af78240d4306d83a50",
+        "max_output_bytes": 262144,
+        "timeout_seconds": 60,
+        "version": "0.10.1",
+        "warning_policy": "native"
+      }
+    },
+    {
+      "runner": "gitlab",
+      "checker": "sysml-toolkit",
+      "source_revision": "https://localhost:18444/orgs/engine-demo/repos/text-fixture/commits/a19f4b38-e25e-4897-8ce6-497b635752c1",
+      "work_id": "a65eab84ac30284ecfd432da64af110539f2d0c0aae251191cca93d736e03837",
+      "input_digest": "77fb7817dbcf0bce0b66d000f3b3bb47bcb41f5ca0508fb4a2eca87324ad5f44",
+      "outcome": "fail",
+      "input_sha256": "910d785e59d2e97e4ab971c91fc3864ab3130a8d5ff63e17c30b3913145bca33",
+      "validator_sha256": "042436f3349041f897491a6a6bb1d374e4db85083c2f17b6abc0f3492898301e",
+      "report_sha256": "5e9826e27f1cea173774bb48b38be1f292495ca9fe1efb702aa3cb9b62257def",
+      "external_id": "gitlab:https://gitlab.com:87709578:2954780536:17229607521",
+      "job_url": "https://gitlab.com/e4rohan/test-project/-/jobs/17229607521",
+      "worker": {
+        "code_sha": "d2e62cf7de54963a93391bdfe5eae09688a207be",
+        "endpoint": "https://gitlab.com",
+        "job_id": 17229607521,
+        "job_name": "adapter-validate",
+        "pipeline_id": 2954780536,
+        "project_id": 87709578,
+        "project_path": "e4rohan/test-project",
+        "ref": "main",
+        "type": "gitlab"
+      },
+      "profile": {
+        "binary_sha256": "4257d166199af934069802b6348f7393463a711478464600b4f9e48e2f7b08f1",
+        "checks": ["syntax", "semantic"],
+        "engine": "sysml-toolkit",
+        "library": "SysML-v2-Release@de1070ae8e79c21532b8004fc663d47b35d0e9fa",
+        "library_sha256": "cc48b7e0dfc9ab69a880797e89ae5e5ae469f4b3a10370d20660b8870ca71740",
+        "max_output_bytes": 262144,
+        "timeout_seconds": 60,
+        "version": "0.10.2",
+        "warning_policy": "fail"
+      }
+    },
+    {
+      "runner": "gitlab",
+      "checker": "shacl",
+      "source_revision": "https://localhost:18444/orgs/engine-demo/repos/text-fixture/commits/739685fc-034c-4474-8ed4-d4a12d477e86",
+      "work_id": "e1449b7f036933d8fe9d3b59cd84af7fa7e82634c8cf85c3b798c30cd729b72e",
+      "input_digest": "06b86e44a6ab419a7757fd4e5ff5507687c9fe782993f8fa8dc8eb2a76b916d4",
+      "outcome": "nonconforming",
+      "input_sha256": "37ea8b9871c2da4d12efc3dd6e04f073a456df76418bc575de6ae73924cad012",
+      "validator_sha256": "aa1cbba03aa8c9d498f89e37d3be0423215b897b1372f8b7dc5f3bcda57ba940",
+      "report_sha256": "08a77e916f89e3e69528eab1fae5b56ff94fc07a0d16ac775d2edcb26b43ea3d",
+      "external_id": "gitlab:https://gitlab.com:87709578:2954781011:17229610862",
+      "job_url": "https://gitlab.com/e4rohan/test-project/-/jobs/17229610862",
+      "worker": {
+        "code_sha": "d2e62cf7de54963a93391bdfe5eae09688a207be",
+        "endpoint": "https://gitlab.com",
+        "job_id": 17229610862,
+        "job_name": "adapter-validate",
+        "pipeline_id": 2954781011,
+        "project_id": 87709578,
+        "project_path": "e4rohan/test-project",
+        "ref": "main",
+        "type": "gitlab"
+      }
+    }
+  ],
+  "limits": [
+    "Not a production watcher deployment",
+    "Not GitLab-hosted worker acceptance",
+    "GitHub hosted execution of this source revision was not repeated",
+    "Constraint execution and project gates remain outside these syntax/semantic profiles"
+  ]
+}

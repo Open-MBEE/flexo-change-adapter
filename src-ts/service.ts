@@ -12,6 +12,7 @@ import {
 import { Flexo, Snapshot } from "./flexo.ts";
 import type { RecordData } from "./workspace.ts";
 export interface Runner {
+  readyToDispatch?(): void;
   inspect(r: WorkRequest, d: RecordData): Promise<RecordData | null>;
   dispatch(r: WorkRequest, d: RecordData): Promise<string | null>;
 }
@@ -44,6 +45,7 @@ export async function advance(
   }
   if (["submitted", "running"].includes(row.state))
     throw Error("Runner lost reconciled work identity");
+  runner.readyToDispatch?.();
   if (!state.claimDeliveryAttempt(id, time))
     return {
       event: "delivery-waiting-or-retries-exhausted",

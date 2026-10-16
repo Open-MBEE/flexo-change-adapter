@@ -1,11 +1,5 @@
 import { createHash } from "node:crypto";
-import {
-  DeliveryError,
-  canonicalJson,
-  checkedDigest,
-  checkedId,
-  digest,
-} from "./contracts.ts";
+import { DeliveryError, checkedDigest, checkedId } from "./contracts.ts";
 import { transport, type Transport } from "./transport.ts";
 export class GitHubError extends DeliveryError {}
 export const MAX_BYTES = 4 * 1024 * 1024,
@@ -26,12 +20,7 @@ export function gitSha(v: string) {
     throw Error("Expected Git SHA");
   return v;
 }
-export const bundleDigest = (files: Record<string, Buffer>) =>
-  digest(
-    canonicalJson(
-      Object.fromEntries(Object.entries(files).map(([k, v]) => [k, digest(v)])),
-    ),
-  );
+export { bundleDigest } from "./validation-records.ts";
 export class GitHub {
   readonly owner: string;
   readonly repository: string;

@@ -1,10 +1,10 @@
 # Selecting validation engines
 
-Validation delivery is independent of the checker. GitHub's retained input, durable claim, dispatch and result reconciliation support both SHACL graph validation and registered SysML text engines. Feed-only operation requires neither. GitLab/Jenkins remain metadata triggers.
+Validation delivery is independent of the checker. Retained input, durable claim, dispatch and result reconciliation on GitHub, GitLab and Jenkins support both SHACL graph validation and registered SysML text engines. Feed-only operation requires neither. GitLab/Jenkins validation uses dedicated self-hosted workers and shared durable storage; optional generic metadata triggers remain available.
 
 ## Configure one or both text engines
 
-Use [github-engines.json](../examples/configuration/github-engines.json). Keep one action to run one engine; retain both actions to run both. Each action selects `task.type: engine-validation`, `engine: opensysml` or `sysml-toolkit`, and `profile: syntax-semantic-v1`. Optional `input` defaults to `flexo-text-manifest-v1`. There are no configurable commands, engine URLs or executable plugins.
+Use [github-engines.json](../examples/configuration/github-engines.json) or [gitlab-jenkins-validation.json](../examples/configuration/gitlab-jenkins-validation.json). Keep one action to run one engine; retain both actions to run both. Each action selects `task.type: engine-validation`, `engine: opensysml` or `sysml-toolkit`, and `profile: syntax-semantic-v1`. Optional `input` defaults to `flexo-text-manifest-v1`. There are no configurable commands, engine URLs or executable plugins.
 
 The reviewed profiles pin OpenSysML 0.10.1 and Toolkit 0.10.2, executable digests, distinct standard libraries, syntax/semantic checks, warning policy, a 60-second deadline and a 256 KiB combined stdout/stderr limit. Toolkit warnings fail this profile; OpenSysML uses its native error policy. Constraint evaluation is not requested. Unsupported profile selections fail offline checking.
 
@@ -51,7 +51,7 @@ The content manifest precedes the commit that references it and excludes that ev
 
 Install matching source, lockfile, `scripts/install-engines.ts` and the reviewed workflow on the private execution repository's `main`. After winning an engine claim, the worker provisions checksum-pinned Linux x64 binaries and Toolkit library, plus a digest-pinned Alpine execution image. SHACL-only jobs skip engine provisioning. No package dependency or persistent engine service is added.
 
-For a separately provisioned Linux worker:
+For GitLab/Jenkins, provision matching source and follow the [native worker guide](gitlab-jenkins-validation.md). For a separately provisioned Linux worker:
 
 ```sh
 node scripts/install-engines.ts --directory /writable/engine-directory
@@ -60,13 +60,13 @@ export FLEXO_ENGINE_DIRECTORY=/writable/engine-directory
 
 Docker must be available on that worker. `FLEXO_ENGINE_DIRECTORY` defaults to `/opt/flexo-engines`. Binaries and the complete Toolkit library inventory are verified again before each execution. For rootless Docker, explicitly set `DOCKER_HOST` to its local `unix:///.../docker.sock`; the worker's clean environment does not read personal Docker contexts. Remote Docker endpoints are refused. The watcher itself needs no Docker socket or engine installation.
 
-Each engine runs without network in a nonroot container, with read-only model and engine mounts, dropped capabilities, 2 GiB memory, two CPUs, a 128-process limit and a small temporary filesystem. Only reviewed flags and source paths are passed as argument arrays. Source and GitHub credentials are excluded from the process/container environment. The runner kills its process group and removes the container on timeout or excess output.
+Each engine runs without network in a nonroot container, with read-only model and engine mounts, dropped capabilities, 2 GiB memory, two CPUs, a 128-process limit and a small temporary filesystem. Only reviewed flags and source paths are passed as argument arrays. Source and CI credentials are excluded from the process/container environment. The runner kills its process group and removes the container on timeout or excess output.
 
 ## Retained evidence and recovery
 
 An engine computation binds the exact revision, prepared bundle digest, binary/library profile and wrapper/runtime identity. Event delivery remains separate. Removing an action or changing current configuration cannot retarget queued work. The shared SQLite delivery machinery reconciles the original run attempt and uses create-only claims to prevent duplicate engine execution.
 
-GitHub input records contain `engine-request.json` and `model-bundle.json`, with base64 source bytes inside the verified bundle. Result records also retain `report.json`, a readable `report.txt`, and `result.json`. The 4 MiB Git record limit remains in force. The native report retains original stdout/stderr bytes as base64, display text, exit/signal, timeout/truncation flags, timestamps, command and normalized diagnostics. Reconciliation decodes the native result again and checks it against the recorded verdict and immutable bindings.
+GitHub input records contain `engine-request.json` and `model-bundle.json`, with base64 source bytes inside the verified bundle. Result records also retain `report.json`, a readable `report.txt`, and `result.json`. GitLab/Jenkins store the same checker files within create-only shared directory records. The file bundle limit is 4 MiB; shared encoded records are bounded at 8 MiB. The native report retains original stdout/stderr bytes as base64, display text, exit/signal, timeout/truncation flags, timestamps, command and normalized diagnostics. Reconciliation decodes the native result again and checks it against the recorded verdict and immutable bindings.
 
 A pass requires a complete verified report for syntax and semantics. Syntax errors remain model failures even when they prevent semantic checking. Missing libraries/binaries, signals, timeouts, invalid output and incomplete analysis cannot pass. Unknown CLI options produce inconclusive execution evidence. Native codes, warning severity and position encoding are retained without asserting cross-engine equivalence.
 
@@ -74,4 +74,4 @@ One engine failure does not remove the other result. A claimed worker that ends 
 
 ## Verification scope
 
-The regression suite exercises configuration/removal, shared capture, exact revision reads, path/hash rejection, native report decoding, process limits, competing claims, lost responses and independent results. The new worker also ran both real pinned engines on both local Flexo revisions successfully; details are in [implementation acceptance](engine-implementation-acceptance.md). Hosted GitHub execution of this source revision has not been performed. Jenkins/GitLab generic adapters were unchanged.
+The regression suite exercises configuration/removal, shared capture, exact revision reads, path/hash rejection, native report decoding, process limits, competing claims, lost responses and independent results. The new worker also ran both real pinned engines on both local Flexo revisions successfully; details are in [implementation acceptance](engine-implementation-acceptance.md). Hosted GitHub execution of this source revision has not been performed. Dedicated self-hosted Jenkins and GitLab workers also completed ten real validation cases across both text engines and SHACL; see [native runner acceptance](native-runner-acceptance.md).
