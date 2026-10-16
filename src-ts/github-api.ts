@@ -10,6 +10,9 @@ import { transport, type Transport } from "./transport.ts";
 export class GitHubError extends DeliveryError {}
 export const MAX_BYTES = 4 * 1024 * 1024,
   RECORD_FILES = new Set([
+    "engine-request.json",
+    "model-bundle.json",
+    "report.json",
     "model.ttl",
     "rule.ttl",
     "snapshot.json",

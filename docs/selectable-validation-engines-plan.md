@@ -1,6 +1,6 @@
 # Selectable SysML validation engines
 
-Status: proposed implementation, 16 October 2026. This extends the initial alpha; the engine adapters, text-bundle acquisition and project gate are not implemented. Planning does not publish code, deploy a watcher or authorize transferring private model data. The first development model will be a new local synthetic multi-file model because no original textual source is currently available for an existing Flexo model.
+Status: original plan, 16 October 2026. Registered text-engine actions, producer-manifest acquisition and the shared GitHub lifecycle are now implemented and locally tested; project gates remain planned. See [current implementation](validation-engines.md) and [acceptance](engine-implementation-acceptance.md). The sections below preserve the original proposal. Planning does not publish code, deploy a watcher or authorize transferring private model data. The first development model will be a new local synthetic multi-file model because no original textual source is currently available for an existing Flexo model.
 
 ## Outcome
 
@@ -136,4 +136,4 @@ The acceptance set includes valid multi-file input, syntax error, unresolved ref
 
 No engine installation, Flexo mutation or GitHub submission follows merely from this plan. The separately requested local setup is a development spike, not implementation or deployment of engine adapters. Do not change GitLab/Jenkins beyond their current generic triggers in this scope.
 
-The subsequent [local CLI verification](engine-cli-verification-2026-10-16.md) demonstrates both engines on the two revision-bound text bundles and records negative probes. Durable engine actions remain planned.
+The subsequent [local CLI verification](engine-cli-verification-2026-10-16.md) demonstrates both engines on the two revision-bound text bundles and records negative probes. Durable engine actions are now implemented; hosted execution acceptance remains outstanding.

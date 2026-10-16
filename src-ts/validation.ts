@@ -1,28 +1,12 @@
-import { fileURLToPath } from "node:url";
+import { runtimeIdentity } from "./runtime-identity.ts";
 import * as fs from "node:fs";
 import * as path from "node:path";
 import { canonicalJson, digest } from "./contracts.ts";
-import { files, writeJson, type RecordData } from "./workspace.ts";
+import { writeJson, type RecordData } from "./workspace.ts";
 import { Snapshot } from "./flexo.ts";
 import { parse, subjects, RDF, SH, validateGraph } from "./rdf.ts";
 export function validatorIdentity() {
-  const root = path.resolve(fileURLToPath(new URL("..", import.meta.url))),
-    source = path.join(root, "src-ts");
-  return {
-    source_sha256: digest(
-      canonicalJson(
-        Object.fromEntries(
-          files(source)
-            .filter((p) => /\.(ts|ttl)$/.test(p))
-            .map((p) => [path.relative(root, p), digest(fs.readFileSync(p))]),
-        ),
-      ),
-    ),
-    lock_sha256: digest(fs.readFileSync(path.join(root, "package-lock.json"))),
-    node: process.version,
-    engine: "shacl-engine",
-    evidence_codec: "adapter-compact-ascii-v1",
-  };
+  return { ...runtimeIdentity(), engine: "shacl-engine" };
 }
 export const validatorDigest = () => digest(canonicalJson(validatorIdentity()));
 export async function validateSnapshot(

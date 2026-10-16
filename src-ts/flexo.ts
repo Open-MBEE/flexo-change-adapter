@@ -116,7 +116,27 @@ export class Flexo {
     lockId = "ci-" + request.work_id,
     allowCreate = false,
   ) {
-    const uri = request.source.repository_uri + "/locks/" + checkedId(lockId);
+    const pinned = await this.pinnedGraph(
+      request.source,
+      request.commit_uri,
+      lockId,
+      allowCreate,
+    );
+    return new Snapshot(
+      request,
+      pinned.lock_uri,
+      pinned.lock_etag,
+      pinned.model,
+    );
+  }
+  async pinnedGraph(
+    source: Branch,
+    commit: string,
+    lockId: string,
+    allowCreate = false,
+  ) {
+    source.checkCommit(commit);
+    const uri = source.repository_uri + "/locks/" + checkedId(lockId);
     let before = await this.request("GET", uri, [200, 404]);
     if (before.status === 404) {
       if (!allowCreate)
@@ -125,17 +145,14 @@ export class Flexo {
         "PUT",
         uri,
         [200, 201, 409, 412],
-        `<> <${MMS}commit> <${request.commit_uri}> .`,
+        `<> <${MMS}commit> <${commit}> .`,
         { "Content-Type": "text/turtle", "If-None-Match": "*" },
       );
       before = await this.request("GET", uri);
     }
     if (
-      commitBinding(
-        Buffer.from(await before.arrayBuffer()),
-        uri,
-        request.source,
-      ) !== request.commit_uri
+      commitBinding(Buffer.from(await before.arrayBuffer()), uri, source) !==
+      commit
     )
       throw new FlexoError("Lock references another commit");
     const etag = before.headers.get("etag");
@@ -150,11 +167,8 @@ export class Flexo {
       ),
       after = await this.request("GET", uri);
     if (
-      commitBinding(
-        Buffer.from(await after.arrayBuffer()),
-        uri,
-        request.source,
-      ) !== request.commit_uri ||
+      commitBinding(Buffer.from(await after.arrayBuffer()), uri, source) !==
+        commit ||
       after.headers.get("etag") !== etag
     )
       throw new FlexoError("Lock changed during read");
@@ -163,7 +177,7 @@ export class Flexo {
     } catch {
       throw new FlexoError("Snapshot is invalid Turtle");
     }
-    return new Snapshot(request, uri, etag, model);
+    return { lock_uri: uri, lock_etag: etag, model };
   }
 }
 export async function connectFlexo(

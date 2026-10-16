@@ -170,3 +170,7 @@ when bridge networking cannot reach the private endpoint. Retain trusted TLS.
 Packaging does not provision network access, publish images or deploy remotely.
 
 For failures, start with [troubleshooting](troubleshooting.md).
+
+## Add selectable text engines
+
+Use [github-engines.json](../examples/configuration/github-engines.json) after arranging the producer-owned original-text manifest. Install matching source, locked dependencies, provisioning script and reviewed workflow in the private GitHub execution repository. The hosted Linux x64 worker needs Docker; the watcher only captures and transfers verified inputs. See [validation engines](validation-engines.md) for exact pins, source format, limits and worker provisioning. No project gate or constraint execution is enabled by these syntax/semantic actions.

@@ -27,7 +27,7 @@
 
 ---
 
-Flexo Change Adapter watches a Flexo MMS repository branch, records observed revisions in SQLite, and routes work to configured CI destinations. Use it to publish an activity feed, validate an immutable model snapshot with SHACL through GitHub Actions, or trigger a GitLab pipeline or Jenkins job with exact revision metadata.
+Flexo Change Adapter watches a Flexo MMS repository branch, records observed revisions in SQLite, and routes work to configured CI destinations. Use it to publish an activity feed, validate exact inputs with selectable OpenSysML, SysML Toolkit or SHACL checkers through GitHub Actions, or trigger a GitLab pipeline or Jenkins job with exact revision metadata.
 
 **GitHub Actions is the first validation target; the core remains CI-agnostic.**
 
@@ -35,26 +35,26 @@ Flexo Change Adapter watches a Flexo MMS repository branch, records observed rev
 
 - **Observe model changes.** Poll a selected Flexo branch and retain a baseline and subsequent head changes.
 - **Keep work through restarts.** Commit events, action intents and checkpoints together in SQLite. Queued actions retain their original destinations and validation identities after configuration changes.
-- **Validate the observed revision.** Bind GitHub validation to a verified snapshot, pinned SHACL rule and validator identity, even when the branch moves.
+- **Validate the observed revision.** Bind GitHub validation to verified inputs and pinned checker/library identities, even when the branch moves.
 - **Publish an activity feed.** Write an optional versioned JSON feed for a frontend or read-only API, with or without CI actions.
 - **Configure independent actions.** Select built-in sources, tasks and destinations with one versioned JSON file. Check it offline before contacting a service.
-- **Retain useful evidence.** Distinguish SHACL violations from execution errors and retain revision, rule, result and report identities.
+- **Retain useful evidence.** Keep model findings separate from execution errors and retain revision, input, engine and report identities.
 
 Polling captures the latest observed head; intermediate commits between polls may be skipped. Native webhooks, brokers and dynamically loaded plugins are outside the implementation.
 
 ## Integrations
 
-| Integration    | Capability                                                     | Setup                                                      |
-| -------------- | -------------------------------------------------------------- | ---------------------------------------------------------- |
-| Flexo MMS      | Poll one repository branch and retrieve commit-pinned inputs   | Existing HTTPS endpoint and authorized source credentials  |
-| GitHub Actions | Validate pinned snapshots with SHACL and retain claims/results | Private execution repository with matching reviewed worker |
-| GitLab CI/CD   | Trigger pipelines and reconcile native outcomes                | Reviewed pipeline, trigger and read credentials            |
-| Jenkins        | Trigger parameterized jobs and reconcile native outcomes       | Reviewed job and API token; local test setup included      |
-| JSON feed      | Publish retained baseline/change events                        | Optional writable feed path; no CI required                |
+| Integration    | Capability                                                   | Setup                                                      |
+| -------------- | ------------------------------------------------------------ | ---------------------------------------------------------- |
+| Flexo MMS      | Poll one repository branch and retrieve commit-pinned inputs | Existing HTTPS endpoint and authorized source credentials  |
+| GitHub Actions | Run selected checkers and retain verified claims/results     | Private execution repository with matching reviewed worker |
+| GitLab CI/CD   | Trigger pipelines and reconcile native outcomes              | Reviewed pipeline, trigger and read credentials            |
+| Jenkins        | Trigger parameterized jobs and reconcile native outcomes     | Reviewed job and API token; local test setup included      |
+| JSON feed      | Publish retained baseline/change events                      | Optional writable feed path; no CI required                |
 
 This is an initial alpha release. The [project status](docs/status.md) describes implementation and verification limits. GitHub validation requires matching reviewed watcher/worker source in a private execution repository; the source repository can be public.
 
-Generic GitLab/Jenkins success does not establish SHACL conformance. Model SHACL validation is also distinct from SysML implementation testing and human research-case validation.
+Generic GitLab/Jenkins success does not establish model conformance. Model SHACL validation is also distinct from SysML implementation testing and human research-case validation.
 
 ## Modularity and configuration
 
@@ -71,9 +71,11 @@ The implementation separates these responsibilities:
 
 Built-in adapters use ordinary TypeScript modules with explicit registration and load only when selected. Feed-only and generic CI operation do not load the GitHub validation adapter or SHACL engine. Adding a source, storage engine or CI platform requires code; configuration selects the supported implementations. New events use changed settings after restart, while queued actions retain their original bindings. See [architecture](docs/architecture.md) and [configuration](docs/configuration.md).
 
-## Planned validation engines
+## Validation engines
 
-[Selectable OpenSysML and SysML Toolkit validation](docs/selectable-validation-engines-plan.md) is planned, with either engine or both and a separate optional gate. The [pinned engine research](docs/research-sysml-engines-2026-10-16.md) records contracts and open acceptance work. These adapters are not implemented. Both pinned engines passed the local multi-file fixtures; see the [CLI verification and retained evidence](docs/engine-cli-verification-2026-10-16.md). Durable engine selection and execution remain planned.
+Select OpenSysML, SysML Toolkit, or both as independent `engine-validation` actions using [github-engines.json](examples/configuration/github-engines.json). They consume one verified, revision-bound original text bundle and retain separate syntax/semantic results. SHACL remains an optional RDF checker; GitHub delivery and recovery are shared. See [engine configuration and implementation](docs/validation-engines.md).
+
+Both real engines passed both local Flexo revisions through the new worker. Hosted acceptance of this source revision, project gates and constraint execution remain outstanding; see [implementation acceptance](docs/engine-implementation-acceptance.md).
 
 ## Quick start
 

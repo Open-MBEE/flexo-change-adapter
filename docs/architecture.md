@@ -10,9 +10,12 @@ flowchart LR
     O --> J[(SQLite journal)]
     J --> P[JSON activity feed]
     J --> A[Frozen action intents]
-    A --> G[GitHub SHACL validation]
+    A --> G[GitHub validation delivery]
+    G --> S[Optional SHACL checker]
+    G --> V[Independent text engine adapters]
     A --> T[GitLab or Jenkins trigger]
-    G --> E[Verified report and result]
+    S --> E[Verified report and result]
+    V --> E
     T --> N[Native CI outcome]
     E --> J
     N --> J
@@ -30,7 +33,9 @@ flowchart LR
 | GitHub validation            | `github-action.ts`, `service.ts`, `state.ts`, `github-runner.ts`, `github-job.ts` | Prepare pinned snapshots/rules, retain computation identity, dispatch and reconcile claims/results.                |
 | Generic CI                   | `ci-trigger.ts`                                                                   | Submit source metadata to GitLab/Jenkins and reconcile native job states.                                          |
 
-Code paths in this table are relative to `src-ts/`. The registry supports `shacl-validation:github`, `ci-trigger:gitlab` and `ci-trigger:jenkins`; it does not load executable plugins from configuration. Adapter modules are imported only when selected by current configuration or a retained intent. Retained work still selects its original adapter after configuration removal. SHACL/SPARQL loads inside validation; RDF canonicalization loads only for graph comparison. Offline `check` and help do not load RDF parsing. JSON is the single operating configuration.
+Code paths in this table are relative to `src-ts/`. The registry supports `shacl-validation:github`, `engine-validation:github`, `ci-trigger:gitlab` and `ci-trigger:jenkins`; it does not load executable plugins from configuration. Adapter modules are imported only when selected by current configuration or a retained intent. Retained work still selects its original adapter after configuration removal. SHACL/SPARQL loads inside validation; RDF canonicalization loads only for graph comparison. Offline `check` and help do not load RDF parsing. JSON is the single operating configuration.
+
+Text engines use a shared `EngineRequest` and native-evidence result contract. `engine-contracts.ts` pins reviewed profiles; `model-input.ts` captures and verifies original text from producer manifests; `engine-execution.ts` owns bounded process/container execution and native report decoding. `engine-action.ts` connects those modules to durable intents, and `engine-record.ts` binds GitHub data records to the shared claim/reconciliation protocol. SHACL retains its RDF/rule contract and uses the same delivery lifecycle. See [engine implementation](validation-engines.md).
 
 ## Persistence and identity
 

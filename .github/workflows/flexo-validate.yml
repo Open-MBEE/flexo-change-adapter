@@ -43,6 +43,7 @@ jobs:
       - name: Claim, validate and retain exact evidence
         env:
           GITHUB_TOKEN: ${{ github.token }}
+          FLEXO_ENGINE_DIRECTORY: ${{ runner.temp }}/flexo-engines
           FLEXO_WORK_ID: ${{ inputs.work_id }}
           FLEXO_INPUT_COMMIT: ${{ inputs.input_commit }}
           FLEXO_INPUT_DIGEST: ${{ inputs.input_digest }}

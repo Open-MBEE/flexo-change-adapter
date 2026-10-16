@@ -1,3 +1,5 @@
+import type { EngineProfile } from "./engine-contracts.ts";
+import type { EngineAction } from "./configuration.ts";
 import * as fs from "node:fs";
 import * as path from "node:path";
 import { DatabaseSync } from "node:sqlite";
@@ -17,7 +19,16 @@ export type FrozenValidationAction = Omit<ValidationAction, "task"> & {
     validator_sha256: string;
   };
 };
-export type FrozenAction = FrozenValidationAction | TriggerAction;
+export type FrozenEngineAction = Omit<EngineAction, "task"> & {
+  task: {
+    type: "engine-validation";
+    profile: EngineProfile;
+    validator_sha256: string;
+    input: "flexo-text-manifest-v1";
+  };
+};
+export type FrozenAction =
+  FrozenValidationAction | FrozenEngineAction | TriggerAction;
 export type PreparedAction = { action: FrozenAction; rule?: Buffer };
 export type BranchEvent = {
   sequence: number;
@@ -51,8 +62,36 @@ export class Journal {
           "SELECT 1 FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%' LIMIT 1",
         )
         .get();
-      if (version !== 1 && (version !== 0 || readOnly || populated))
+      if (version !== 2 && (version !== 0 || readOnly || populated))
         throw Error("Unsupported journal schema");
+      if (version === 2) {
+        const tables = new Set(
+          this.db
+            .prepare("SELECT name FROM sqlite_master WHERE type='table'")
+            .all()
+            .map((r) => r.name),
+        );
+        if (
+          [
+            "event_source",
+            "event_poll",
+            "branch_events",
+            "action_rules",
+            "action_intents",
+            "journal_health",
+            "ci_deliveries",
+            "input_preparations",
+          ].some((n) => !tables.has(n))
+        )
+          throw Error("Unsupported journal schema");
+        const owner = this.db
+          .prepare("SELECT branch_uri FROM event_source")
+          .get();
+        if (owner?.branch_uri !== source.uri)
+          throw new ConfigurationError(
+            "Event state belongs to another branch; select a separate state directory",
+          );
+      }
       if (!readOnly) {
         this.db.exec("PRAGMA journal_mode=WAL; PRAGMA synchronous=FULL;");
         if (version === 0)
@@ -61,11 +100,12 @@ export class Journal {
               .exec(`CREATE TABLE event_source(branch_uri TEXT PRIMARY KEY);
             CREATE TABLE event_poll(id INTEGER PRIMARY KEY CHECK(id=1), last_success_at TEXT NOT NULL);
             CREATE TABLE branch_events(sequence INTEGER PRIMARY KEY AUTOINCREMENT, id TEXT UNIQUE NOT NULL, kind TEXT NOT NULL, branch_uri TEXT NOT NULL, previous_commit_uri TEXT, commit_uri TEXT NOT NULL, observed_at TEXT NOT NULL);
+            CREATE TABLE input_preparations(id TEXT PRIMARY KEY,commit_uri TEXT NOT NULL,status TEXT NOT NULL,input_sha256 TEXT,error TEXT);
             CREATE TABLE action_rules(sha256 TEXT PRIMARY KEY, bytes BLOB NOT NULL);
             CREATE TABLE action_intents(id TEXT PRIMARY KEY, event_id TEXT NOT NULL, action_json TEXT NOT NULL, source_json TEXT NOT NULL, commit_uri TEXT NOT NULL, state TEXT NOT NULL CHECK(state IN ('pending','completed')), error TEXT, result_json TEXT);
             CREATE TABLE journal_health(id INTEGER PRIMARY KEY CHECK(id=1), checked_at TEXT NOT NULL, status TEXT NOT NULL CHECK(status IN ('ok','error')));
             CREATE TABLE ci_deliveries(id TEXT PRIMARY KEY, state TEXT NOT NULL, attempts INTEGER NOT NULL DEFAULT 0, external_json TEXT, started_at TEXT NOT NULL);
-            PRAGMA user_version=1;`);
+            PRAGMA user_version=2;`);
             this.db
               .prepare("INSERT INTO event_source VALUES(?)")
               .run(source.uri);
@@ -210,6 +250,43 @@ export class Journal {
     return this.db
       .prepare("SELECT * FROM action_intents ORDER BY rowid")
       .all() as ActionIntent[];
+  }
+  inputPreparation(
+    id: string,
+    commit: string,
+    status: "pending" | "ready" | "error",
+    sha: string | null = null,
+  ) {
+    const prior = this.db
+      .prepare("SELECT * FROM input_preparations WHERE id=?")
+      .get(id);
+    if (prior?.status === "ready") {
+      if (
+        status !== "ready" ||
+        prior.input_sha256 !== sha ||
+        prior.commit_uri !== commit
+      )
+        throw Error("Prepared input cannot be replaced");
+      return;
+    }
+    this.db
+      .prepare(
+        "INSERT INTO input_preparations VALUES(?,?,?,?,?) ON CONFLICT(id) DO UPDATE SET status=excluded.status,input_sha256=excluded.input_sha256,error=excluded.error",
+      )
+      .run(
+        id,
+        commit,
+        status,
+        sha,
+        status === "error"
+          ? "Unable to prepare verified revision-bound text input"
+          : null,
+      );
+  }
+  inputs() {
+    return this.db
+      .prepare("SELECT * FROM input_preparations ORDER BY rowid")
+      .all();
   }
   rule(sha: string) {
     const row = this.db

@@ -1,3 +1,88 @@
+import { canonicalJson, digest } from "../src-ts/contracts.ts";
+import { decodeEngine } from "../src-ts/engine-execution.ts";
+import { checkModelBundle } from "../src-ts/model-input.ts";
+const engineMode = process.env.TEST_ENGINE_INPUTS === "yes";
+function textManifest(commit) {
+  const raw = Buffer.from("package Demo { part def Thing; }");
+  return {
+    format: "local-sysml-text-bundle-v1",
+    entrypoints: ["models/main.sysml"],
+    files: [
+      {
+        path: "models/main.sysml",
+        role: "model",
+        size: raw.length,
+        sha256: digest(raw),
+        artifact:
+          "https://flexo.test/orgs/research/repos/model/artifacts/" +
+          commit +
+          "-source",
+      },
+    ],
+  };
+}
+async function engineWorker(files, r, external) {
+  const bundle = JSON.parse(files["model-bundle.json"]),
+    content = checkModelBundle(bundle, r.source, r.commit_uri).content_sha256;
+  const stdout = JSON.stringify(
+    r.profile.engine === "opensysml"
+      ? {
+          status: "holds",
+          exit: 0,
+          checks: null,
+          diagnostics: null,
+          output: ["no errors"],
+          errors: null,
+        }
+      : {
+          findings: [],
+          summary: { errors: 0, warnings: 0, infos: 0, hints: 0 },
+        },
+  );
+  const process = {
+    exit: 0,
+    signal: null,
+    timeout: false,
+    truncated: false,
+    stdout,
+    stderr: "",
+    stdout_base64: Buffer.from(stdout).toString("base64"),
+    stderr_base64: "",
+    started_at: "2026-10-16T12:00:00Z",
+    finished_at: "2026-10-16T12:00:01Z",
+    argv: ["reviewed-fixture"],
+  };
+  const report = decodeEngine(r, process),
+    raw = Buffer.from(
+      canonicalJson({
+        schema_version: 1,
+        request: r.toDict(),
+        input_content_sha256: content,
+        profile: r.profile,
+        process,
+        report,
+      }),
+    );
+  return {
+    result: {
+      schema_version: 2,
+      work_id: r.work_id,
+      commit_uri: r.commit_uri,
+      input_sha256: r.input_sha256,
+      validator_sha256: r.validator_sha256,
+      profile: r.profile,
+      report,
+      outcome: report.verdict,
+      report_sha256: digest(raw),
+      external_id: external,
+    },
+    evidence: {
+      ...files,
+      "report.json": raw,
+      "report.txt": Buffer.from("engine test fixture"),
+    },
+  };
+}
 // External transport fixture loaded by CLI subprocesses. No real network access.
 import * as fs from "node:fs";
 import { createHash } from "node:crypto";
@@ -38,6 +123,22 @@ globalThis.fetch = async (url, init = {}) => {
         .slice(1, -1);
       save();
       return new Response(null, { status: 201 });
+    }
+    if (engineMode && method === "GET" && u.pathname.includes("/artifacts/")) {
+      (remote.artifact_reads ??= []).push(String(url));
+      save();
+      const id = u.pathname.split("/").at(-1),
+        commit = id.replace(/-(manifest|source)$/, "");
+      return id.endsWith("-manifest")
+        ? new Response(JSON.stringify(textManifest(commit)))
+        : new Response("package Demo { part def Thing; }");
+    }
+    if (engineMode && method === "GET" && u.pathname.endsWith("/graph")) {
+      const commit = remote.locks[lock].split("/").at(-1),
+        raw = JSON.stringify(textManifest(commit));
+      return new Response(
+        `<urn:bundle> a <urn:flexo-change-adapter:source:TextBundle>; <urn:flexo-change-adapter:source:manifest> <https://flexo.test/orgs/research/repos/model/artifacts/${commit}-manifest>; <urn:flexo-change-adapter:source:sha256> "${digest(raw)}" .`,
+      );
     }
     if (method === "GET" && u.pathname.endsWith("/graph"))
       return new Response(
@@ -131,7 +232,11 @@ globalThis.fetch = async (url, init = {}) => {
       workflow_sha: "a".repeat(40),
       workflow_file: "flexo-validate.yml",
     };
-    const runner = new GitHubRunner(new GitHub(owner, repo, "synthetic-token"));
+    const runner = new GitHubRunner(
+      new GitHub(owner, repo, "synthetic-token"),
+      "main",
+      engineMode ? engineWorker : undefined,
+    );
     const result = await runner.execute(
       body.inputs.work_id,
       body.inputs.input_commit,
@@ -147,7 +252,9 @@ globalThis.fetch = async (url, init = {}) => {
       event: "workflow_dispatch",
       path: ".github/workflows/flexo-validate.yml",
       status: "completed",
-      conclusion: "failure",
+      conclusion: ["pass", "conforming"].includes(result.outcome)
+        ? "success"
+        : "failure",
     };
     save();
     if (process.env.TEST_LOSE_RESPONSE)

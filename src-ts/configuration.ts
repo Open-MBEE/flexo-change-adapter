@@ -1,3 +1,4 @@
+import { engineProfile, type EngineId } from "./engine-contracts.ts";
 import * as fs from "node:fs";
 import * as path from "node:path";
 import { Branch, checkedId } from "./contracts.ts";
@@ -31,6 +32,14 @@ export type ValidationAction = {
   };
   allow_lock_creation: boolean;
 };
+export type EngineAction = Omit<ValidationAction, "task"> & {
+  task: {
+    type: "engine-validation";
+    engine: EngineId;
+    profile: "syntax-semantic-v1";
+    input: "flexo-text-manifest-v1";
+  };
+};
 export type TriggerAction = {
   id: string;
   on: ("baseline" | "branch-change")[];
@@ -52,7 +61,7 @@ export type TriggerAction = {
         token_env: string;
       };
 };
-export type Action = ValidationAction | TriggerAction;
+export type Action = ValidationAction | EngineAction | TriggerAction;
 export type Configuration = {
   schema_version: 1;
   id: string;
@@ -68,7 +77,7 @@ export const adapters = {
   sources: ["flexo"],
   observations: ["poll"],
   feeds: ["json-feed"],
-  tasks: ["shacl-validation", "ci-trigger"],
+  tasks: ["shacl-validation", "engine-validation", "ci-trigger"],
   targets: ["github", "gitlab", "jenkins"],
 } as const;
 
@@ -263,7 +272,12 @@ export function parseConfiguration(
       }
       throw new ConfigurationError("Unavailable CI trigger target");
     }
-    keys(t, ["type", "rule", "rule_version"]);
+    keys(
+      t,
+      t.type === "engine-validation"
+        ? ["type", "engine", "profile", "input"]
+        : ["type", "rule", "rule_version"],
+    );
     keys(target, [
       "type",
       "owner",
@@ -272,7 +286,10 @@ export function parseConfiguration(
       "ref",
       "token_env",
     ]);
-    if (t.type !== "shacl-validation" || target.type !== "github")
+    if (
+      !["shacl-validation", "engine-validation"].includes(String(t.type)) ||
+      target.type !== "github"
+    )
       throw new ConfigurationError("Unavailable task/target pairing");
     if (
       (target.workflow ?? "flexo-validate.yml") !== "flexo-validate.yml" ||
@@ -281,17 +298,46 @@ export function parseConfiguration(
       throw new ConfigurationError(
         "Validation requires reviewed flexo-validate.yml on main",
       );
+    if (
+      a.allow_lock_creation !== undefined &&
+      typeof a.allow_lock_creation !== "boolean"
+    )
+      throw new ConfigurationError("Expected lock creation boolean");
+    const selectedTarget: ValidationAction["target"] = {
+      type: "github",
+      owner: checkedId(string(target.owner)),
+      repository: checkedId(string(target.repository)),
+      workflow: "flexo-validate.yml",
+      ref: "main",
+      token_env: env(target.token_env, "GITHUB_TOKEN"),
+    };
+    if (t.type === "engine-validation") {
+      const profile = engineProfile(string(t.engine));
+      if (
+        t.profile !== "syntax-semantic-v1" ||
+        (t.input ?? "flexo-text-manifest-v1") !== "flexo-text-manifest-v1"
+      )
+        throw new ConfigurationError("Unavailable engine/input profile");
+      return {
+        id: checkedId(string(a.id)),
+        on: a.on as EngineAction["on"],
+        task: {
+          type: "engine-validation",
+          engine: profile.engine,
+          profile: "syntax-semantic-v1",
+          input: "flexo-text-manifest-v1",
+        },
+        target: selectedTarget,
+        allow_lock_creation: a.allow_lock_creation === true,
+      };
+    }
     const rule = resolve(t.rule);
     if (checkInputs) {
       if (!fs.statSync(rule).isFile())
         throw new ConfigurationError("Rule must be a readable file");
       fs.accessSync(rule, fs.constants.R_OK);
     }
-    if (
-      a.allow_lock_creation !== undefined &&
-      typeof a.allow_lock_creation !== "boolean"
-    )
-      throw new ConfigurationError("Expected lock creation boolean");
+
     return {
       id: checkedId(string(a.id)),
       on: a.on as ValidationAction["on"],
@@ -329,9 +375,12 @@ export function parseConfiguration(
   const outputs = [database, ...(feed ? [feed.path] : [])].flatMap(reserved);
   const overlaps = (p: string, q: string) =>
     p === q || p.startsWith(q + path.sep) || q.startsWith(p + path.sep);
-  const internal = ["ownership.json", ".owner.watch.lock", "targets"].map(
-    (name) => path.join(state, name),
-  );
+  const internal = [
+    "ownership.json",
+    ".owner.watch.lock",
+    "targets",
+    "inputs",
+  ].map((name) => path.join(state, name));
   if (
     new Set(outputs).size !== outputs.length ||
     files.some((p, i) =>

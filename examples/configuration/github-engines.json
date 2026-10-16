@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "id": "model-engines",
+  "state_directory": "../../.local/model-engines",
+  "source": {
+    "type": "flexo",
+    "endpoint": "https://flexo.example",
+    "organization": "YOUR-ORGANIZATION",
+    "repository": "YOUR-REPOSITORY",
+    "branch": "main"
+  },
+  "observation": { "mode": "poll", "interval_seconds": 45 },
+  "actions": [
+    {
+      "id": "opensysml",
+      "on": ["branch-change"],
+      "task": {
+        "type": "engine-validation",
+        "engine": "opensysml",
+        "profile": "syntax-semantic-v1",
+        "input": "flexo-text-manifest-v1"
+      },
+      "target": {
+        "type": "github",
+        "owner": "YOUR-OWNER",
+        "repository": "YOUR-PRIVATE-EXECUTION-REPOSITORY"
+      },
+      "allow_lock_creation": false
+    },
+    {
+      "id": "sysml-toolkit",
+      "on": ["branch-change"],
+      "task": {
+        "type": "engine-validation",
+        "engine": "sysml-toolkit",
+        "profile": "syntax-semantic-v1",
+        "input": "flexo-text-manifest-v1"
+      },
+      "target": {
+        "type": "github",
+        "owner": "YOUR-OWNER",
+        "repository": "YOUR-PRIVATE-EXECUTION-REPOSITORY"
+      },
+      "allow_lock_creation": false
+    }
+  ]
+}

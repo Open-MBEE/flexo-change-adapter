@@ -1,3 +1,4 @@
+import { runEngineRecord } from "./engine-record.ts";
 import { fileURLToPath } from "node:url";
 import { Effect } from "effect";
 import { GitHub } from "./github-api.ts";
@@ -17,6 +18,18 @@ export async function main() {
     throw Error("Worker requires reviewed main workflow");
   const r = new GitHubRunner(
       new GitHub(parts[0], parts[1], e.GITHUB_TOKEN ?? ""),
+      "main",
+      async (files, request, external) => {
+        const directory = e.FLEXO_ENGINE_DIRECTORY ?? "/opt/flexo-engines";
+        try {
+          const { installEngines } =
+            await import("../scripts/install-engines.ts");
+          await installEngines(directory);
+        } catch {
+          /* Execution retains an explicit non-passing installation result. */
+        }
+        return runEngineRecord(files, request, external);
+      },
     ),
     result = await r.execute(
       e.FLEXO_WORK_ID ?? "",
@@ -31,7 +44,12 @@ export async function main() {
       },
     );
   console.log(JSON.stringify(result));
-  return result.outcome === "nonconforming" ? 1 : 0;
+  return result.event === "validation-skipped-existing-claim" ||
+    ["conforming", "pass"].includes(result.outcome)
+    ? 0
+    : result.outcome === "nonconforming" || result.outcome === "fail"
+      ? 1
+      : 2;
 }
 if (process.argv[1] === fileURLToPath(new URL(import.meta.url))) {
   const result = await Effect.runPromise(

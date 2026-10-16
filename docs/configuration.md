@@ -5,7 +5,7 @@ For a first run, follow [installation](installation.md). Use the
 [troubleshooting](troubleshooting.md) to diagnose failures. Current evidence and
 live acceptance limits are summarized in [project status](status.md).
 
-The local TypeScript CLI accepts one versioned JSON configuration selecting a Flexo source, polling, SQLite state, an optional JSON feed and independent GitHub SHACL validation actions. GitLab/Jenkins generic `ci-trigger` tasks are also implemented. A [local Jenkins setup](local-jenkins.md) is included; both generic CI adapters have transport/recovery regression coverage. Unknown adapters fail offline checking. No additional dependencies are required.
+The local TypeScript CLI accepts one versioned JSON configuration selecting a Flexo source, polling, SQLite state, an optional JSON feed and independent GitHub validation actions. GitLab/Jenkins generic `ci-trigger` tasks are also implemented. A [local Jenkins setup](local-jenkins.md) is included; both generic CI adapters have transport/recovery regression coverage. Unknown adapters fail offline checking. No additional dependencies are required.
 
 ```bash
 npm run adapter -- check --config examples/configuration/feed.json
@@ -30,7 +30,9 @@ Start with [feed.json](../examples/configuration/feed.json) or [github-validatio
 
 `actions` may be empty or contain multiple independent records. Each needs a unique `id`, explicit `on` event kinds, a task and a target. Use `on: ["branch-change"]` to avoid triggering on the first baseline. `baseline` is available explicitly. No action is triggered by an unchanged poll, read failure or configuration change alone.
 
-The validation task/target pair is `task.type: shacl-validation` with readable `rule` and `rule_version`, and `target.type: github` with owner/repository. The reviewed workflow and ref are `flexo-validate.yml` and `main`; these cannot be overridden. Optional `target.token_env` defaults to `GITHUB_TOKEN`. `allow_lock_creation` defaults to false. Set it true only when creating named Flexo locks is authorized. A prepared private snapshot is transferred to the selected private repository; hosted CI receives no Flexo credential.
+The SHACL task/target pair is `task.type: shacl-validation` with readable `rule` and `rule_version`, and `target.type: github` with owner/repository. The reviewed workflow and ref are `flexo-validate.yml` and `main`; these cannot be overridden. Optional `target.token_env` defaults to `GITHUB_TOKEN`. `allow_lock_creation` defaults to false. Set it true only when creating named Flexo locks is authorized. A prepared private snapshot is transferred to the selected private repository; hosted CI receives no Flexo credential.
+
+For text validation, select `task: {"type":"engine-validation","engine":"opensysml","profile":"syntax-semantic-v1"}` or `engine: "sysml-toolkit"`, with the same GitHub target. Use two actions for both engines. The default input provider is `flexo-text-manifest-v1`, which requires a producer-authored manifest in the exact revision. Engine actions do not require a SHACL rule. Settings and pinned profiles are reviewed code, not shell commands. See [github-engines.json](../examples/configuration/github-engines.json) and [validation engines](validation-engines.md).
 
 Offline `check` performs no network requests, credential resolution or state initialization. It validates readable rule files, path conflicts and installed adapters. `status` reads retained state without contacting Flexo/GitHub, even if a currently configured rule file has disappeared. An uninitialized status is explicit. Exit codes: 0 for a successful command/round (terminal job failures or rejections are represented in retained results), 2 for configuration or unresolved operation failure, 130 for interrupted continuous operation; a competing process lock exits 1. A nonconforming SHACL result is a completed action result, not a failed delivery.
 
@@ -52,15 +54,15 @@ GitLab read access to pipeline metadata/variables is separate from trigger permi
 
 ## Retained identities and configuration changes
 
-The journal commits events, frozen action intents, rule bytes and checkpoints together. Action intents keep their source/credential variable names, destination, rule digest/bytes and validator digest. Removing or changing an action affects future events; old intents remain visible and continue with their original configuration. Keep the required original credential variables available until old work finishes. Secrets never enter retained action records.
+The journal commits events, frozen action intents, rule bytes and checkpoints together. Text-engine intents freeze their reviewed profile and wrapper identity; shared input preparations retain their own pending/ready/error status. See [validation engines](validation-engines.md) for original-text producer binding, independent engine selection and worker setup. Action intents keep their source/credential variable names, destination, rule digest/bytes and validator digest. Removing or changing an action affects future events; old intents remain visible and continue with their original configuration. Keep the required original credential variables available until old work finishes. Secrets never enter retained action records.
 
-Event identity, action-delivery identity and validation computation identity are separate. Returning A → B → A creates distinct change events/action intents. Identical commit/rule/validator work may reuse a completed result at the same GitHub destination. GitHub validation destinations have separate local work databases/bindings under `STATE_DIRECTORY/targets/`; GitHub's existing private input/claim/result records remain unchanged. Status exposes action outcomes plus native computation state, attempts and external identity.
+Event identity, action-delivery identity and validation computation identity are separate. Returning A → B → A creates distinct change events/action intents. Identical commit/rule/validator work may reuse a completed result at the same GitHub destination. GitHub validation destinations have separate local work databases/bindings under `STATE_DIRECTORY/targets/`; GitHub's private input/claim/result references use the shared claim protocol. Status exposes action outcomes plus native computation state, attempts and external identity.
 
 The executing source/runtime must match queued validator identity. Source edits change that digest. Unavailable original runtimes leave pending work with an explicit error; the adapter does not replace its identity. Keep the original source/runtime and state backup for reconciliation. Lost dispatch responses use the existing bounded claim/reconciliation protocol. Worker termination never causes automatic duplicate validation. See [GitHub recovery](github-execution.md).
 
 ## State and backups
 
-The adapter initializes an empty journal with schema version 1 and reopens its own state after restart. Unsupported or unversioned populated databases are refused; no import or automatic upgrade is provided. Use a separate state directory for each source.
+The adapter initializes an empty journal with schema version 2 and reopens its own state after restart. Unsupported or unversioned populated databases are refused; no import or automatic upgrade is provided. Use a separate state directory for each source.
 
 For backup, stop the writer and save its complete state directory, configured journal/feed paths and configuration together. Preserve SQLite WAL/SHM sidecars if present. Never copy only a live main database file. Restore the complete stopped-state backup with its matching source/runtime before resuming. Keep queued work's original rule, destination and validator identity intact.
 

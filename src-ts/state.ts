@@ -1,13 +1,13 @@
+import {
+  requestFromDict,
+  checkWorkResult,
+  type WorkRequest,
+} from "./requests.ts";
 import * as fs from "node:fs";
 import * as path from "node:path";
 import { DatabaseSync } from "node:sqlite";
 import { now, type RecordData } from "./workspace.ts";
-import {
-  canonicalJson,
-  checkedDigest,
-  checkResult,
-  ValidationRequest,
-} from "./contracts.ts";
+import { canonicalJson, checkedDigest } from "./contracts.ts";
 export class State {
   readonly db: DatabaseSync;
   constructor(file: string) {
@@ -32,14 +32,13 @@ export class State {
       throw e;
     }
   }
-  observe(r: ValidationRequest) {
+  observe(r: WorkRequest) {
     return this.transaction(() => {
       const time = now(),
         prior = this.db
           .prepare("SELECT request_json FROM work WHERE work_id=?")
           .get(r.work_id);
-      if (prior)
-        ValidationRequest.fromDict(JSON.parse(String(prior.request_json)));
+      if (prior) requestFromDict(JSON.parse(String(prior.request_json)));
       else
         this.db
           .prepare(
@@ -156,8 +155,8 @@ export class State {
   complete(id: string, result: RecordData) {
     this.transaction(() => {
       const row = this.get(id),
-        r = ValidationRequest.fromDict(JSON.parse(row.request_json));
-      checkResult(r, result);
+        r = requestFromDict(JSON.parse(row.request_json));
+      checkWorkResult(r, result);
       const encoded = canonicalJson(result);
       if (row.state === "completed") {
         if (row.result_json !== encoded)

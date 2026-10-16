@@ -104,6 +104,7 @@ export async function retainedStatus(configuration: Configuration) {
         branch(configuration.source),
         configuration.observation.interval_seconds,
       ),
+      inputs: journal.inputs(),
       actions: await Promise.all(
         journal.intents().map(async (i) => ({
           id: i.id,

@@ -1,3 +1,4 @@
+import { requestFromDict, type WorkRequest } from "./requests.ts";
 import * as fs from "node:fs";
 import * as path from "node:path";
 import { isDeepStrictEqual as equal } from "node:util";
@@ -11,9 +12,8 @@ import {
 import { Flexo, Snapshot } from "./flexo.ts";
 import type { RecordData } from "./workspace.ts";
 export interface Runner {
-  prepare(s: Snapshot, r: Buffer): Promise<RecordData>;
-  inspect(r: ValidationRequest, d: RecordData): Promise<RecordData | null>;
-  dispatch(r: ValidationRequest, d: RecordData): Promise<string | null>;
+  inspect(r: WorkRequest, d: RecordData): Promise<RecordData | null>;
+  dispatch(r: WorkRequest, d: RecordData): Promise<string | null>;
 }
 export async function advance(
   state: State,
@@ -24,7 +24,7 @@ export async function advance(
   const row = state.get(id);
   if (row.state === "completed")
     return { event: "work-already-completed", work_id: id };
-  const request = ValidationRequest.fromDict(JSON.parse(row.request_json)),
+  const request = requestFromDict(JSON.parse(row.request_json)),
     binding = state.delivery(id),
     observed = await runner.inspect(request, binding);
   if (observed) {
@@ -71,7 +71,7 @@ export async function advance(
 }
 export async function deliver(
   state: State,
-  runner: Runner,
+  runner: Runner & { prepare(s: Snapshot, r: Buffer): Promise<RecordData> },
   connect: (base: string) => Promise<Flexo>,
   id: string,
   rule: Buffer,

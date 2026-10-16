@@ -664,3 +664,67 @@ test("continuous delivery advances later healthy-target work while another targe
     await done;
   }
 });
+
+test("configured engine actions share one verified input, reconcile after removal and keep their original revision", (t) => {
+  const f = fixture(t),
+    preload = path.resolve("tests-ts/fixtures-configured-github.mjs"),
+    remote = path.join(f.root, "remote.json");
+  f.configuration.actions = ["opensysml", "sysml-toolkit"].map((engine) => ({
+    id: engine,
+    on: ["baseline"],
+    task: { type: "engine-validation", engine, profile: "syntax-semantic-v1" },
+    target: { type: "github", owner: "DSG", repository: "engines" },
+    allow_lock_creation: true,
+  }));
+  f.write();
+  const env = {
+    ...process.env,
+    FLEXO_TOKEN: "synthetic",
+    GITHUB_TOKEN: "synthetic",
+    TEST_REMOTE_STATE: remote,
+    TEST_HEAD: "one",
+    TEST_ENGINE_INPUTS: "yes",
+    TEST_LOSE_RESPONSE: "yes",
+  };
+  const run = () =>
+    spawnSync(
+      process.execPath,
+      ["--import", preload, cli, "run", "--config", f.file, "--once"],
+      { encoding: "utf8", env },
+    );
+  const first = run();
+  assert.equal(first.status, 0, first.stdout + first.stderr);
+  let remoteState = JSON.parse(fs.readFileSync(remote, "utf8"));
+  assert.equal(remoteState.artifact_reads.length, 2);
+  assert.equal(remoteState.executions.length, 2);
+  const pending = f.status();
+  assert.equal(pending.inputs.length, 1);
+  assert.equal(pending.inputs[0].status, "ready");
+  assert.equal(pending.actions.length, 2);
+  f.configuration.actions = [];
+  f.write();
+  env.TEST_HEAD = "two";
+  const second = run();
+  assert.equal(second.status, 0, second.stdout + second.stderr);
+  const status = f.status();
+  assert.ok(
+    status.actions.every(
+      (a: any) =>
+        a.state === "completed" &&
+        a.result.outcome === "pass" &&
+        a.result.commit_uri.endsWith("/one"),
+    ),
+  );
+  assert.equal(
+    new Set(status.actions.map((a: any) => a.result.work_id)).size,
+    2,
+  );
+  assert.equal(
+    new Set(status.actions.map((a: any) => a.result.input_sha256)).size,
+    1,
+  );
+  remoteState = JSON.parse(fs.readFileSync(remote, "utf8"));
+  assert.equal(remoteState.artifact_reads.length, 2);
+  assert.equal(remoteState.executions.length, 2);
+  assert.equal(status.latest_commit_uri.endsWith("/two"), true);
+});

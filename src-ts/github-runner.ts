@@ -1,3 +1,14 @@
+import { EngineRequest } from "./engine-contracts.ts";
+import { type WorkRequest, checkWorkResult } from "./requests.ts";
+import {
+  ENGINE_INPUT_FILES,
+  ENGINE_RESULT_FILES,
+  engineInputBundle,
+  checkEngineInput,
+  runEngineRecord,
+  checkEngineEvidence,
+} from "./engine-record.ts";
+import { type ModelBundle } from "./model-input.ts";
 import * as fs from "node:fs";
 import * as path from "node:path";
 import * as os from "node:os";
@@ -43,12 +54,36 @@ export function checkInput(
     throw Error("Input does not bind queued request");
   return s;
 }
+function recordRequest(files: Record<string, Buffer>): WorkRequest {
+  return files["engine-request.json"]
+    ? EngineRequest.fromDict(
+        JSON.parse(files["engine-request.json"].toString()),
+      )
+    : Snapshot.fromFiles(files).request;
+}
+function verifyInput(files: Record<string, Buffer>, r: WorkRequest) {
+  return r instanceof EngineRequest
+    ? checkEngineInput(files, r)
+    : checkInput(files, r);
+}
+const inputNames = (r: WorkRequest) =>
+  r instanceof EngineRequest ? ENGINE_INPUT_FILES : INPUT_FILES;
+const resultNames = (r: WorkRequest) =>
+  r instanceof EngineRequest ? ENGINE_RESULT_FILES : RESULT_FILES;
+const reportName = (r: WorkRequest) =>
+  r instanceof EngineRequest ? "report.json" : "report.ttl";
 export class GitHubRunner {
   readonly api: GitHub;
-  constructor(api: GitHub, workflowRef = "main") {
+  readonly engineWorker: typeof runEngineRecord;
+  constructor(
+    api: GitHub,
+    workflowRef = "main",
+    engineWorker = runEngineRecord,
+  ) {
     if (workflowRef !== "main")
       throw Error("Workflow must execute reviewed main");
     this.api = api;
+    this.engineWorker = engineWorker;
   }
   get identity() {
     return `github:${this.api.owner}/${this.api.repository}:${WORKFLOW}:main`;
@@ -60,9 +95,13 @@ export class GitHubRunner {
     checkedDigest(d.input_digest);
   }
   async prepare(s: Snapshot, rule: Buffer) {
+    return this.prepareFiles(inputBundle(s, rule), s.request.work_id);
+  }
+  async prepareEngine(r: EngineRequest, b: ModelBundle) {
+    return this.prepareFiles(engineInputBundle(r, b), r.work_id);
+  }
+  async prepareFiles(files: Record<string, Buffer>, id: string) {
     await this.api.requirePrivate();
-    const files = inputBundle(s, rule),
-      id = s.request.work_id;
     let commit = await this.api.ref("input", id);
     if (!commit) {
       const candidate = await this.api.createCommit(
@@ -79,7 +118,7 @@ export class GitHubRunner {
       input_digest: bundleDigest(files),
     };
   }
-  async dispatch(r: ValidationRequest, d: RecordData) {
+  async dispatch(r: WorkRequest, d: RecordData) {
     this.checkDelivery(d);
     const response = await this.api.call(
       "POST",
@@ -120,7 +159,7 @@ export class GitHubRunner {
     gitSha(w.workflow_sha);
     return `github:${w.repository}:${w.run_id}:${w.run_attempt}`;
   }
-  async claim(r: ValidationRequest, d: RecordData) {
+  async claim(r: WorkRequest, d: RecordData) {
     this.checkDelivery(d);
     const commit = await this.api.ref("claim", r.work_id);
     if (!commit) return null;
@@ -145,7 +184,7 @@ export class GitHubRunner {
       throw Error("Worker claim differs");
     return v as RecordData;
   }
-  async inspect(r: ValidationRequest, d: RecordData) {
+  async inspect(r: WorkRequest, d: RecordData) {
     const claim = await this.claim(r, d);
     if (!claim) {
       if (await this.api.ref("result", r.work_id))
@@ -186,58 +225,102 @@ export class GitHubRunner {
       commit = await this.api.ref("result", r.work_id);
     if (!commit) {
       if (run.status === "completed") {
-        const s = checkInput(await this.api.files(d.input_commit), r);
-        observation.result = {
-          schema_version: 1,
-          work_id: r.work_id,
-          commit_uri: r.commit_uri,
-          rule_version: r.rule_version,
-          rule_sha256: r.rule_sha256,
-          validator_sha256: r.validator_sha256,
-          input_sha256: s.input_sha256,
-          report_sha256: null,
-          report_url: `${this.api.html}/actions/runs/${w.run_id}/attempts/${w.run_attempt}`,
-          outcome: "execution-error",
-          error_code: "worker-terminated-without-result",
-          external_id: claim.external_id,
-          workflow: w,
-        };
+        const s = verifyInput(await this.api.files(d.input_commit), r);
+        if (r instanceof EngineRequest) {
+          const report = {
+            execution: "error",
+            verdict: "inconclusive",
+            checks: [
+              {
+                check: "syntax",
+                completed: false,
+                reason: "worker-terminated-without-result",
+              },
+              {
+                check: "semantic",
+                completed: false,
+                reason: "worker-terminated-without-result",
+              },
+            ],
+            diagnostics: [],
+            error_code: "worker-terminated-without-result",
+          };
+          observation.result = {
+            schema_version: 2,
+            work_id: r.work_id,
+            commit_uri: r.commit_uri,
+            input_sha256: r.input_sha256,
+            validator_sha256: r.validator_sha256,
+            profile: r.profile,
+            report,
+            outcome: "inconclusive",
+            report_sha256: null,
+            report_url: `${this.api.html}/actions/runs/${w.run_id}/attempts/${w.run_attempt}`,
+            external_id: claim.external_id,
+            workflow: w,
+          };
+        } else {
+          observation.result = {
+            schema_version: 1,
+            work_id: r.work_id,
+            commit_uri: r.commit_uri,
+            rule_version: r.rule_version,
+            rule_sha256: r.rule_sha256,
+            validator_sha256: r.validator_sha256,
+            input_sha256: s.input_sha256,
+            report_sha256: null,
+            report_url: `${this.api.html}/actions/runs/${w.run_id}/attempts/${w.run_attempt}`,
+            outcome: "execution-error",
+            error_code: "worker-terminated-without-result",
+            external_id: claim.external_id,
+            workflow: w,
+          };
+        }
       }
       return observation;
     }
     const files = await this.api.files(commit);
-    checkFiles(files, RESULT_FILES);
+    checkFiles(files, resultNames(r));
     const inputs = await this.api.files(d.input_commit),
-      s = checkInput(inputs, r);
-    for (const name of INPUT_FILES)
+      s = verifyInput(inputs, r);
+    for (const name of inputNames(r))
       if (!files[name].equals(inputs[name]))
         throw Error("Result input differs");
     const result = JSON.parse(files["result.json"].toString());
-    checkResult(r, result);
+    checkWorkResult(r, result);
     if (
       result.external_id !== claim.external_id ||
       !equal(result.workflow, w) ||
       result.input_sha256 !== s.input_sha256 ||
-      result.report_sha256 !== digest(files["report.ttl"]) ||
-      result.rule_sha256 !== digest(files["rule.ttl"]) ||
-      digest(canonicalJson(result.validator_identity)) !== r.validator_sha256
+      result.report_sha256 !== digest(files[reportName(r)])
     )
       throw Error("Result evidence binding mismatch");
-    const graph = parse(files["report.ttl"]),
-      roots = subjects(graph, RDF + "type", SH + "ValidationReport"),
-      values =
-        roots.length === 1 ? objects(graph, roots[0], SH + "conforms") : [];
-    if (
-      values.length !== 1 ||
-      values[0].termType !== "Literal" ||
-      values[0].datatype.value !== XSD + "boolean" ||
-      !["true", "false", "1", "0"].includes(values[0].value)
-    )
-      throw Error("Invalid SHACL report");
-    const outcome = ["true", "1"].includes(values[0].value)
-      ? "conforming"
-      : "nonconforming";
-    if (result.outcome !== outcome) throw Error("Report outcome differs");
+    let outcome: string;
+    if (r instanceof EngineRequest) {
+      checkEngineEvidence(files, r, result);
+      outcome = result.outcome;
+    } else {
+      if (
+        result.rule_sha256 !== digest(files["rule.ttl"]) ||
+        digest(canonicalJson(result.validator_identity)) !== r.validator_sha256
+      )
+        throw Error("Result evidence binding mismatch");
+      const graph = parse(files["report.ttl"]),
+        roots = subjects(graph, RDF + "type", SH + "ValidationReport"),
+        values =
+          roots.length === 1 ? objects(graph, roots[0], SH + "conforms") : [];
+      if (
+        values.length !== 1 ||
+        values[0].termType !== "Literal" ||
+        values[0].datatype.value !== XSD + "boolean" ||
+        !["true", "false", "1", "0"].includes(values[0].value)
+      )
+        throw Error("Invalid SHACL report");
+      outcome = ["true", "1"].includes(values[0].value)
+        ? "conforming"
+        : "nonconforming";
+      if (result.outcome !== outcome) throw Error("Report outcome differs");
+    }
     const reportCommit = gitSha(result.report_commit);
     if (
       result.report_url !==
@@ -254,7 +337,10 @@ export class GitHubRunner {
     )
       throw Error("Linked report differs");
     if (run.status !== "completed") return observation;
-    if (run.conclusion !== (outcome === "conforming" ? "success" : "failure"))
+    if (
+      run.conclusion !==
+      (["conforming", "pass"].includes(outcome) ? "success" : "failure")
+    )
       throw Error("Workflow conclusion differs");
     observation.result = result;
     return observation;
@@ -270,9 +356,8 @@ export class GitHubRunner {
     checkedDigest(inputDigest);
     await this.api.requirePrivate();
     const files = await this.api.files(inputCommit),
-      s = Snapshot.fromFiles(files),
-      r = s.request;
-    checkInput(files, r);
+      r = recordRequest(files);
+    const s = verifyInput(files, r);
     if (
       r.work_id !== id ||
       bundleDigest(files) !== inputDigest ||
@@ -316,17 +401,29 @@ export class GitHubRunner {
     if (!equal(owner, claim)) throw Error("Claim differs");
     const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "flexo-ci-"));
     try {
-      const out = path.join(tmp, "report"),
-        result = await validateSnapshot(s, files["rule.ttl"], out, external),
+      let result: RecordData, evidence: Record<string, Buffer>;
+      if (r instanceof EngineRequest) {
+        ({ result, evidence } = await this.engineWorker(files, r, external));
+      } else {
+        const out = path.join(tmp, "report");
+        result = await validateSnapshot(
+          checkInput(files, r),
+          files["rule.ttl"],
+          out,
+          external,
+        );
         evidence = {
           ...files,
           "report.ttl": fs.readFileSync(path.join(out, "report.ttl")),
           "report.txt": fs.readFileSync(path.join(out, "report.txt")),
-        },
-        reportCommit = await this.api.createCommit(
-          evidence,
-          "ci: retain SHACL report " + id,
-        );
+        };
+      }
+      const reportCommit = await this.api.createCommit(
+        evidence,
+        (r instanceof EngineRequest
+          ? "ci: retain engine report "
+          : "ci: retain SHACL report ") + id,
+      );
       Object.assign(result, {
         workflow,
         report_commit: reportCommit,

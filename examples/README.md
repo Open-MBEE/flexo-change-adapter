@@ -93,3 +93,5 @@ or delete state to force a resend. See
 For path and credential conventions, see the
 [configuration example notes](configuration/README.md). For failed runs or missing
 results, see [troubleshooting](../docs/troubleshooting.md).
+
+[github-engines.json](configuration/github-engines.json) selects independent OpenSysML and Toolkit syntax/semantic actions. Remove either action to select one. These require a producer-owned text manifest; see [engine configuration](../docs/validation-engines.md).

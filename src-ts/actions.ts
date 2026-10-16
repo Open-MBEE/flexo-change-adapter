@@ -31,6 +31,17 @@ const actions: Record<string, () => Promise<ActionAdapter>> = {
       recovery: { reconcile_before_retry: true, durable_worker_claim: true },
     };
   },
+  "engine-validation:github": async () => {
+    const { freezeEngineAction, advanceEngineIntent, engineDeliveryStatus } =
+      await import("./engine-action.ts");
+    return {
+      freeze: (a) =>
+        freezeEngineAction(a as import("./configuration.ts").EngineAction),
+      advance: advanceEngineIntent,
+      status: engineDeliveryStatus,
+      recovery: { reconcile_before_retry: true, durable_worker_claim: true },
+    };
+  },
   "ci-trigger:gitlab": trigger,
   "ci-trigger:jenkins": trigger,
 };
