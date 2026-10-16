@@ -1,0 +1,2 @@
+@prefix ex: <urn:dsg:flexo-ci:demo:> .
+ex:motor a ex:Part .

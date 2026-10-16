@@ -1,0 +1,36 @@
+name: flexo-configured-adapter
+services:
+  adapter:
+    image: flexo-change-adapter:local
+    build: .
+    init: true
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    network_mode: ${ADAPTER_NETWORK_MODE:-bridge}
+    entrypoint: ["node", "src-ts/cli.ts"]
+    command: ["run", "--config", "/configuration/adapter.json"]
+    environment:
+      FLEXO_TOKEN:
+      FLEXO_PASSWORD:
+      FLEXO_USERNAME:
+      GITHUB_TOKEN:
+      GITLAB_TRIGGER_TOKEN:
+      GITLAB_READ_TOKEN:
+      JENKINS_USERNAME:
+      JENKINS_TOKEN:
+    volumes:
+      - configured-state:/data
+      - type: bind
+        source: ${ADAPTER_CONFIG_DIR:?Set ADAPTER_CONFIG_DIR to a directory containing adapter.json and any rules}
+        target: /configuration
+        read_only: true
+        bind:
+          create_host_path: false
+volumes:
+  configured-state:

@@ -1,0 +1,15 @@
+# Dependencies and local development state
+/node_modules
+.local/
+
+# Environment and credentials
+.env
+.env.*
+
+# Persistent runtime state
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+*.sqlite3
+*.db
+*.watch.lock

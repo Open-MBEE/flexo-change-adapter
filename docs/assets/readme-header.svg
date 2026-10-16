@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="280" viewBox="0 0 1200 280" role="img" aria-labelledby="title description">
+  <title id="title">Flexo Change Adapter</title>
+  <desc id="description">Observe model changes. Trigger CI. Retain revision-bound evidence.</desc>
+  <defs>
+    <linearGradient id="background" x2="1" y2="1">
+      <stop stop-color="#102332"/>
+      <stop offset="1" stop-color="#183e4b"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="280" rx="16" fill="url(#background)"/>
+  <circle cx="1110" cy="80" r="152" fill="none" stroke="#38616c" stroke-width="1"/>
+  <circle cx="1110" cy="80" r="110" fill="none" stroke="#38616c" stroke-width="1"/>
+  <circle cx="1110" cy="80" r="68" fill="none" stroke="#38616c" stroke-width="1"/>
+  <rect x="56" y="48" width="32" height="4" rx="2" fill="#5ee1c0"/>
+  <text x="102" y="56" fill="#a8d7d7" font-family="Arial, Helvetica, sans-serif" font-size="14" letter-spacing="2">MODEL CHANGES / CI WORKFLOWS</text>
+  <text x="56" y="132" fill="#f4f8fb" font-family="Arial, Helvetica, sans-serif" font-size="52" font-weight="700" letter-spacing="-1">Flexo Change Adapter</text>
+  <text x="58" y="179" fill="#bdd2df" font-family="Arial, Helvetica, sans-serif" font-size="22">Observe model changes. Trigger CI. Retain revision-bound evidence.</text>
+  <text x="58" y="237" fill="#5ee1c0" font-family="Arial, Helvetica, sans-serif" font-size="13" letter-spacing="2">FLEXO MMS</text>
+  <text x="205" y="237" fill="#bdd2df" font-family="Arial, Helvetica, sans-serif" font-size="13" letter-spacing="2">/</text>
+  <text x="235" y="237" fill="#bdd2df" font-family="Arial, Helvetica, sans-serif" font-size="13" letter-spacing="2">GITHUB ACTIONS</text>
+  <text x="422" y="237" fill="#bdd2df" font-family="Arial, Helvetica, sans-serif" font-size="13" letter-spacing="2">/</text>
+  <text x="452" y="237" fill="#bdd2df" font-family="Arial, Helvetica, sans-serif" font-size="13" letter-spacing="2">GITLAB</text>
+  <text x="550" y="237" fill="#bdd2df" font-family="Arial, Helvetica, sans-serif" font-size="13" letter-spacing="2">/</text>
+  <text x="580" y="237" fill="#bdd2df" font-family="Arial, Helvetica, sans-serif" font-size="13" letter-spacing="2">JENKINS</text>
+</svg>

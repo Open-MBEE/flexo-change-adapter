@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "id": "research-activity",
+  "state_directory": "../../.local/configured-feed",
+  "source": {
+    "type": "flexo",
+    "endpoint": "https://flexo.example",
+    "organization": "research",
+    "repository": "ledger",
+    "branch": "main"
+  },
+  "observation": { "mode": "poll", "interval_seconds": 30 },
+  "feed": {
+    "type": "json-feed",
+    "path": "../../.local/configured-feed/output/activity.json"
+  },
+  "actions": []
+}

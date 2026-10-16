@@ -1,0 +1,36 @@
+{
+  "name": "@openmbee/flexo-change-adapter",
+  "version": "0.1.0-alpha.1",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24.16.0 <25"
+  },
+  "scripts": {
+    "adapter": "node src-ts/cli.ts",
+    "github-job": "node src-ts/github-job.ts",
+    "check": "tsc --noEmit",
+    "test": "node --test tests-ts/*.test.ts",
+    "format": "prettier --write src-ts tests-ts scripts/*.ts",
+    "format:check": "prettier --check src-ts tests-ts scripts/*.ts"
+  },
+  "dependencies": {
+    "effect": "3.22.2",
+    "n3": "2.7.12",
+    "rdf-canonize": "5.0.0",
+    "shacl-engine": "1.1.2"
+  },
+  "devDependencies": {
+    "@types/n3": "1.26.4",
+    "@types/node": "24.19.0",
+    "prettier": "3.9.9",
+    "typescript": "7.0.2"
+  },
+  "bin": {
+    "flexo-change-adapter": "bin/adapter.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Open-MBEE/flexo-change-adapter.git"
+  }
+}

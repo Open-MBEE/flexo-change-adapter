@@ -1,0 +1,35 @@
+name: Bug report
+description: Report a reproducible adapter problem with sanitized evidence.
+title: "[Bug]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        For suspected vulnerabilities, contact rohan@dynamicalsystemsgroup.com privately.
+        Keep credentials and private model contents out of this report. Synthetic fixtures are preferred.
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Source revision, Node version, operating system, native/container execution and affected source or CI integration.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: Include commands and minimal sanitized configuration or synthetic fixtures. State whether this used mocked transport or a live service.
+    validations:
+      required: true
+  - type: textarea
+    id: behavior
+    attributes:
+      label: Expected and observed behavior
+      description: Include relevant work/event IDs and exact revision identities when safe to share.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence and checks
+      description: Sanitized errors/logs, checks performed, and anything you could not verify.

@@ -1,0 +1,27 @@
+name: flexo-jenkins-local
+services:
+  jenkins:
+    image: jenkins/jenkins:2.580.1-jdk21@sha256:a660310e39ade10631f774bacd5219de767dfd08947ea5c32a739b5e5bb382c1
+    init: true
+    restart: "no"
+    entrypoint: ["/bin/bash", "/opt/local-jenkins/start.sh"]
+    ports:
+      - "127.0.0.1:18443:8443"
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    mem_limit: 2g
+    cpus: 2
+    pids_limit: 256
+    stop_grace_period: 30s
+    tmpfs:
+      - /run/local-jenkins:uid=1000,gid=1000,mode=0700
+    volumes:
+      - jenkins-home:/var/jenkins_home
+      - ./dev/jenkins-local/start.sh:/opt/local-jenkins/start.sh:ro
+      - ./dev/jenkins-local/bootstrap.groovy:/usr/share/jenkins/ref/init.groovy.d/local-adapter.groovy:ro
+    networks: [local-test]
+networks:
+  local-test:
+    driver: bridge
+volumes:
+  jenkins-home:

@@ -1,0 +1,15 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ex: <urn:dsg:flexo-ci:demo:> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Synthetic integration rule, not a SysML specification claim.
+# An explicit target avoids a vacuous pass when the expected part is missing.
+ex:NamedPart a sh:NodeShape ;
+    sh:targetNode ex:motor ;
+    sh:property [
+        sh:path ex:name ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:minLength 1
+    ] .

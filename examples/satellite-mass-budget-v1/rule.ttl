@@ -1,0 +1,47 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix sysml: <https://www.omg.org/spec/SysML#> .
+@prefix demo: <urn:dsg:flexo-ci:satellite:> .
+
+demo:MassBudget a sh:NodeShape ;
+    # Explicit target prevents a deleted/renamed spacecraft from passing vacuously.
+    sh:targetNode <urn:sysmlv2:element:28fbc57e-7c1d-4b94-9446-1b2dc89b1373> ;
+    sh:class sysml:PartDefinition ;
+    sh:sparql [
+        sh:message "Satellite must declare exactly one numeric literal dryMass and maximumMass; 0 < dryMass <= maximumMass." ;
+        sh:select """
+PREFIX sysml: <https://www.omg.org/spec/SysML#>
+SELECT $this WHERE {
+    FILTER NOT EXISTS {
+        ?dry a sysml:AttributeUsage ; sysml:owner $this ;
+            sysml:declaredName "dryMass" ; sysml:ownedRelationship ?df .
+        ?df a sysml:FeatureValue ; sysml:ownedRelatedElement ?dv .
+        ?dv a sysml:LiteralRational ; sysml:value ?d .
+        ?max a sysml:AttributeUsage ; sysml:owner $this ;
+            sysml:declaredName "maximumMass" ; sysml:ownedRelationship ?mf .
+        ?mf a sysml:FeatureValue ; sysml:ownedRelatedElement ?mv .
+        ?mv a sysml:LiteralRational ; sysml:value ?m .
+        FILTER(isNumeric(?d) && isNumeric(?m) && ?d > 0 && ?d <= ?m)
+        FILTER NOT EXISTS {
+            ?other sysml:owner $this ; sysml:declaredName "dryMass" .
+            FILTER(?other != ?dry)
+        }
+        FILTER NOT EXISTS {
+            ?other sysml:owner $this ; sysml:declaredName "maximumMass" .
+            FILTER(?other != ?max)
+        }
+        FILTER NOT EXISTS {
+            ?dry sysml:ownedRelationship ?other . ?other a sysml:FeatureValue .
+            FILTER(?other != ?df)
+        }
+        FILTER NOT EXISTS {
+            ?max sysml:ownedRelationship ?other . ?other a sysml:FeatureValue .
+            FILTER(?other != ?mf)
+        }
+        FILTER NOT EXISTS { ?df sysml:ownedRelatedElement ?other . FILTER(?other != ?dv) }
+        FILTER NOT EXISTS { ?mf sysml:ownedRelatedElement ?other . FILTER(?other != ?mv) }
+        FILTER NOT EXISTS { ?dv sysml:value ?other . FILTER(!sameTerm(?other, ?d)) }
+        FILTER NOT EXISTS { ?mv sysml:value ?other . FILTER(!sameTerm(?other, ?m)) }
+    }
+}
+"""
+    ] .

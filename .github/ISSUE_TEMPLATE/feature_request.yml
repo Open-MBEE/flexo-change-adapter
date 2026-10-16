@@ -1,0 +1,28 @@
+name: Feature request
+description: Explain a use case and the behavior that would help.
+title: "[Feature]: "
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or use case
+      description: Who needs this behavior, and what are they trying to accomplish?
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Desired outcome
+      description: Describe the observable behavior. Include the source or CI target when relevant.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Current workaround and alternatives
+      description: Explain what you do today and any constraints on another approach.
+  - type: textarea
+    id: constraints
+    attributes:
+      label: Scope and recovery considerations
+      description: Note revision identity, persistence, delivery/retry or compatibility requirements. Keep credentials and private models out of this issue.

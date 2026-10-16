@@ -1,0 +1,8 @@
+# Only the explicit runtime inputs enter the build context. In particular,
+# exclude credentials, private captured models, Git history and local state.
+**
+!Dockerfile
+!package.json
+!package-lock.json
+!src-ts/
+!src-ts/**

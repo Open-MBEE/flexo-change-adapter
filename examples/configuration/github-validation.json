@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "id": "research-validation",
+  "state_directory": "../../.local/configured-validation",
+  "source": {
+    "type": "flexo",
+    "endpoint": "https://flexo.example",
+    "organization": "research",
+    "repository": "model",
+    "branch": "main"
+  },
+  "observation": { "mode": "poll", "interval_seconds": 45 },
+  "feed": {
+    "type": "json-feed",
+    "path": "../../.local/configured-validation/output/activity.json"
+  },
+  "actions": [
+    {
+      "id": "named-part-check",
+      "on": ["branch-change"],
+      "task": {
+        "type": "shacl-validation",
+        "rule": "../named-part-v1/rule.ttl",
+        "rule_version": "named-part-v1"
+      },
+      "target": {
+        "type": "github",
+        "owner": "YOUR-OWNER",
+        "repository": "YOUR-PRIVATE-ADAPTER-REPOSITORY",
+        "workflow": "flexo-validate.yml",
+        "ref": "main",
+        "token_env": "GITHUB_TOKEN"
+      },
+      "allow_lock_creation": false
+    }
+  ]
+}

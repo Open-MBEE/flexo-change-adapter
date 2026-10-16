@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "id": "ci-trigger-demo",
+  "state_directory": "../../.local/configured-ci",
+  "source": {
+    "type": "flexo",
+    "endpoint": "https://flexo.example",
+    "organization": "research",
+    "repository": "ledger",
+    "branch": "main"
+  },
+  "observation": {
+    "mode": "poll",
+    "interval_seconds": 30
+  },
+  "feed": {
+    "type": "json-feed",
+    "path": "../../.local/configured-ci/output/activity.json"
+  },
+  "actions": [
+    {
+      "id": "pipeline",
+      "on": [
+        "branch-change"
+      ],
+      "task": {
+        "type": "ci-trigger"
+      },
+      "target": {
+        "type": "gitlab",
+        "endpoint": "https://gitlab.example",
+        "project": "research/model",
+        "ref": "main",
+        "trigger_token_env": "GITLAB_TRIGGER_TOKEN",
+        "read_token_env": "GITLAB_READ_TOKEN"
+      }
+    },
+    {
+      "id": "build",
+      "on": [
+        "branch-change"
+      ],
+      "task": {
+        "type": "ci-trigger"
+      },
+      "target": {
+        "type": "jenkins",
+        "endpoint": "https://jenkins.example",
+        "job": "research/revision-check",
+        "username_env": "JENKINS_USERNAME",
+        "token_env": "JENKINS_TOKEN"
+      }
+    }
+  ]
+}
