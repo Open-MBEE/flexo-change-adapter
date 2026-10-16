@@ -1,0 +1,1095 @@
+{
+  "date": "2026-10-16",
+  "scope": "Manual local CLI probes; no durable adapter execution integration",
+  "container_image": "sha256:b985332b863e25bcb7a0d19b245d9e23f602d1fab49213f85e41111d36e5134d",
+  "isolation": {
+    "network": "none",
+    "read_only": true,
+    "user": "1000:1000",
+    "memory": "2g",
+    "cpus": 2,
+    "pids": 128,
+    "timeout_seconds": 60
+  },
+  "archives": {
+    "sysml-linux-amd64.tar.gz": "922838f24c1857709bd8b563bb1f4290a81b7f5c7cae1ada22d1134cd8f61fc5",
+    "sysmlv2-0.10.2-x86_64-unknown-linux-musl.tar.gz": "9fb70d287b8c1c604f226f66d16995d06b7f34b1f6a8a0658512ac7ca9f93501"
+  },
+  "versions": {
+    "opensysml": "sysml v0.10.1\n  Commit:     1c45b6e1749fc8adc9b82d4af22fbe180b56a0e2\n  Build time: 2026-10-16_02:34:21\n  Go version: go1.25.14\n",
+    "toolkit": "sysmlv2 0.10.2\n"
+  },
+  "libraries": {
+    "opensysml": "Embedded library bound to verified executable digest; separate content version not captured",
+    "toolkit": {
+      "source_commit": "de1070ae8e79c21532b8004fc663d47b35d0e9fa",
+      "manifest_sha256": "309176536bd692a2f111f8d1ac1e02f919b05130fd5ee05e6204b39dd6401e71",
+      "files": {
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/.gitignore": "b7b5a9a5bdb3a876455f7320f221592c77a378fac89c0283dc6ebe19b124bf43",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/.project": "947654e204befed70b48fe93578b9ef87ff945808e4f75e7ecb5174181a10297",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/.settings/org.eclipse.jdt.core.prefs": "18ca6723cc7b2bf4a1a9dcfb85c5d9a6e3e5639f274f0cc78288d6cc68ef64f6",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Domain Libraries/Analysis/.meta.json": "7cf89681457c01cde0a60b7edafde3d81c6cfec46200959cbb9b1c9a0d7a204d",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Domain Libraries/Analysis/.project.json": "667970d6d25e443516328dbbb6b8149a350f5787684ab2c8cdeeb8e461a90132",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Domain Libraries/Analysis/AnalysisTooling.sysml": "6f71246f2a3f71ebd88df71736d7dca89af0eac8a3e7db5ea7e7a1970a7f7fd6",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Domain Libraries/Analysis/SampledFunctions.sysml": "66f11d0475d46e5350dfaf0ecb3ee44018b1d5d279cba03aa04dd6a6a0a39e23",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Domain Libraries/Analysis/StateSpaceRepresentation.sysml": "389a50e3eaa384d4f8d823335dd8acdacbdd139c8053b34829bc559984629005",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Domain Libraries/Analysis/TradeStudies.sysml": "411d0b517d29218084683305770b360ac72fa068adefd9e67f2a4f0a52abcfdc",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Domain Libraries/Cause and Effect/.meta.json": "e5c4ba680275d34a8c6a4c735a06acbfeae2f00c5dcd1101d695336e09d8e150",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Domain Libraries/Cause and Effect/.project.json": "539b899eea294d71f53d09b7b80086528123505a68ff46c8c3a86435de1f1015",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Domain Libraries/Cause and Effect/CausationConnections.sysml": "ad96c5282470e30d859582560225a75091b7c8058c0b949608e9dd07c130b661",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Domain Libraries/Cause and Effect/CauseAndEffect.sysml": "a2d39ed3e61477fde0273473a2c46d8eeb93ed81fcfdaeac5d48b9f942ac5403",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Domain Libraries/Geometry/.meta.json": "aad547e418bd59b059ff896ac76440a9bf0459f79552f1707fd99db972921df5",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Domain Libraries/Geometry/.project.json": "2df5c4421e8aceca4bff3a9e8e40e44b34d57077174fd2be27f33e2f5bea03ac",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Domain Libraries/Geometry/ShapeItems.sysml": "c9f2a10226e8d1a1280aee1ddb2d3e3ec5fe3a9c236c628a4330ee51e36f16a0",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Domain Libraries/Geometry/SpatialItems.sysml": "21f4b44f64212e7c4e5802b7d4deeaec26390fc7e4133be0793eee4f4d1c11aa",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Domain Libraries/Metadata/.meta.json": "1d443989231d01e5f6c7b1cf0ca26376cd9886a877ff6149e3253f59d5633519",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Domain Libraries/Metadata/.project.json": "517001d77d95ea4db3764b622c24d19ae5875e1b822a0aaeadb51d951918d0e2",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Domain Libraries/Metadata/ImageMetadata.sysml": "b7fa6baf2ee3e3c0708c2b5901abd0d51deeba8e61652909cac57069b4e06731",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Domain Libraries/Metadata/ModelingMetadata.sysml": "bb6c664cfe65dc298827c6cca8fc21941965db3a40a0412ba211cf6ff1cc254d",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Domain Libraries/Metadata/ParametersOfInterestMetadata.sysml": "f5c6da3be824a82a34482f00a3e43976787c03ea1d30cbda84b1be838c557876",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Domain Libraries/Metadata/RiskMetadata.sysml": "ee4f0734fa5995f435ca9c6144f48e3b7a10d422372a71c4396bba2401c14a6e",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Domain Libraries/Quantities and Units/.meta.json": "639a6370625b683201e631d5a1c2afb673f33ba46580f96b4660d0f18abafd0c",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Domain Libraries/Quantities and Units/.project.json": "dbafdb736019081c7b942bec7f6406ad56f91df033e3659b6d4f336fcf16594f",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Domain Libraries/Quantities and Units/ISQ.sysml": "1114a2f3556e757676768d05de2fbf8b1804fde5892d68c976e111db81117fda",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Domain Libraries/Quantities and Units/ISQAcoustics.sysml": "91ff456731559717295f3ad27e93a9b88787a264f1fa895fd4efec9632182557",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Domain Libraries/Quantities and Units/ISQAtomicNuclear.sysml": "ffd8c8667874fd31e36102eeb239923ab08463316a7b228376da282b9ca3c5be",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Domain Libraries/Quantities and Units/ISQBase.sysml": "cc5dc730d2a7167e914431a6f12d0318f792a5c6e2a204a37df9ab33f5e98435",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Domain Libraries/Quantities and Units/ISQCharacteristicNumbers.sysml": "c35c40236af5dacc75f5a0882da4244d4bb8551ebe0c8df4218c9e302e75d64d",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Domain Libraries/Quantities and Units/ISQChemistryMolecular.sysml": "a6727de0079ffc45ccd020ba44e7202a9e59c4d148a9df8193037fee6da7711a",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Domain Libraries/Quantities and Units/ISQCondensedMatter.sysml": "a0896bd6adf713243bd0009b3f09ea451a3e31cb772622b05f89a5404c229984",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Domain Libraries/Quantities and Units/ISQElectromagnetism.sysml": "3517d4c9a31dc4e0fb4a6900d7a2c03d4dec3fba410fa04085bfb995adb2fae7",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Domain Libraries/Quantities and Units/ISQInformation.sysml": "7b9e1e1b55e9b46556f822451515a6918d24cf61b018b01757cdad18c6856604",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Domain Libraries/Quantities and Units/ISQLight.sysml": "a768a75b90bcae08d35662465331e96a7c785f4bf1df107663a2a6865604d643",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Domain Libraries/Quantities and Units/ISQMechanics.sysml": "eb60fe410815a67f24cddcef0e5562479fa1faea8347e7a7199478a6fc559c5b",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Domain Libraries/Quantities and Units/ISQSpaceTime.sysml": "47946e32f30110661ab586de2f851841d1fad0b35381e510c1eaabba039ecc39",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Domain Libraries/Quantities and Units/ISQThermodynamics.sysml": "37ff9990c0b9485dd0e0c901be3bb979a62d22b4598b7b9007e746f4b24c8c3b",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Domain Libraries/Quantities and Units/MeasurementRefCalculations.sysml": "51e15d389f3836df3782f87d6450a1d6a8ac08dfd9a2cfddef338ae56dd688dc",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Domain Libraries/Quantities and Units/MeasurementReferences.sysml": "32d25b13e96487f771b293ab8e9ca82a39ccd8da6553d944900ba3b500323bb8",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Domain Libraries/Quantities and Units/Quantities.sysml": "6e59653fe439e721f707e00bc25f3843b4973180194eaf5d826b7e283600cd45",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Domain Libraries/Quantities and Units/QuantityCalculations.sysml": "64e533c978cb73b29f0315e513af49f7ae488c1aa3c712cbf9443d9e07d009b4",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Domain Libraries/Quantities and Units/SI.sysml": "8fa533350656ac42f9ce3e9a4068ec1251d54e074af08109cdafc47ac0b24288",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Domain Libraries/Quantities and Units/SIPrefixes.sysml": "90e604fcda40f8ec920114a457097cb2fed6d898d422c80277b4c8e9c3e70638",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Domain Libraries/Quantities and Units/TensorCalculations.sysml": "bd58a683584fa725256d4687c9f6eb52c09fa17ea65e30d84c1313de1777b80c",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Domain Libraries/Quantities and Units/Time.sysml": "1eb02033463c740d35705d03a2dd7d64686d88c110ed7a30ef01e02bdb2dca47",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Domain Libraries/Quantities and Units/USCustomaryUnits.sysml": "aa5adac4685322aca75a9a144fbe5dc10f34ca4324e07393eb8ebfd324b34597",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Domain Libraries/Quantities and Units/VectorCalculations.sysml": "1cf01f4cbcb0d26b443cd9efd9276224f35b8e18d18f3741dbbace8cd1f257be",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Domain Libraries/Requirement Derivation/.meta.json": "2781c1e4a3d7de5e054fb68f2d3d8aa34a5174e546e224780f501133f9d28a17",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Domain Libraries/Requirement Derivation/.project.json": "0d0835d18cc922880309b9ef0300fbbe0c2c467fb737a51bd82dad9e9807c4ab",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Domain Libraries/Requirement Derivation/DerivationConnections.sysml": "40e8b13458c120bfa4f9a4059bfc4982ef959815e8580a6ac7f113bed36f55fc",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Domain Libraries/Requirement Derivation/RequirementDerivation.sysml": "ee5bed2b7ad17e5c7505e6761d164e14de3d041d97e4bffc005853a130e09a20",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Kernel Libraries/Kernel Data Type Library/.meta.json": "d28e9b532637d9a0cfd25d7a8e1b1348fd9d4a7a7d7e515ea01af9c11db22c03",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Kernel Libraries/Kernel Data Type Library/.project.json": "2a6b7629c4cfb0a2dcd6414972642ce10f77e22a27bae406f8cef48fbe0694e4",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Kernel Libraries/Kernel Data Type Library/Collections.kerml": "6caea283ebdb11d0a960615276358abcdc99aaa12c2aa05b42a740e8a73688b1",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Kernel Libraries/Kernel Data Type Library/ScalarValues.kerml": "4db25ce00dd170fd67261f6e7e21a2616bda15d233579dc5fb3193aaf61fa5a5",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Kernel Libraries/Kernel Data Type Library/VectorValues.kerml": "7b22f8867e1cf46ac6a8226175db4405f6c29f047b3d6ad54a044fef3ce683dc",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Kernel Libraries/Kernel Function Library/.meta.json": "21428566a6b9ad7434aa034f6afaa9d0f08432cea827a4b5fa1d4634f212760b",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Kernel Libraries/Kernel Function Library/.project.json": "33af299ddb70bb325fabb8f653c3ad6b802950698ed9128369603ca580a7af81",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Kernel Libraries/Kernel Function Library/BaseFunctions.kerml": "c7700f36c786ff25796eb37d321a7a85f5f67b785e08a548c1cf4cd207c8b27f",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Kernel Libraries/Kernel Function Library/BooleanFunctions.kerml": "f836553db8e0ab1fb782043090198bdcd33ab6f168773e099fa2e192646ecc46",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Kernel Libraries/Kernel Function Library/CollectionFunctions.kerml": "c33e76c32d8370fefef123692a93d621f09a4cb944f08dd3543461f1f73c1505",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Kernel Libraries/Kernel Function Library/ComplexFunctions.kerml": "cdb8ab38b5937f3716d66e2c71d6811d2ae7df08c1704f4dce7a815be1c01563",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Kernel Libraries/Kernel Function Library/ControlFunctions.kerml": "bd95a74d3ab9f44cfb1445cbaee8c509d78018feaa1eb408f5d91a6ac969c1b1",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Kernel Libraries/Kernel Function Library/DataFunctions.kerml": "896b81cd660948084efd0ee9ebc9125a1588b1e2d360bdebb03430d0317b7b5b",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Kernel Libraries/Kernel Function Library/IntegerFunctions.kerml": "3da7c23ee95290d768dae67e75287122d5512d054c0f9ca57b78a8aab81ee309",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Kernel Libraries/Kernel Function Library/NaturalFunctions.kerml": "f83daf1bbcf124fb9c535273c3c536d08424031991013f2f6c563706afde92ae",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Kernel Libraries/Kernel Function Library/NumericalFunctions.kerml": "ac1f12fc2880a2017a2d4caa6e8f839e0b6bc72b92b154a3db13b14fdd0caa93",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Kernel Libraries/Kernel Function Library/OccurrenceFunctions.kerml": "4bba1f6ffd309568f12da186a3b10bcf43473be558d91d89cb38f9e1037cd12f",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Kernel Libraries/Kernel Function Library/RationalFunctions.kerml": "a7ef0870a5282f5dc489ab85ef424b66cd8909f5f52b2efe5f14ed1765afc768",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Kernel Libraries/Kernel Function Library/RealFunctions.kerml": "4b469aafc18d801ae733734066d3e43aa767c44a89e912cf60772933ab568a76",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Kernel Libraries/Kernel Function Library/ScalarFunctions.kerml": "3a6baf3962079a395304f0a811f3b58da09f18f91aaf76ceef5f81ebeae7a258",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Kernel Libraries/Kernel Function Library/SequenceFunctions.kerml": "927237bb8156b6e8c9a6c3444999d7da98b58af00d7d2a63c487c9260165265e",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Kernel Libraries/Kernel Function Library/StringFunctions.kerml": "b3bbcad2251f9152f4b730754ad172e9a4e52d61fbdb9bdf55b968d92fcaa831",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Kernel Libraries/Kernel Function Library/TrigFunctions.kerml": "04af7eb3aa5be68c60bab85097b870b3a2540e646079c642d44b6a47150b0ce1",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Kernel Libraries/Kernel Function Library/VectorFunctions.kerml": "2e9fdcd13a0cdf5db5bcc2326975430ac75432dccd45893740464d9a01487661",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Kernel Libraries/Kernel Semantic Library/.meta.json": "4be153ed02bfbf36ff60f009e6eda007448340060c59e5d674f80a08ab60d591",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Kernel Libraries/Kernel Semantic Library/.project.json": "1413f30c4aac6c6209428ef741fbd8763f488ac5d1270a5754138b40e234e292",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Kernel Libraries/Kernel Semantic Library/Base.kerml": "56df84cda67f62c63d4e79e2786fc26046cfa361a958c4fcf0843d32a5707e09",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Kernel Libraries/Kernel Semantic Library/Clocks.kerml": "960ac0884935e308beea55c78ed11b6946c37a386eb7958ef2c913aa275ae4c7",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Kernel Libraries/Kernel Semantic Library/ControlPerformances.kerml": "31385be7dca94bd0538f011d5c8f7925626d54f96970769f0fdb28b2186a9a03",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Kernel Libraries/Kernel Semantic Library/FeatureReferencingPerformances.kerml": "b6f9e5349c7c7f393591c0334c3bec86f1766b3e37209819179310c2f8fe1fb7",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Kernel Libraries/Kernel Semantic Library/KerML.kerml": "8fdf4b7416e981c895cd74b75dc14b18091d13cbcaff7cdded6f9c23e2483d58",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Kernel Libraries/Kernel Semantic Library/Links.kerml": "dcf3c002717cb91f8e16f1890fdf5526f4e178ada898a189621c7d0c24b5ddc0",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Kernel Libraries/Kernel Semantic Library/Metaobjects.kerml": "983dbd85a4b183d8859326ee512fc59d991fb98a115e009e72fad21d1f9d1685",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Kernel Libraries/Kernel Semantic Library/Objects.kerml": "9057e2781fe8793d5108973c0647318caa26310be6231c6380152a4cbc894c25",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Kernel Libraries/Kernel Semantic Library/Observation.kerml": "6bc57a73c43af6f61201b6eb659024a9f08f974643eb5a101e068e3637761ee4",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Kernel Libraries/Kernel Semantic Library/Occurrences.kerml": "b3a62ce0bc3a4f7e667102b4c2f68a4928ca8efeda425c6a4c8bdeadfbc9bbc1",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Kernel Libraries/Kernel Semantic Library/Performances.kerml": "fd965e184b300737a192530de0c800cdbee236cb6220612f370400da21dfb327",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Kernel Libraries/Kernel Semantic Library/SpatialFrames.kerml": "2a7790ebc2afacbd64eb781567906921e38eff385c917be03b090b8289353de7",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Kernel Libraries/Kernel Semantic Library/StatePerformances.kerml": "f02fb7e8de58f4304c95c575ee1bcb7d271d621ce8e336ce36ea80a4e956c3da",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Kernel Libraries/Kernel Semantic Library/Transfers.kerml": "6697453f40187076ebda9ee475f7f974321eb8b48b93622879fe6560fa14dcf5",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Kernel Libraries/Kernel Semantic Library/TransitionPerformances.kerml": "1ce78437c817c8359a2cad43e8e72b23dd32b81d2a69dc1126c803fae72aae70",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Kernel Libraries/Kernel Semantic Library/Triggers.kerml": "124cad3625935e078d1363e6100ee12537ca9c51445a18108e056db8b4885609",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Systems Library/.meta.json": "c2b777400a8754c2e28712b2219ed426186b28ae689ce79b97203129817242fb",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Systems Library/.project.json": "477f83bec24f4e741bf75571ddba3fd2783f22903b423451d2d824c3e0acebab",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Systems Library/Actions.sysml": "afb17b47ea1228bef41ef791ba4ff4253c48a44589e7fd4978b1d7793ea4ff77",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Systems Library/Allocations.sysml": "0ad900a4c25d88eb96da3d57e365f6c38cd87019bcaac5ab91eee9523b5f0ed1",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Systems Library/AnalysisCases.sysml": "2bb88f61178f2cefd5441600d2d980ed1e1a4ffc5cb7b3ca9207edee5c350f87",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Systems Library/Attributes.sysml": "0ff9b0acc3f0a7bd68fefe6b110e9136f1911d0c483741804c3b8ca07f5f538d",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Systems Library/Calculations.sysml": "19f5c2ac553c0a034550292de6bfa601e6948fc81d5af781b59c940eee2e5f72",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Systems Library/Cases.sysml": "2c4c0cbaaa466f9f720ba69af3a019517ca0a7741a561f7880006bae946bf24f",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Systems Library/Connections.sysml": "7303b68d46ee3115e26efbd22d209640cd0f81a71b4c0f0f46f011011153b1c6",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Systems Library/Constraints.sysml": "84dd65984abd0c35c37b75ef5766bfa63c836aa75a1c75a9d3eb5f4230fa8fdd",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Systems Library/Flows.sysml": "191a741036cdffddef310d8abbf10cf622724ca837d3e33953df95664890de41",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Systems Library/Interfaces.sysml": "62b5c3c2bc3960e8d25633231c3933a81e422b3a904dc9541b8787113d076c66",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Systems Library/Items.sysml": "5a3b2c2d2eb3104186a5e200c40647d1d798685a62db0301ce4ca361651015b7",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Systems Library/Metadata.sysml": "c86a68a1b7f8f33f287d812780d2446021aeefb3284f28b9c10dfe2b1a13ded6",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Systems Library/Parts.sysml": "a22b926a7bbdcda20149200a61fd41c9f1e3924c8929ef7d68db529fb8e7bf51",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Systems Library/Ports.sysml": "febd6617c3bb9d0f93c77722b98874d89b4973f7b93ee88509097b2e80bc6995",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Systems Library/Requirements.sysml": "c436a8fe2959b380ee3d8ae7c1c206311aa9c1215d13800b215f9952e1216632",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Systems Library/StandardViewDefinitions.sysml": "b29882b0240e3cc2721b66c6bc9fd1d2d2431a34e80e170cd465911ff8d833a5",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Systems Library/States.sysml": "1a84e28d41a8d76ff1cbce81312257dac97b47bcd545c31f8a34f73098ac13bc",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Systems Library/SysML.sysml": "9712ed6aec59e2ff31c915c58ec8d42158c415c9309e96532626f6ee5f8f159c",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Systems Library/UseCases.sysml": "242e51944c32032215d76a9ff1fd967d8ba36efffd9d78da1c423a5b102a2cf6",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Systems Library/VerificationCases.sysml": "dbee7255e16df9c5cf0bded96c43cb60b1e5026b6973c5fb1176316902ac47b9",
+        "SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library/Systems Library/Views.sysml": "0bcf10afd49dd09c8c64844da97fc4c01a4a35fefd4e4a179a8bc0a8a261c8a8"
+      }
+    }
+  },
+  "revision_bindings": [
+    {
+      "phase": "initial",
+      "commit_uri": "https://localhost:18444/orgs/engine-demo/repos/text-fixture/commits/739685fc-034c-4474-8ed4-d4a12d477e86",
+      "lock_uri": "https://localhost:18444/orgs/engine-demo/repos/text-fixture/locks/source-739685fc-034c-4474-8ed4-d4a12d477e86",
+      "manifest_uri": "https://localhost:18444/orgs/engine-demo/repos/text-fixture/artifacts/334b228d-428a-460c-befa-850bcc2f871f",
+      "manifest_sha256": "4910a347f9882481336b229a96d7ae460cec4b0745297fab223e1892c611492e",
+      "file_count": 2,
+      "files": [
+        {
+          "path": "models/main.sysml",
+          "role": "model",
+          "size": 163,
+          "sha256": "56407d2d0e9f971ae038f3fcd9ff96ef10c9cb46b3eccaf36e72085e56b73f12",
+          "artifact": "https://localhost:18444/orgs/engine-demo/repos/text-fixture/artifacts/85a748c7-dbd3-4847-827d-95e0354a8573"
+        },
+        {
+          "path": "models/types.sysml",
+          "role": "model",
+          "size": 149,
+          "sha256": "7b73ab4511a5fb09760eeafe23b323780454f1d43ee680298524518f8bbe54f1",
+          "artifact": "https://localhost:18444/orgs/engine-demo/repos/text-fixture/artifacts/de7032bf-dd72-4b49-be10-d7eba45baa7a"
+        }
+      ]
+    },
+    {
+      "phase": "changed",
+      "commit_uri": "https://localhost:18444/orgs/engine-demo/repos/text-fixture/commits/96025951-edff-42ec-a2c6-009fa36ed1ed",
+      "lock_uri": "https://localhost:18444/orgs/engine-demo/repos/text-fixture/locks/source-96025951-edff-42ec-a2c6-009fa36ed1ed",
+      "manifest_uri": "https://localhost:18444/orgs/engine-demo/repos/text-fixture/artifacts/34562f5c-41a0-4d9e-b92c-226d06442fd8",
+      "manifest_sha256": "ab4f71e93587c8e8c32286bf263b8787db4bb79a20db5311fc7e4f915cdc6578",
+      "file_count": 2,
+      "files": [
+        {
+          "path": "models/main.sysml",
+          "role": "model",
+          "size": 163,
+          "sha256": "84561e5a8bf71fd2d3ed508e52e7ad8bd6645c8b5a79fe88e565092393ea8ef3",
+          "artifact": "https://localhost:18444/orgs/engine-demo/repos/text-fixture/artifacts/bf23868a-b36f-430e-87ee-d5c877c4f85c"
+        },
+        {
+          "path": "models/types.sysml",
+          "role": "model",
+          "size": 149,
+          "sha256": "7b73ab4511a5fb09760eeafe23b323780454f1d43ee680298524518f8bbe54f1",
+          "artifact": "https://localhost:18444/orgs/engine-demo/repos/text-fixture/artifacts/a8143512-2b0b-43fe-aed1-852d1af2aa02"
+        }
+      ]
+    }
+  ],
+  "inputs": {
+    "initial": {
+      "main.sysml": "package DemoModel {\n    private import DemoTypes::*;\n    part vehicle : Vehicle {\n        attribute :>> mass = 350.0;\n        attribute :>> limit = 500.0;\n    }\n}\n",
+      "types.sysml": "package DemoTypes {\n    public import ScalarValues::*;\n    part def Vehicle {\n        attribute mass : Real;\n        attribute limit : Real;\n    }\n}\n"
+    },
+    "changed": {
+      "main.sysml": "package DemoModel {\n    private import DemoTypes::*;\n    part vehicle : Vehicle {\n        attribute :>> mass = 550.0;\n        attribute :>> limit = 500.0;\n    }\n}\n",
+      "types.sysml": "package DemoTypes {\n    public import ScalarValues::*;\n    part def Vehicle {\n        attribute mass : Real;\n        attribute limit : Real;\n    }\n}\n"
+    },
+    "syntax-error": {
+      "main.sysml": "package Broken { part def { }\n",
+      "types.sysml": "package DemoTypes {\n    public import ScalarValues::*;\n    part def Vehicle {\n        attribute mass : Real;\n        attribute limit : Real;\n    }\n}\n"
+    },
+    "unresolved-reference": {
+      "main.sysml": "package DemoModel {\n    private import DemoTypes::*;\n    part vehicle : MissingVehicle {\n        attribute :>> mass = 350.0;\n        attribute :>> limit = 500.0;\n    }\n}\n",
+      "types.sysml": "package DemoTypes {\n    public import ScalarValues::*;\n    part def Vehicle {\n        attribute mass : Real;\n        attribute limit : Real;\n    }\n}\n"
+    },
+    "missing-project-file": {
+      "main.sysml": "package DemoModel {\n    private import DemoTypes::*;\n    part vehicle : Vehicle {\n        attribute :>> mass = 350.0;\n        attribute :>> limit = 500.0;\n    }\n}\n"
+    }
+  },
+  "results": [
+    {
+      "engine": "opensysml",
+      "case": "initial",
+      "environment": {
+        "HOME": "/tmp",
+        "OPENSYSML_RECORD_CACHE": "0"
+      },
+      "binary_sha256": "c3cc160b16f3e035033617017209f3c740c6881dac2bc0af78240d4306d83a50",
+      "input_files": {
+        "main.sysml": "56407d2d0e9f971ae038f3fcd9ff96ef10c9cb46b3eccaf36e72085e56b73f12",
+        "types.sysml": "7b73ab4511a5fb09760eeafe23b323780454f1d43ee680298524518f8bbe54f1"
+      },
+      "exit": 0,
+      "timeout": false,
+      "duration_seconds": 0.272,
+      "stdout_sha256": "f7773156fbbf87bcb7d4950a1264a0ed550c31636883dc91f37c91b71e0adf47",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "command": [
+        "/engines/opensysml/sysml-linux-amd64",
+        "sha256:b985332b863e25bcb7a0d19b245d9e23f602d1fab49213f85e41111d36e5134d",
+        "-validate",
+        "-strict",
+        "-json",
+        "-no-record-cache",
+        "-jobs",
+        "1",
+        "/models/types.sysml",
+        "/models/main.sysml"
+      ],
+      "report": {
+        "status": "holds",
+        "exit": 0,
+        "checks": null,
+        "diagnostics": null,
+        "output": [
+          "\u2713 package DemoTypes",
+          "\u2713 package DemoModel",
+          "\u2713 /models/types.sysml, /models/main.sysml: no errors"
+        ],
+        "errors": null
+      },
+      "stdout": "{\n  \"status\": \"holds\",\n  \"exit\": 0,\n  \"checks\": null,\n  \"diagnostics\": null,\n  \"output\": [\n    \"\u2713 package DemoTypes\",\n    \"\u2713 package DemoModel\",\n    \"\u2713 /models/types.sysml, /models/main.sysml: no errors\"\n  ],\n  \"errors\": null\n}\n",
+      "stderr": ""
+    },
+    {
+      "engine": "opensysml",
+      "case": "changed",
+      "environment": {
+        "HOME": "/tmp",
+        "OPENSYSML_RECORD_CACHE": "0"
+      },
+      "binary_sha256": "c3cc160b16f3e035033617017209f3c740c6881dac2bc0af78240d4306d83a50",
+      "input_files": {
+        "main.sysml": "84561e5a8bf71fd2d3ed508e52e7ad8bd6645c8b5a79fe88e565092393ea8ef3",
+        "types.sysml": "7b73ab4511a5fb09760eeafe23b323780454f1d43ee680298524518f8bbe54f1"
+      },
+      "exit": 0,
+      "timeout": false,
+      "duration_seconds": 0.282,
+      "stdout_sha256": "f7773156fbbf87bcb7d4950a1264a0ed550c31636883dc91f37c91b71e0adf47",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "command": [
+        "/engines/opensysml/sysml-linux-amd64",
+        "sha256:b985332b863e25bcb7a0d19b245d9e23f602d1fab49213f85e41111d36e5134d",
+        "-validate",
+        "-strict",
+        "-json",
+        "-no-record-cache",
+        "-jobs",
+        "1",
+        "/models/types.sysml",
+        "/models/main.sysml"
+      ],
+      "report": {
+        "status": "holds",
+        "exit": 0,
+        "checks": null,
+        "diagnostics": null,
+        "output": [
+          "\u2713 package DemoTypes",
+          "\u2713 package DemoModel",
+          "\u2713 /models/types.sysml, /models/main.sysml: no errors"
+        ],
+        "errors": null
+      },
+      "stdout": "{\n  \"status\": \"holds\",\n  \"exit\": 0,\n  \"checks\": null,\n  \"diagnostics\": null,\n  \"output\": [\n    \"\u2713 package DemoTypes\",\n    \"\u2713 package DemoModel\",\n    \"\u2713 /models/types.sysml, /models/main.sysml: no errors\"\n  ],\n  \"errors\": null\n}\n",
+      "stderr": ""
+    },
+    {
+      "engine": "opensysml",
+      "case": "syntax-error",
+      "environment": {
+        "HOME": "/tmp",
+        "OPENSYSML_RECORD_CACHE": "0"
+      },
+      "binary_sha256": "c3cc160b16f3e035033617017209f3c740c6881dac2bc0af78240d4306d83a50",
+      "input_files": {
+        "main.sysml": "c556f1dea570a0f5b47ba602210e776da91e6535e046052d5e27ed349e4351c9",
+        "types.sysml": "7b73ab4511a5fb09760eeafe23b323780454f1d43ee680298524518f8bbe54f1"
+      },
+      "exit": 2,
+      "timeout": false,
+      "duration_seconds": 0.26,
+      "stdout_sha256": "a35874eb614f73a70929c9f5afc46000054a91edd4321108d667d75f2dacd730",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "command": [
+        "/engines/opensysml/sysml-linux-amd64",
+        "sha256:b985332b863e25bcb7a0d19b245d9e23f602d1fab49213f85e41111d36e5134d",
+        "-validate",
+        "-strict",
+        "-json",
+        "-no-record-cache",
+        "-jobs",
+        "1",
+        "/models/types.sysml",
+        "/models/main.sysml"
+      ],
+      "report": {
+        "status": "unresolved",
+        "exit": 2,
+        "checks": null,
+        "diagnostics": [
+          {
+            "severity": "error",
+            "message": "expected '}'",
+            "file": "/models/main.sysml",
+            "line": 2,
+            "column": 1,
+            "pass": "syntax",
+            "code": "syntax"
+          }
+        ],
+        "output": ["/models/main.sysml:2:1: error: expected '}'", "", "^"],
+        "errors": [
+          "/models/types.sysml, /models/main.sysml did not analyse cleanly; no check was made"
+        ]
+      },
+      "stdout": "{\n  \"status\": \"unresolved\",\n  \"exit\": 2,\n  \"checks\": null,\n  \"diagnostics\": [\n    {\n      \"severity\": \"error\",\n      \"message\": \"expected '}'\",\n      \"file\": \"/models/main.sysml\",\n      \"line\": 2,\n      \"column\": 1,\n      \"pass\": \"syntax\",\n      \"code\": \"syntax\"\n    }\n  ],\n  \"output\": [\n    \"/models/main.sysml:2:1: error: expected '}'\",\n    \"\",\n    \"^\"\n  ],\n  \"errors\": [\n    \"/models/types.sysml, /models/main.sysml did not analyse cleanly; no check was made\"\n  ]\n}\n",
+      "stderr": ""
+    },
+    {
+      "engine": "opensysml",
+      "case": "unresolved-reference",
+      "environment": {
+        "HOME": "/tmp",
+        "OPENSYSML_RECORD_CACHE": "0"
+      },
+      "binary_sha256": "c3cc160b16f3e035033617017209f3c740c6881dac2bc0af78240d4306d83a50",
+      "input_files": {
+        "main.sysml": "d07e257145bb7d44ac218ab79fbd9541ac7512cd91623f497220221ffbad83f1",
+        "types.sysml": "7b73ab4511a5fb09760eeafe23b323780454f1d43ee680298524518f8bbe54f1"
+      },
+      "exit": 2,
+      "timeout": false,
+      "duration_seconds": 0.293,
+      "stdout_sha256": "f9d6b53901024f0c8fc905260c6f4addff6bcb5035d68fa7044506600df77a92",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "command": [
+        "/engines/opensysml/sysml-linux-amd64",
+        "sha256:b985332b863e25bcb7a0d19b245d9e23f602d1fab49213f85e41111d36e5134d",
+        "-validate",
+        "-strict",
+        "-json",
+        "-no-record-cache",
+        "-jobs",
+        "1",
+        "/models/types.sysml",
+        "/models/main.sysml"
+      ],
+      "report": {
+        "status": "unresolved",
+        "exit": 2,
+        "checks": null,
+        "diagnostics": [
+          {
+            "severity": "error",
+            "message": "unresolved reference: MissingVehicle",
+            "file": "/models/main.sysml",
+            "line": 3,
+            "column": 20,
+            "pass": "name-resolution",
+            "code": "unresolved"
+          },
+          {
+            "severity": "error",
+            "message": "unresolved reference: mass \u2014 did you mean DemoTypes::Vehicle::mass?",
+            "file": "/models/main.sysml",
+            "line": 4,
+            "column": 23,
+            "pass": "name-resolution",
+            "code": "unresolved"
+          },
+          {
+            "severity": "error",
+            "message": "unresolved reference: limit \u2014 did you mean DemoTypes::Vehicle::limit?",
+            "file": "/models/main.sysml",
+            "line": 5,
+            "column": 23,
+            "pass": "name-resolution",
+            "code": "unresolved"
+          }
+        ],
+        "output": [
+          "/models/main.sysml:3:20: error: unresolved reference: MissingVehicle",
+          "    part vehicle : MissingVehicle {",
+          "                   ^~~~~~~~~~~~~~",
+          "/models/main.sysml:4:23: error: unresolved reference: mass \u2014 did you mean DemoTypes::Vehicle::mass?",
+          "        attribute :>> mass = 350.0;",
+          "                      ^~~~",
+          "/models/main.sysml:5:23: error: unresolved reference: limit \u2014 did you mean DemoTypes::Vehicle::limit?",
+          "        attribute :>> limit = 500.0;",
+          "                      ^~~~~"
+        ],
+        "errors": [
+          "/models/types.sysml, /models/main.sysml did not analyse cleanly; no check was made"
+        ]
+      },
+      "stdout": "{\n  \"status\": \"unresolved\",\n  \"exit\": 2,\n  \"checks\": null,\n  \"diagnostics\": [\n    {\n      \"severity\": \"error\",\n      \"message\": \"unresolved reference: MissingVehicle\",\n      \"file\": \"/models/main.sysml\",\n      \"line\": 3,\n      \"column\": 20,\n      \"pass\": \"name-resolution\",\n      \"code\": \"unresolved\"\n    },\n    {\n      \"severity\": \"error\",\n      \"message\": \"unresolved reference: mass \u2014 did you mean DemoTypes::Vehicle::mass?\",\n      \"file\": \"/models/main.sysml\",\n      \"line\": 4,\n      \"column\": 23,\n      \"pass\": \"name-resolution\",\n      \"code\": \"unresolved\"\n    },\n    {\n      \"severity\": \"error\",\n      \"message\": \"unresolved reference: limit \u2014 did you mean DemoTypes::Vehicle::limit?\",\n      \"file\": \"/models/main.sysml\",\n      \"line\": 5,\n      \"column\": 23,\n      \"pass\": \"name-resolution\",\n      \"code\": \"unresolved\"\n    }\n  ],\n  \"output\": [\n    \"/models/main.sysml:3:20: error: unresolved reference: MissingVehicle\",\n    \"    part vehicle : MissingVehicle {\",\n    \"                   ^~~~~~~~~~~~~~\",\n    \"/models/main.sysml:4:23: error: unresolved reference: mass \u2014 did you mean DemoTypes::Vehicle::mass?\",\n    \"        attribute :\\u003e\\u003e mass = 350.0;\",\n    \"                      ^~~~\",\n    \"/models/main.sysml:5:23: error: unresolved reference: limit \u2014 did you mean DemoTypes::Vehicle::limit?\",\n    \"        attribute :\\u003e\\u003e limit = 500.0;\",\n    \"                      ^~~~~\"\n  ],\n  \"errors\": [\n    \"/models/types.sysml, /models/main.sysml did not analyse cleanly; no check was made\"\n  ]\n}\n",
+      "stderr": ""
+    },
+    {
+      "engine": "opensysml",
+      "case": "missing-project-file",
+      "environment": {
+        "HOME": "/tmp",
+        "OPENSYSML_RECORD_CACHE": "0"
+      },
+      "binary_sha256": "c3cc160b16f3e035033617017209f3c740c6881dac2bc0af78240d4306d83a50",
+      "input_files": {
+        "main.sysml": "56407d2d0e9f971ae038f3fcd9ff96ef10c9cb46b3eccaf36e72085e56b73f12"
+      },
+      "exit": 2,
+      "timeout": false,
+      "duration_seconds": 0.298,
+      "stdout_sha256": "f0a4c6b694c630840e94e1535b35a9d27fb7883a4596c3ff4ba43378cac8a3ee",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "command": [
+        "/engines/opensysml/sysml-linux-amd64",
+        "sha256:b985332b863e25bcb7a0d19b245d9e23f602d1fab49213f85e41111d36e5134d",
+        "-validate",
+        "-strict",
+        "-json",
+        "-no-record-cache",
+        "-jobs",
+        "1",
+        "/models/main.sysml"
+      ],
+      "report": {
+        "status": "unresolved",
+        "exit": 2,
+        "checks": null,
+        "diagnostics": [
+          {
+            "severity": "error",
+            "message": "unresolved reference: DemoTypes",
+            "file": "/models/main.sysml",
+            "line": 2,
+            "column": 20,
+            "pass": "name-resolution",
+            "code": "unresolved"
+          },
+          {
+            "severity": "error",
+            "message": "unresolved reference: Vehicle \u2014 did you mean vehicle?",
+            "file": "/models/main.sysml",
+            "line": 3,
+            "column": 20,
+            "pass": "name-resolution",
+            "code": "unresolved"
+          },
+          {
+            "severity": "error",
+            "message": "unresolved reference: mass \u2014 did you mean ISQBase::mass? To use the bare name, import its package: private import ISQBase::*;",
+            "file": "/models/main.sysml",
+            "line": 4,
+            "column": 23,
+            "pass": "name-resolution",
+            "code": "unresolved"
+          },
+          {
+            "severity": "error",
+            "message": "unresolved reference: limit",
+            "file": "/models/main.sysml",
+            "line": 5,
+            "column": 23,
+            "pass": "name-resolution",
+            "code": "unresolved"
+          }
+        ],
+        "output": [
+          "/models/main.sysml:2:20: error: unresolved reference: DemoTypes",
+          "    private import DemoTypes::*;",
+          "                   ^~~~~~~~~",
+          "/models/main.sysml:3:20: error: unresolved reference: Vehicle \u2014 did you mean vehicle?",
+          "    part vehicle : Vehicle {",
+          "                   ^~~~~~~",
+          "/models/main.sysml:4:23: error: unresolved reference: mass \u2014 did you mean ISQBase::mass? To use the bare name, import its package: private import ISQBase::*;",
+          "        attribute :>> mass = 350.0;",
+          "                      ^~~~",
+          "/models/main.sysml:5:23: error: unresolved reference: limit",
+          "        attribute :>> limit = 500.0;",
+          "                      ^~~~~"
+        ],
+        "errors": [
+          "/models/main.sysml did not analyse cleanly; no check was made"
+        ]
+      },
+      "stdout": "{\n  \"status\": \"unresolved\",\n  \"exit\": 2,\n  \"checks\": null,\n  \"diagnostics\": [\n    {\n      \"severity\": \"error\",\n      \"message\": \"unresolved reference: DemoTypes\",\n      \"file\": \"/models/main.sysml\",\n      \"line\": 2,\n      \"column\": 20,\n      \"pass\": \"name-resolution\",\n      \"code\": \"unresolved\"\n    },\n    {\n      \"severity\": \"error\",\n      \"message\": \"unresolved reference: Vehicle \u2014 did you mean vehicle?\",\n      \"file\": \"/models/main.sysml\",\n      \"line\": 3,\n      \"column\": 20,\n      \"pass\": \"name-resolution\",\n      \"code\": \"unresolved\"\n    },\n    {\n      \"severity\": \"error\",\n      \"message\": \"unresolved reference: mass \u2014 did you mean ISQBase::mass? To use the bare name, import its package: private import ISQBase::*;\",\n      \"file\": \"/models/main.sysml\",\n      \"line\": 4,\n      \"column\": 23,\n      \"pass\": \"name-resolution\",\n      \"code\": \"unresolved\"\n    },\n    {\n      \"severity\": \"error\",\n      \"message\": \"unresolved reference: limit\",\n      \"file\": \"/models/main.sysml\",\n      \"line\": 5,\n      \"column\": 23,\n      \"pass\": \"name-resolution\",\n      \"code\": \"unresolved\"\n    }\n  ],\n  \"output\": [\n    \"/models/main.sysml:2:20: error: unresolved reference: DemoTypes\",\n    \"    private import DemoTypes::*;\",\n    \"                   ^~~~~~~~~\",\n    \"/models/main.sysml:3:20: error: unresolved reference: Vehicle \u2014 did you mean vehicle?\",\n    \"    part vehicle : Vehicle {\",\n    \"                   ^~~~~~~\",\n    \"/models/main.sysml:4:23: error: unresolved reference: mass \u2014 did you mean ISQBase::mass? To use the bare name, import its package: private import ISQBase::*;\",\n    \"        attribute :\\u003e\\u003e mass = 350.0;\",\n    \"                      ^~~~\",\n    \"/models/main.sysml:5:23: error: unresolved reference: limit\",\n    \"        attribute :\\u003e\\u003e limit = 500.0;\",\n    \"                      ^~~~~\"\n  ],\n  \"errors\": [\n    \"/models/main.sysml did not analyse cleanly; no check was made\"\n  ]\n}\n",
+      "stderr": ""
+    },
+    {
+      "engine": "opensysml",
+      "case": "missing-library",
+      "environment": {
+        "HOME": "/tmp",
+        "OPENSYSML_RECORD_CACHE": "0",
+        "OPENSYSML_LIBRARY_PATH": "/absent-library"
+      },
+      "binary_sha256": "c3cc160b16f3e035033617017209f3c740c6881dac2bc0af78240d4306d83a50",
+      "input_files": {
+        "main.sysml": "56407d2d0e9f971ae038f3fcd9ff96ef10c9cb46b3eccaf36e72085e56b73f12",
+        "types.sysml": "7b73ab4511a5fb09760eeafe23b323780454f1d43ee680298524518f8bbe54f1"
+      },
+      "exit": 2,
+      "timeout": false,
+      "duration_seconds": 0.251,
+      "stdout_sha256": "ddbbdcc3d203fca5f64598c06bc5fdeff91dee721b98189e46650a053b3617d8",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "command": [
+        "/engines/opensysml/sysml-linux-amd64",
+        "sha256:b985332b863e25bcb7a0d19b245d9e23f602d1fab49213f85e41111d36e5134d",
+        "-validate",
+        "-strict",
+        "-json",
+        "-no-record-cache",
+        "-jobs",
+        "1",
+        "/models/types.sysml",
+        "/models/main.sysml"
+      ],
+      "report": {
+        "status": "unresolved",
+        "exit": 2,
+        "checks": null,
+        "diagnostics": [
+          {
+            "severity": "error",
+            "message": "unresolved reference: ScalarValues",
+            "file": "/models/types.sysml",
+            "line": 2,
+            "column": 19,
+            "pass": "name-resolution",
+            "code": "unresolved"
+          },
+          {
+            "severity": "error",
+            "message": "unresolved reference: Real",
+            "file": "/models/types.sysml",
+            "line": 4,
+            "column": 26,
+            "pass": "name-resolution",
+            "code": "unresolved"
+          },
+          {
+            "severity": "error",
+            "message": "unresolved reference: Real",
+            "file": "/models/types.sysml",
+            "line": 5,
+            "column": 27,
+            "pass": "name-resolution",
+            "code": "unresolved"
+          },
+          {
+            "severity": "error",
+            "message": "Features must have at least one type",
+            "file": "/models/main.sysml",
+            "line": 4,
+            "column": 9,
+            "pass": "constraint",
+            "code": "feature-has-type"
+          },
+          {
+            "severity": "error",
+            "message": "Features must have at least one type",
+            "file": "/models/main.sysml",
+            "line": 5,
+            "column": 9,
+            "pass": "constraint",
+            "code": "feature-has-type"
+          }
+        ],
+        "output": [
+          "/models/types.sysml:2:19: error: unresolved reference: ScalarValues",
+          "    public import ScalarValues::*;",
+          "                  ^~~~~~~~~~~~",
+          "/models/types.sysml:4:26: error: unresolved reference: Real",
+          "        attribute mass : Real;",
+          "                         ^~~~",
+          "/models/types.sysml:5:27: error: unresolved reference: Real",
+          "        attribute limit : Real;",
+          "                          ^~~~",
+          "/models/main.sysml:4:9: error: Features must have at least one type",
+          "        attribute :>> mass = 350.0;",
+          "        ^~~~~~~~~~~~~~~~~~~~~~~~~~~",
+          "/models/main.sysml:5:9: error: Features must have at least one type",
+          "        attribute :>> limit = 500.0;",
+          "        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+        ],
+        "errors": [
+          "/models/types.sysml, /models/main.sysml did not analyse cleanly; no check was made"
+        ]
+      },
+      "stdout": "{\n  \"status\": \"unresolved\",\n  \"exit\": 2,\n  \"checks\": null,\n  \"diagnostics\": [\n    {\n      \"severity\": \"error\",\n      \"message\": \"unresolved reference: ScalarValues\",\n      \"file\": \"/models/types.sysml\",\n      \"line\": 2,\n      \"column\": 19,\n      \"pass\": \"name-resolution\",\n      \"code\": \"unresolved\"\n    },\n    {\n      \"severity\": \"error\",\n      \"message\": \"unresolved reference: Real\",\n      \"file\": \"/models/types.sysml\",\n      \"line\": 4,\n      \"column\": 26,\n      \"pass\": \"name-resolution\",\n      \"code\": \"unresolved\"\n    },\n    {\n      \"severity\": \"error\",\n      \"message\": \"unresolved reference: Real\",\n      \"file\": \"/models/types.sysml\",\n      \"line\": 5,\n      \"column\": 27,\n      \"pass\": \"name-resolution\",\n      \"code\": \"unresolved\"\n    },\n    {\n      \"severity\": \"error\",\n      \"message\": \"Features must have at least one type\",\n      \"file\": \"/models/main.sysml\",\n      \"line\": 4,\n      \"column\": 9,\n      \"pass\": \"constraint\",\n      \"code\": \"feature-has-type\"\n    },\n    {\n      \"severity\": \"error\",\n      \"message\": \"Features must have at least one type\",\n      \"file\": \"/models/main.sysml\",\n      \"line\": 5,\n      \"column\": 9,\n      \"pass\": \"constraint\",\n      \"code\": \"feature-has-type\"\n    }\n  ],\n  \"output\": [\n    \"/models/types.sysml:2:19: error: unresolved reference: ScalarValues\",\n    \"    public import ScalarValues::*;\",\n    \"                  ^~~~~~~~~~~~\",\n    \"/models/types.sysml:4:26: error: unresolved reference: Real\",\n    \"        attribute mass : Real;\",\n    \"                         ^~~~\",\n    \"/models/types.sysml:5:27: error: unresolved reference: Real\",\n    \"        attribute limit : Real;\",\n    \"                          ^~~~\",\n    \"/models/main.sysml:4:9: error: Features must have at least one type\",\n    \"        attribute :\\u003e\\u003e mass = 350.0;\",\n    \"        ^~~~~~~~~~~~~~~~~~~~~~~~~~~\",\n    \"/models/main.sysml:5:9: error: Features must have at least one type\",\n    \"        attribute :\\u003e\\u003e limit = 500.0;\",\n    \"        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~\"\n  ],\n  \"errors\": [\n    \"/models/types.sysml, /models/main.sysml did not analyse cleanly; no check was made\"\n  ]\n}\n",
+      "stderr": ""
+    },
+    {
+      "engine": "opensysml",
+      "case": "unsupported-option",
+      "environment": {
+        "HOME": "/tmp",
+        "OPENSYSML_RECORD_CACHE": "0"
+      },
+      "binary_sha256": "c3cc160b16f3e035033617017209f3c740c6881dac2bc0af78240d4306d83a50",
+      "input_files": {
+        "main.sysml": "56407d2d0e9f971ae038f3fcd9ff96ef10c9cb46b3eccaf36e72085e56b73f12",
+        "types.sysml": "7b73ab4511a5fb09760eeafe23b323780454f1d43ee680298524518f8bbe54f1"
+      },
+      "exit": 2,
+      "timeout": false,
+      "duration_seconds": 0.256,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "5bff070a9ab2cb48e4345d6c3456bdc9ce985400d80692091b5eaac398a1984a",
+      "command": [
+        "/engines/opensysml/sysml-linux-amd64",
+        "sha256:b985332b863e25bcb7a0d19b245d9e23f602d1fab49213f85e41111d36e5134d",
+        "-validate",
+        "-strict",
+        "-json",
+        "-no-record-cache",
+        "-jobs",
+        "1",
+        "--adapter-unsupported-check",
+        "/models/types.sysml",
+        "/models/main.sysml"
+      ],
+      "report": null,
+      "stdout": "",
+      "stderr": "flag provided but not defined: -adapter-unsupported-check\nUsage: sysml [options] [file...]\nRun 'sysml -help' for the options.\n"
+    },
+    {
+      "engine": "toolkit",
+      "case": "initial",
+      "environment": {
+        "HOME": "/tmp",
+        "SYSMLV2_AMBIENT": "off",
+        "SYSMLV2_LIB_CACHE": "off"
+      },
+      "binary_sha256": "4257d166199af934069802b6348f7393463a711478464600b4f9e48e2f7b08f1",
+      "input_files": {
+        "main.sysml": "56407d2d0e9f971ae038f3fcd9ff96ef10c9cb46b3eccaf36e72085e56b73f12",
+        "types.sysml": "7b73ab4511a5fb09760eeafe23b323780454f1d43ee680298524518f8bbe54f1"
+      },
+      "exit": 0,
+      "timeout": false,
+      "duration_seconds": 1.242,
+      "stdout_sha256": "c1f6c7cd8aa4783e6c9aadf2c3a3202778b05102321d353b04aaa9175b219180",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "command": [
+        "/engines/toolkit/sysmlv2-0.10.2-x86_64-unknown-linux-musl/sysmlv2",
+        "sha256:b985332b863e25bcb7a0d19b245d9e23f602d1fab49213f85e41111d36e5134d",
+        "check",
+        "--strict",
+        "--format",
+        "json",
+        "--lib",
+        "/engines/toolkit-library/SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library",
+        "/models/types.sysml",
+        "/models/main.sysml"
+      ],
+      "report": {
+        "findings": [],
+        "summary": {
+          "errors": 0,
+          "hints": 0,
+          "infos": 0,
+          "warnings": 0
+        }
+      },
+      "stdout": "{\n  \"findings\": [],\n  \"summary\": {\n    \"errors\": 0,\n    \"hints\": 0,\n    \"infos\": 0,\n    \"warnings\": 0\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "engine": "toolkit",
+      "case": "changed",
+      "environment": {
+        "HOME": "/tmp",
+        "SYSMLV2_AMBIENT": "off",
+        "SYSMLV2_LIB_CACHE": "off"
+      },
+      "binary_sha256": "4257d166199af934069802b6348f7393463a711478464600b4f9e48e2f7b08f1",
+      "input_files": {
+        "main.sysml": "84561e5a8bf71fd2d3ed508e52e7ad8bd6645c8b5a79fe88e565092393ea8ef3",
+        "types.sysml": "7b73ab4511a5fb09760eeafe23b323780454f1d43ee680298524518f8bbe54f1"
+      },
+      "exit": 0,
+      "timeout": false,
+      "duration_seconds": 1.24,
+      "stdout_sha256": "c1f6c7cd8aa4783e6c9aadf2c3a3202778b05102321d353b04aaa9175b219180",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "command": [
+        "/engines/toolkit/sysmlv2-0.10.2-x86_64-unknown-linux-musl/sysmlv2",
+        "sha256:b985332b863e25bcb7a0d19b245d9e23f602d1fab49213f85e41111d36e5134d",
+        "check",
+        "--strict",
+        "--format",
+        "json",
+        "--lib",
+        "/engines/toolkit-library/SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library",
+        "/models/types.sysml",
+        "/models/main.sysml"
+      ],
+      "report": {
+        "findings": [],
+        "summary": {
+          "errors": 0,
+          "hints": 0,
+          "infos": 0,
+          "warnings": 0
+        }
+      },
+      "stdout": "{\n  \"findings\": [],\n  \"summary\": {\n    \"errors\": 0,\n    \"hints\": 0,\n    \"infos\": 0,\n    \"warnings\": 0\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "engine": "toolkit",
+      "case": "syntax-error",
+      "environment": {
+        "HOME": "/tmp",
+        "SYSMLV2_AMBIENT": "off",
+        "SYSMLV2_LIB_CACHE": "off"
+      },
+      "binary_sha256": "4257d166199af934069802b6348f7393463a711478464600b4f9e48e2f7b08f1",
+      "input_files": {
+        "main.sysml": "c556f1dea570a0f5b47ba602210e776da91e6535e046052d5e27ed349e4351c9",
+        "types.sysml": "7b73ab4511a5fb09760eeafe23b323780454f1d43ee680298524518f8bbe54f1"
+      },
+      "exit": 1,
+      "timeout": false,
+      "duration_seconds": 1.338,
+      "stdout_sha256": "c9f06bb7fc88e3539ab4b8815a8387fc2b9dc3485ebf5e6aa2dbe369748ff334",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "command": [
+        "/engines/toolkit/sysmlv2-0.10.2-x86_64-unknown-linux-musl/sysmlv2",
+        "sha256:b985332b863e25bcb7a0d19b245d9e23f602d1fab49213f85e41111d36e5134d",
+        "check",
+        "--strict",
+        "--format",
+        "json",
+        "--lib",
+        "/engines/toolkit-library/SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library",
+        "/models/types.sysml",
+        "/models/main.sysml"
+      ],
+      "report": {
+        "findings": [
+          {
+            "alternatives": [],
+            "col": 1,
+            "element": null,
+            "end": 30,
+            "endCol": 1,
+            "endLine": 2,
+            "fix": null,
+            "line": 2,
+            "message": "expected `}` closing package body, found `end of input`",
+            "rule": null,
+            "severity": "error",
+            "stage": "parse",
+            "start": 30,
+            "suggest": null,
+            "unit": 1,
+            "unitName": "/models/main.sysml"
+          }
+        ],
+        "summary": {
+          "errors": 1,
+          "hints": 0,
+          "infos": 0,
+          "warnings": 0
+        }
+      },
+      "stdout": "{\n  \"findings\": [\n    {\n      \"alternatives\": [],\n      \"col\": 1,\n      \"element\": null,\n      \"end\": 30,\n      \"endCol\": 1,\n      \"endLine\": 2,\n      \"fix\": null,\n      \"line\": 2,\n      \"message\": \"expected `}` closing package body, found `end of input`\",\n      \"rule\": null,\n      \"severity\": \"error\",\n      \"stage\": \"parse\",\n      \"start\": 30,\n      \"suggest\": null,\n      \"unit\": 1,\n      \"unitName\": \"/models/main.sysml\"\n    }\n  ],\n  \"summary\": {\n    \"errors\": 1,\n    \"hints\": 0,\n    \"infos\": 0,\n    \"warnings\": 0\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "engine": "toolkit",
+      "case": "unresolved-reference",
+      "environment": {
+        "HOME": "/tmp",
+        "SYSMLV2_AMBIENT": "off",
+        "SYSMLV2_LIB_CACHE": "off"
+      },
+      "binary_sha256": "4257d166199af934069802b6348f7393463a711478464600b4f9e48e2f7b08f1",
+      "input_files": {
+        "main.sysml": "d07e257145bb7d44ac218ab79fbd9541ac7512cd91623f497220221ffbad83f1",
+        "types.sysml": "7b73ab4511a5fb09760eeafe23b323780454f1d43ee680298524518f8bbe54f1"
+      },
+      "exit": 1,
+      "timeout": false,
+      "duration_seconds": 1.207,
+      "stdout_sha256": "035482decf7dce026392c9f2f0381da44d116e7b33a3e01edffd9249f7cdc15d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "command": [
+        "/engines/toolkit/sysmlv2-0.10.2-x86_64-unknown-linux-musl/sysmlv2",
+        "sha256:b985332b863e25bcb7a0d19b245d9e23f602d1fab49213f85e41111d36e5134d",
+        "check",
+        "--strict",
+        "--format",
+        "json",
+        "--lib",
+        "/engines/toolkit-library/SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library",
+        "/models/types.sysml",
+        "/models/main.sysml"
+      ],
+      "report": {
+        "findings": [
+          {
+            "alternatives": [],
+            "col": 20,
+            "element": null,
+            "end": 86,
+            "endCol": 34,
+            "endLine": 3,
+            "fix": null,
+            "line": 3,
+            "message": "unresolved reference `MissingVehicle`",
+            "rule": null,
+            "severity": "warn",
+            "stage": "referential",
+            "start": 72,
+            "suggest": null,
+            "unit": 1,
+            "unitName": "/models/main.sysml"
+          },
+          {
+            "alternatives": [],
+            "col": 23,
+            "element": null,
+            "end": 115,
+            "endCol": 27,
+            "endLine": 4,
+            "fix": null,
+            "line": 4,
+            "message": "unresolved reference `mass`",
+            "rule": null,
+            "severity": "warn",
+            "stage": "referential",
+            "start": 111,
+            "suggest": null,
+            "unit": 1,
+            "unitName": "/models/main.sysml"
+          },
+          {
+            "alternatives": [],
+            "col": 23,
+            "element": null,
+            "end": 152,
+            "endCol": 28,
+            "endLine": 5,
+            "fix": null,
+            "line": 5,
+            "message": "unresolved reference `limit`",
+            "rule": null,
+            "severity": "warn",
+            "stage": "referential",
+            "start": 147,
+            "suggest": null,
+            "unit": 1,
+            "unitName": "/models/main.sysml"
+          }
+        ],
+        "summary": {
+          "errors": 0,
+          "hints": 0,
+          "infos": 0,
+          "warnings": 3
+        }
+      },
+      "stdout": "{\n  \"findings\": [\n    {\n      \"alternatives\": [],\n      \"col\": 20,\n      \"element\": null,\n      \"end\": 86,\n      \"endCol\": 34,\n      \"endLine\": 3,\n      \"fix\": null,\n      \"line\": 3,\n      \"message\": \"unresolved reference `MissingVehicle`\",\n      \"rule\": null,\n      \"severity\": \"warn\",\n      \"stage\": \"referential\",\n      \"start\": 72,\n      \"suggest\": null,\n      \"unit\": 1,\n      \"unitName\": \"/models/main.sysml\"\n    },\n    {\n      \"alternatives\": [],\n      \"col\": 23,\n      \"element\": null,\n      \"end\": 115,\n      \"endCol\": 27,\n      \"endLine\": 4,\n      \"fix\": null,\n      \"line\": 4,\n      \"message\": \"unresolved reference `mass`\",\n      \"rule\": null,\n      \"severity\": \"warn\",\n      \"stage\": \"referential\",\n      \"start\": 111,\n      \"suggest\": null,\n      \"unit\": 1,\n      \"unitName\": \"/models/main.sysml\"\n    },\n    {\n      \"alternatives\": [],\n      \"col\": 23,\n      \"element\": null,\n      \"end\": 152,\n      \"endCol\": 28,\n      \"endLine\": 5,\n      \"fix\": null,\n      \"line\": 5,\n      \"message\": \"unresolved reference `limit`\",\n      \"rule\": null,\n      \"severity\": \"warn\",\n      \"stage\": \"referential\",\n      \"start\": 147,\n      \"suggest\": null,\n      \"unit\": 1,\n      \"unitName\": \"/models/main.sysml\"\n    }\n  ],\n  \"summary\": {\n    \"errors\": 0,\n    \"hints\": 0,\n    \"infos\": 0,\n    \"warnings\": 3\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "engine": "toolkit",
+      "case": "missing-project-file",
+      "environment": {
+        "HOME": "/tmp",
+        "SYSMLV2_AMBIENT": "off",
+        "SYSMLV2_LIB_CACHE": "off"
+      },
+      "binary_sha256": "4257d166199af934069802b6348f7393463a711478464600b4f9e48e2f7b08f1",
+      "input_files": {
+        "main.sysml": "56407d2d0e9f971ae038f3fcd9ff96ef10c9cb46b3eccaf36e72085e56b73f12"
+      },
+      "exit": 1,
+      "timeout": false,
+      "duration_seconds": 1.186,
+      "stdout_sha256": "50534091761ad657b418f08389b7737a49cd9db74e4ce945cdd82eaf68e6366d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "command": [
+        "/engines/toolkit/sysmlv2-0.10.2-x86_64-unknown-linux-musl/sysmlv2",
+        "sha256:b985332b863e25bcb7a0d19b245d9e23f602d1fab49213f85e41111d36e5134d",
+        "check",
+        "--strict",
+        "--format",
+        "json",
+        "--lib",
+        "/engines/toolkit-library/SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library",
+        "/models/main.sysml"
+      ],
+      "report": {
+        "findings": [
+          {
+            "alternatives": [],
+            "col": 20,
+            "element": null,
+            "end": 48,
+            "endCol": 29,
+            "endLine": 2,
+            "fix": null,
+            "line": 2,
+            "message": "unresolved reference `DemoTypes`",
+            "rule": null,
+            "severity": "warn",
+            "stage": "referential",
+            "start": 39,
+            "suggest": null,
+            "unit": 0,
+            "unitName": "/models/main.sysml"
+          },
+          {
+            "alternatives": [],
+            "col": 20,
+            "element": null,
+            "end": 79,
+            "endCol": 27,
+            "endLine": 3,
+            "fix": null,
+            "line": 3,
+            "message": "unresolved reference `Vehicle`",
+            "rule": null,
+            "severity": "warn",
+            "stage": "referential",
+            "start": 72,
+            "suggest": null,
+            "unit": 0,
+            "unitName": "/models/main.sysml"
+          },
+          {
+            "alternatives": [],
+            "col": 23,
+            "element": null,
+            "end": 108,
+            "endCol": 27,
+            "endLine": 4,
+            "fix": null,
+            "line": 4,
+            "message": "unresolved reference `mass`",
+            "rule": null,
+            "severity": "warn",
+            "stage": "referential",
+            "start": 104,
+            "suggest": null,
+            "unit": 0,
+            "unitName": "/models/main.sysml"
+          },
+          {
+            "alternatives": [],
+            "col": 23,
+            "element": null,
+            "end": 145,
+            "endCol": 28,
+            "endLine": 5,
+            "fix": null,
+            "line": 5,
+            "message": "unresolved reference `limit`",
+            "rule": null,
+            "severity": "warn",
+            "stage": "referential",
+            "start": 140,
+            "suggest": null,
+            "unit": 0,
+            "unitName": "/models/main.sysml"
+          }
+        ],
+        "summary": {
+          "errors": 0,
+          "hints": 0,
+          "infos": 0,
+          "warnings": 4
+        }
+      },
+      "stdout": "{\n  \"findings\": [\n    {\n      \"alternatives\": [],\n      \"col\": 20,\n      \"element\": null,\n      \"end\": 48,\n      \"endCol\": 29,\n      \"endLine\": 2,\n      \"fix\": null,\n      \"line\": 2,\n      \"message\": \"unresolved reference `DemoTypes`\",\n      \"rule\": null,\n      \"severity\": \"warn\",\n      \"stage\": \"referential\",\n      \"start\": 39,\n      \"suggest\": null,\n      \"unit\": 0,\n      \"unitName\": \"/models/main.sysml\"\n    },\n    {\n      \"alternatives\": [],\n      \"col\": 20,\n      \"element\": null,\n      \"end\": 79,\n      \"endCol\": 27,\n      \"endLine\": 3,\n      \"fix\": null,\n      \"line\": 3,\n      \"message\": \"unresolved reference `Vehicle`\",\n      \"rule\": null,\n      \"severity\": \"warn\",\n      \"stage\": \"referential\",\n      \"start\": 72,\n      \"suggest\": null,\n      \"unit\": 0,\n      \"unitName\": \"/models/main.sysml\"\n    },\n    {\n      \"alternatives\": [],\n      \"col\": 23,\n      \"element\": null,\n      \"end\": 108,\n      \"endCol\": 27,\n      \"endLine\": 4,\n      \"fix\": null,\n      \"line\": 4,\n      \"message\": \"unresolved reference `mass`\",\n      \"rule\": null,\n      \"severity\": \"warn\",\n      \"stage\": \"referential\",\n      \"start\": 104,\n      \"suggest\": null,\n      \"unit\": 0,\n      \"unitName\": \"/models/main.sysml\"\n    },\n    {\n      \"alternatives\": [],\n      \"col\": 23,\n      \"element\": null,\n      \"end\": 145,\n      \"endCol\": 28,\n      \"endLine\": 5,\n      \"fix\": null,\n      \"line\": 5,\n      \"message\": \"unresolved reference `limit`\",\n      \"rule\": null,\n      \"severity\": \"warn\",\n      \"stage\": \"referential\",\n      \"start\": 140,\n      \"suggest\": null,\n      \"unit\": 0,\n      \"unitName\": \"/models/main.sysml\"\n    }\n  ],\n  \"summary\": {\n    \"errors\": 0,\n    \"hints\": 0,\n    \"infos\": 0,\n    \"warnings\": 4\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "engine": "toolkit",
+      "case": "missing-library",
+      "environment": {
+        "HOME": "/tmp",
+        "SYSMLV2_AMBIENT": "off",
+        "SYSMLV2_LIB_CACHE": "off"
+      },
+      "binary_sha256": "4257d166199af934069802b6348f7393463a711478464600b4f9e48e2f7b08f1",
+      "input_files": {
+        "main.sysml": "56407d2d0e9f971ae038f3fcd9ff96ef10c9cb46b3eccaf36e72085e56b73f12",
+        "types.sysml": "7b73ab4511a5fb09760eeafe23b323780454f1d43ee680298524518f8bbe54f1"
+      },
+      "exit": 1,
+      "timeout": false,
+      "duration_seconds": 0.209,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "90b0f7ec322a981d0e719337a6ebfbfd47b55bba53d9dd255c7ed706d2826938",
+      "command": [
+        "/engines/toolkit/sysmlv2-0.10.2-x86_64-unknown-linux-musl/sysmlv2",
+        "sha256:b985332b863e25bcb7a0d19b245d9e23f602d1fab49213f85e41111d36e5134d",
+        "check",
+        "--strict",
+        "--format",
+        "json",
+        "--lib",
+        "/absent-library",
+        "/models/types.sysml",
+        "/models/main.sysml"
+      ],
+      "report": null,
+      "stdout": "",
+      "stderr": "error: cannot load library /absent-library: No such file or directory (os error 2)\n"
+    },
+    {
+      "engine": "toolkit",
+      "case": "unsupported-option",
+      "environment": {
+        "HOME": "/tmp",
+        "SYSMLV2_AMBIENT": "off",
+        "SYSMLV2_LIB_CACHE": "off"
+      },
+      "binary_sha256": "4257d166199af934069802b6348f7393463a711478464600b4f9e48e2f7b08f1",
+      "input_files": {
+        "main.sysml": "56407d2d0e9f971ae038f3fcd9ff96ef10c9cb46b3eccaf36e72085e56b73f12",
+        "types.sysml": "7b73ab4511a5fb09760eeafe23b323780454f1d43ee680298524518f8bbe54f1"
+      },
+      "exit": 2,
+      "timeout": false,
+      "duration_seconds": 0.204,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e826f81c1731330f9eb6c0e47593aadf9d1c3189dd89a9b5f397d51ff396e799",
+      "command": [
+        "/engines/toolkit/sysmlv2-0.10.2-x86_64-unknown-linux-musl/sysmlv2",
+        "sha256:b985332b863e25bcb7a0d19b245d9e23f602d1fab49213f85e41111d36e5134d",
+        "check",
+        "--strict",
+        "--format",
+        "json",
+        "--lib",
+        "/engines/toolkit-library/SysML-v2-Release-de1070ae8e79c21532b8004fc663d47b35d0e9fa/sysml.library",
+        "--adapter-unsupported-check",
+        "/models/types.sysml",
+        "/models/main.sysml"
+      ],
+      "report": null,
+      "stdout": "",
+      "stderr": "error: unexpected argument '--adapter-unsupported-check' found\n\n  tip: to pass '--adapter-unsupported-check' as a value, use '-- --adapter-unsupported-check'\n\nUsage: sysmlv2 check --strict --format <FORMAT> --lib <LIB> [FILES]...\n\nFor more information, try '--help'.\n"
+    }
+  ],
+  "captured_inputs_unchanged": true
+}

@@ -71,6 +71,10 @@ The implementation separates these responsibilities:
 
 Built-in adapters use ordinary TypeScript modules with explicit registration and load only when selected. Feed-only and generic CI operation do not load the GitHub validation adapter or SHACL engine. Adding a source, storage engine or CI platform requires code; configuration selects the supported implementations. New events use changed settings after restart, while queued actions retain their original bindings. See [architecture](docs/architecture.md) and [configuration](docs/configuration.md).
 
+## Planned validation engines
+
+[Selectable OpenSysML and SysML Toolkit validation](docs/selectable-validation-engines-plan.md) is planned, with either engine or both and a separate optional gate. The [pinned engine research](docs/research-sysml-engines-2026-10-16.md) records contracts and open acceptance work. These adapters are not implemented. Both pinned engines passed the local multi-file fixtures; see the [CLI verification and retained evidence](docs/engine-cli-verification-2026-10-16.md). Durable engine selection and execution remain planned.
+
 ## Quick start
 
 Use **Node.js 24.16.0** and npm. The runtime uses Node's experimental SQLite support. Configured `run` commands, including `--once`, require Linux `flock`.
