@@ -219,7 +219,7 @@ Maintained by Jason Han ([@HuiJun](https://github.com/HuiJun)) and Rohan ([@roro
 
 ## Security
 
-Report suspected vulnerabilities privately to [rohan@dynamicalsystemsgroup.com](mailto:rohan@dynamicalsystemsgroup.com). See the [security policy](SECURITY.md) for reporting guidance and data boundaries.
+Report suspected vulnerabilities privately through [GitHub's report form](https://github.com/Open-MBEE/flexo-change-adapter/security/advisories/new). The [security policy](SECURITY.md) gives the response deadlines, supported versions and disclosure process; [docs/security-design.md](docs/security-design.md) describes the controls.
 
 ## License
 

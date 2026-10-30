@@ -61,3 +61,7 @@ For a bug, include a minimal sanitized reproduction, expected and observed behav
 For a pull request, explain the problem and resulting behavior, list checks actually run and any skipped checks, and update affected documentation. Preserve unrelated changes. Link the issue or design discussion when one exists.
 
 Contributions are governed by the repository's [Apache 2.0 license](LICENSE). Preserve bundled [third-party asset notices](src-ts/assets/NOTICE.md).
+
+## Dependencies
+
+Dependencies are exact-pinned through the committed `package-lock.json`; install with `npm ci`, never `npm install`, and commit the lockfile with any change. Ask in the pull request before adding a production dependency: name what it does, its license and why the standard library or an existing dependency cannot do it. Dependabot opens weekly update pull requests for npm, GitHub Actions and the Docker base image; a maintainer reviews each one like any other change. Updates that fix a published vulnerability follow the deadlines in [SECURITY.md](SECURITY.md).
