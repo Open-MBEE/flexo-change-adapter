@@ -213,7 +213,9 @@ Operation uses `check`, `run` and `status` with `--config`. Utilities are `prepa
 
 See the [contribution guide](CONTRIBUTING.md) for development setup, checks and pull request guidance, and the [changelog](CHANGELOG.md) for release changes. For bugs and feature requests, use the [project repository](https://github.com/Open-MBEE/flexo-change-adapter).
 
-Maintained by [rororowyourboat](https://github.com/rororowyourboat), with contributors from [Dynamical Systems Group](https://www.dynamicalsystemsgroup.com/). Part of the OpenMBEE ecosystem. Passing model SHACL validation is distinct from SysML implementation conformance and human research-case acceptance.
+We use [Git Flow](docs/branching.md): ordinary contributions target `develop`; reviewed releases and hotfixes merge into `main`. See the [branch protection policy](docs/branching.md#branch-protection) and [CODEOWNERS](.github/CODEOWNERS).
+
+Maintained by Jason Han ([@HuiJun](https://github.com/HuiJun)) and Rohan ([@rororowyourboat](https://github.com/rororowyourboat)), with contributors from [Dynamical Systems Group](https://www.dynamicalsystemsgroup.com/). Part of the OpenMBEE ecosystem. Passing model SHACL validation is distinct from SysML implementation conformance and human research-case acceptance.
 
 ## Security
 
