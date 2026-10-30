@@ -1,8 +1,14 @@
 # Contributing
 
-Focused bug reports, documentation improvements and pull requests are welcome. The project maintainer is [rororowyourboat](https://github.com/rororowyourboat). Read the [current status](docs/status.md) before proposing work so implementation, local verification and live acceptance remain distinct.
+Focused bug reports, documentation improvements and pull requests are welcome. The project maintainers are Jason Han ([@HuiJun](https://github.com/HuiJun)) and Rohan ([@rororowyourboat](https://github.com/rororowyourboat)). Read the [current status](docs/status.md) before proposing work so implementation, local verification and live acceptance remain distinct.
 
 For vulnerabilities, use the private route in [SECURITY.md](SECURITY.md).
+
+## Branching and review
+
+We use [Git Flow](docs/branching.md): `main` holds released code, `develop` integrates upcoming work, and short-lived `feature/*`, `release/*` and `hotfix/*` branches carry changes. Open ordinary contribution PRs against `develop`. Release and hotfix PRs target `main`, with their changes merged back into `develop` through PRs.
+
+Jason and Rohan own all repository paths through [CODEOWNERS](.github/CODEOWNERS). Changes require approval from at least one maintainer other than the author. The [branch protection policy](docs/branching.md#branch-protection) defines the required GitHub settings for `main`.
 
 ## Set up locally
 
@@ -34,7 +40,7 @@ Keep polling, durable work and validation contracts independent of a CI provider
 
 ## Make and verify a change
 
-Keep changes focused and discuss production dependency additions with the maintainer before adding them. Use the existing npm lockfile. For source changes, run:
+Keep changes focused and discuss production dependency additions with a maintainer before adding them. Use the existing npm lockfile. For source changes, run:
 
 ```bash
 npm run check

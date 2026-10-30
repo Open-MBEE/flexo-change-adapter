@@ -1,2 +1,4 @@
-# Default ownership for all files in the repository.
-* @rororowyourboat
+# Maintainers: Jason Han (@HuiJun) and Rohan (@rororowyourboat).
+# Both accounts need repository write access. Require code owner reviews in
+# GitHub branch protection; this file alone does not enforce approval.
+* @HuiJun @rororowyourboat
