@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-- Set the security policy to response deadlines, supported versions and coordinated disclosure; add the security design document, Dependabot configuration, a CodeQL workflow and a release workflow that publishes the tarball, SPDX SBOM, checksum manifest and artifact attestations.
+- Set the security policy to response deadlines, supported versions and coordinated disclosure; add the security design document, Dependabot configuration and a release workflow that publishes the tarball, SPDX SBOM, checksum manifest and artifact attestations.
 - Select OpenSysML, SysML Toolkit, both, or optional SHACL independently of the CI runner.
 - Run verified validation on GitLab and Jenkins using dedicated self-hosted workers, immutable shared input records, create-only claims and retained native reports.
 - Share checker execution and evidence verification across GitHub, GitLab and Jenkins; preserve generic metadata triggers.

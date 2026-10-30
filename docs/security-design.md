@@ -35,7 +35,7 @@ The adapter polls one Flexo MMS repository branch over host-only HTTPS, retains 
 ## Supply chain
 
 - Dependencies are exact-pinned through the committed `package-lock.json` and installed with `npm ci`; production dependencies are added only after review ([CONTRIBUTING § Dependencies](../CONTRIBUTING.md#dependencies)).
-- Dependabot watches npm, GitHub Actions and the Docker base image weekly ([`.github/dependabot.yml`](../.github/dependabot.yml)); CodeQL scans the TypeScript on every pull request and weekly ([`codeql.yml`](../.github/workflows/codeql.yml)). Both are remediated on the deadlines in SECURITY.md.
+- Dependabot watches npm, GitHub Actions and the Docker base image weekly ([`.github/dependabot.yml`](../.github/dependabot.yml)); CodeQL code scanning runs through GitHub's default setup on every pull request and push to the default branch (a repository setting, Settings → Advanced Security). Both are remediated on the deadlines in SECURITY.md.
 - Releases are built by the release workflow on GitHub-hosted runners; each asset ships with a SHA-256 manifest, an SPDX SBOM and a GitHub artifact attestation (SLSA build provenance). See [releasing](releasing.md).
 - The repository holds no built executables; `bin/adapter.js` is source.
 
