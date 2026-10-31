@@ -15,7 +15,7 @@
     "format:check": "prettier --check src-ts tests-ts scripts/*.ts"
   },
   "dependencies": {
-    "effect": "3.22.2",
+    "effect": "4.0.7",
     "n3": "2.7.12",
     "rdf-canonize": "5.0.0",
     "shacl-engine": "1.1.2"
