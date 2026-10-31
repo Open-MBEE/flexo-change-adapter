@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "effect": "3.22.2",
-    "n3": "2.7.12",
+    "n3": "2.13.12",
     "rdf-canonize": "5.0.0",
     "shacl-engine": "1.1.2"
   },
