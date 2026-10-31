@@ -13,6 +13,8 @@ Flexo Change Adapter is an initial alpha. Its configuration, CLI and state forma
 
 ## Verification
 
+Repository CI and code scanning are separate checks. The explicit [CodeQL workflow and activation guide](code-scanning.md) cover Actions, JavaScript/TypeScript and Java, including Dependabot PRs. Successful platform scans require the advanced setup cutover and workflow rollout to the target branches; a neutral code scanning check is not scan acceptance. These checks do not run private model validation or establish deployment.
+
 The native suite covers transaction rollback, process crashes/restarts, frozen configurations, moving revisions, slow/failing destinations, lost responses, competing worker claims, SHACL violations and RDF graph comparison. Lightweight-command tests block validation dependencies to verify that feed-only and generic CI operation do not load them.
 
 Development testing exercised private GitHub validation, local Jenkins jobs and GitLab.com pipelines on designated installations. Those runs do not establish deployment or live acceptance of every subsequent source revision. This alpha requires installation-specific verification before operational use. No production watcher is provisioned by the project.

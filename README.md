@@ -219,7 +219,7 @@ Maintained by Jason Han ([@HuiJun](https://github.com/HuiJun)) and Rohan ([@roro
 
 ## Security
 
-Report suspected vulnerabilities privately through [GitHub's report form](https://github.com/Open-MBEE/flexo-change-adapter/security/advisories/new). The [security policy](SECURITY.md) gives the response deadlines, supported versions and disclosure process; [docs/security-design.md](docs/security-design.md) describes the controls.
+Report suspected vulnerabilities privately through [GitHub's report form](https://github.com/Open-MBEE/flexo-change-adapter/security/advisories/new). The [security policy](SECURITY.md) gives the response deadlines, supported versions and disclosure process; [docs/security-design.md](docs/security-design.md) describes the controls. See [code scanning](docs/code-scanning.md) for CodeQL coverage, activation and verification.
 
 ## License
 
