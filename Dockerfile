@@ -1,4 +1,4 @@
-FROM node:24.16.0-bookworm-slim
+FROM node:26.12.1-bookworm-slim
 
 # The pinned Debian image provides flock for excluding competing watchers.
 RUN command -v flock
