@@ -15,8 +15,8 @@ GitHub rejects advanced CodeQL uploads while default setup is enabled. Adding th
 1. Prepare the workflow PR against `develop` and validate its syntax, immutable action pins, permissions and triggers.
 2. When the workflow is ready to run, open repository **Settings → Advanced Security → CodeQL analysis**, choose **Switch to advanced**, and disable default setup. The equivalent API operation sets `state` to `not-configured` on the repository's `code-scanning/default-setup` endpoint.
 3. Run or rerun the workflow on the PR. Verify that all three `Analyze (...)` jobs complete and upload results. A neutral `CodeQL` summary or a passing `test` job is insufficient evidence.
-4. Obtain the required independent maintainer approval and merge the PR into `develop`. Confirm that its push creates successful baseline analyses for all three languages. The advanced workflow does not cover later protected-branch changes until its PR is merged; coordinate the cutover and review accordingly.
-5. Update the approved dependency PR branches from `develop` so they include the workflow, then verify their own PR analyses before merging them one at a time. Carry the workflow to `main` through the release process and verify that branch's baseline as well.
+4. Merge the PR into `develop` after required CI passes; that branch does not require an approving review. Confirm that its push creates successful baseline analyses for all three languages. The advanced workflow does not cover later protected-branch changes until its PR is merged; coordinate the cutover and integration accordingly.
+5. Update the selected dependency PR branches from `develop` so they include the workflow, then verify their own PR analyses before merging them one at a time. Carry the workflow to `main` through a release PR with the required independent maintainer approval and verify that branch's baseline as well.
 
 Do not bypass branch protection during this migration. If the advanced setup cannot be made operational, restore the previous default setup until the workflow is corrected; default and advanced CodeQL uploads cannot run together.
 
@@ -26,4 +26,4 @@ See GitHub's [advanced setup instructions](https://docs.github.com/en/code-secur
 
 In **Actions → CodeQL**, inspect the run for the exact PR head or resulting branch commit. Confirm successful analysis and upload for `actions`, `javascript-typescript` and `java-kotlin`. In **Security → Code scanning**, inspect the corresponding configurations and findings. A successful upload confirms that scanning ran; it does not mean there are no findings.
 
-Branch protection separately requires the `test` job from ordinary CI and code owner approval. Requiring CodeQL checks or blocking merges on finding severity is a separate repository policy decision. Keep [branch protection](branching.md#branch-protection) and code scanning configuration distinct from the private [model-validation workflow](github-execution.md).
+Branch protection separately requires the `test` job from ordinary CI on both branches; code owner approval is required only on `main`. Requiring CodeQL checks or blocking merges on finding severity is a separate repository policy decision. Keep [branch protection](branching.md#branch-protection) and code scanning configuration distinct from the private [model-validation workflow](github-execution.md).
