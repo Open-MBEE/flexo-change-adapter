@@ -30,12 +30,12 @@ The adapter polls one Flexo MMS repository branch over host-only HTTPS, retains 
 ## Isolating execution
 
 - The adapter never runs code from the observed model or from a pull request. Validation engines run in the CI target as pinned, reviewed profiles with bounded offline execution; their native output is decoded, not executed.
-- Workflows in this repository run with `contents: read` (CI) or no permissions (validation), pin every action to a commit SHA, and never use text that outside contributors control as a command.
+- Ordinary CI has `contents: read`; CodeQL has `contents: read` and `security-events: write` to upload findings. The validation workflow has no workflow-level permissions and grants `contents: write` only to its evidence-recording job. The release job has the explicit publication and attestation permissions described in its workflow. Actions are pinned to commit SHAs, and workflows never use text that outside contributors control as a command.
 
 ## Supply chain
 
 - Dependencies are exact-pinned through the committed `package-lock.json` and installed with `npm ci`; production dependencies are added only after review ([CONTRIBUTING § Dependencies](../CONTRIBUTING.md#dependencies)).
-- Dependabot watches npm, GitHub Actions and the Docker base image weekly ([`.github/dependabot.yml`](../.github/dependabot.yml)); CodeQL code scanning runs through GitHub's default setup on every pull request and push to the default branch (a repository setting, Settings → Advanced Security). Both are remediated on the deadlines in SECURITY.md.
+- Dependabot watches npm, GitHub Actions and the Docker base image weekly ([`.github/dependabot.yml`](../.github/dependabot.yml)). The explicit [CodeQL workflow](../.github/workflows/codeql.yml) scans Actions, JavaScript/TypeScript and Java for PRs into `main`/`develop`, including Dependabot, pushes to those branches and a weekly schedule. It analyzes source without installing dependencies or executing project builds. An administrator must complete the [advanced setup cutover](code-scanning.md) before uploads work; default setup cannot remain enabled alongside it. Findings are remediated on the deadlines in SECURITY.md.
 - Releases are built by the release workflow on GitHub-hosted runners; each asset ships with a SHA-256 manifest, an SPDX SBOM and a GitHub artifact attestation (SLSA build provenance). See [releasing](releasing.md).
 - The repository holds no built executables; `bin/adapter.js` is source.
 

@@ -8,7 +8,7 @@ For vulnerabilities, use the private route in [SECURITY.md](SECURITY.md).
 
 We use [Git Flow](docs/branching.md): `main` holds released code, `develop` integrates upcoming work, and short-lived `feature/*`, `release/*` and `hotfix/*` branches carry changes. Open ordinary contribution PRs against `develop`. Release and hotfix PRs target `main`, with their changes merged back into `develop` through PRs.
 
-Jason and Rohan own all repository paths through [CODEOWNERS](.github/CODEOWNERS). Changes require approval from at least one maintainer other than the author. The [branch protection policy](docs/branching.md#branch-protection) defines the required GitHub settings for `main`.
+Jason and Rohan own all repository paths through [CODEOWNERS](.github/CODEOWNERS). PRs into `develop` require passing CI but no approving review. Release and hotfix PRs into `main` require approval from at least one maintainer other than the author, allowing related integration changes to receive one consolidated release review. The [branch protection policy](docs/branching.md#branch-protection) defines the settings for both branches.
 
 ## Set up locally
 

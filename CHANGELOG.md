@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Require independent maintainer approval on `main`; allow PRs into `develop` to integrate after required CI without an approving review.
+- Add an explicit CodeQL workflow for Dependabot and other PRs into `develop`/`main`, preserving Actions, TypeScript and Java scanning; document the required switch from GitHub's default setup.
 - Set the security policy to response deadlines, supported versions and coordinated disclosure; add the security design document, Dependabot configuration and a release workflow that publishes the tarball, SPDX SBOM, checksum manifest and artifact attestations.
 - Select OpenSysML, SysML Toolkit, both, or optional SHACL independently of the CI runner.
 - Run verified validation on GitLab and Jenkins using dedicated self-hosted workers, immutable shared input records, create-only claims and retained native reports.
