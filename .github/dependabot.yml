@@ -7,12 +7,25 @@ updates:
       interval: weekly
     open-pull-requests-limit: 5
     groups:
+      # Routine updates share PRs; major upgrades remain individual.
+      production-dependencies:
+        applies-to: version-updates
+        dependency-type: production
+        update-types: [minor, patch]
       dev-dependencies:
+        applies-to: version-updates
         dependency-type: development
+        update-types: [minor, patch]
   - package-ecosystem: github-actions
     directory: /
     schedule:
       interval: weekly
+    groups:
+      # Includes related actions such as CodeQL init and analyze.
+      github-actions:
+        applies-to: version-updates
+        patterns: ["*"]
+        update-types: [minor, patch]
   - package-ecosystem: docker
     directory: /
     schedule:
