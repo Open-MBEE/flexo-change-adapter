@@ -42,13 +42,11 @@ Reports produced by scanners, fuzzers or AI assistants are welcome on the same t
 
 ## Supported versions
 
-| Version | Supported |
-| --- | --- |
-| The latest release on [Releases](https://github.com/Open-MBEE/flexo-change-adapter/releases) | Yes: fixes ship as a patch release of that line |
-| Earlier releases | No: update to the latest release |
-| `main` between releases | Fixed as soon as the fix merges; no advisory covers an unreleased commit |
+The [release support policy](docs/releasing.md#supported-releases-and-fixes) applies to security fixes: we support the latest stable release and the latest prerelease, when both exist. Before the first stable release, only the latest prerelease is supported.
 
-Until 1.0.0, each release line is supported only until the next release. From 1.0.0 the previous minor release line is also supported for 90 days after its successor ships, so that a fix can be taken without a feature update.
+Affected supported releases receive fixes on the deadlines above. Stable users are not required to install a prerelease. Users on superseded releases must upgrade; older release lines receive no backports. A new prerelease does not end support for the latest stable release.
+
+Unreleased commits on `main` are development source, not an additional supported release. Advisories identify affected and fixed published versions.
 
 ## What counts as a vulnerability
 
