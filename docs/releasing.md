@@ -6,6 +6,16 @@ The convention follows [OpenSysML's versioning guidance](https://github.com/Open
 
 Before 1.0, increment the minor version for incompatible configuration, CLI, feed or retained-state contracts. Compatible fixes and additions use patch releases. From 1.0, use conventional SemVer: major for breaking changes, minor for compatible features and patch for fixes. Describe concrete behavior in release notes.
 
+## Supported releases and fixes
+
+We support the latest published stable release and the latest published prerelease (alpha, beta or release candidate), when both exist. Before the first stable release, only the latest prerelease is supported. This policy applies both before and after 1.0.
+
+Support lasts until a newer release in the same category replaces it. A new prerelease does not end support for the latest stable release. Older releases receive no fixes; their users must upgrade to the latest supported release in their category.
+
+Fixes are developed and reviewed through the normal contribution process. When a fix affects a supported release, maintainers apply it to that release's source, using a reviewed backport if needed, and publish a replacement patch release or prerelease. If both supported releases are affected, both receive the fix; stable users are not required to install a prerelease. We do not backport fixes to superseded releases or maintain additional older release lines.
+
+Release notes identify the affected and fixed versions and any upgrade steps. Security fixes follow the response and disclosure commitments in [SECURITY.md](../SECURITY.md).
+
 ## Release procedure
 
 Follow [Git Flow](branching.md). Jason and Rohan coordinate releases; release and hotfix changes reach `main` through reviewed pull requests under the branch protection policy.
